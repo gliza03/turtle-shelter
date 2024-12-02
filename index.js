@@ -1,7 +1,7 @@
 let express = require("express");
 let app = express();
 let path = require("path");
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 5000;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
