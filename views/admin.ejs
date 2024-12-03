@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Management - Admin Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <!-- Sidebar stays the same as main admin template -->
+    <nav class="admin-sidebar">
+        <!-- ... sidebar content ... -->
+    </nav>
+    <main class="admin-main">
+        <header class="admin-header">
+            <h1>Events Management</h1>
+        </header>
+        <div class="events-container">
+            <!-- Event Request Overview -->
+            <div class="events-section">
+                <div class="section-header">
+                    <h2>Event Requests</h2>
+                    <div class="header-actions">
+                        <select class="filter-dropdown">
+                            <option value="all">All Requests</option>
+                            <option value="pending">Pending Review</option>
+                            <option value="approved">Approved</option>
+                            <option value="declined">Declined</option>
+                        </select>
+                        <button class="refresh-btn">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <!-- Event Requests Table -->
+                <div class="events-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Organization</th>
+                                <th>Requested Date</th>
+                                <th>Location</th>
+                                <th>Expected Attendance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Sample row, will be populated from RDS -->
+                            <tr>
+                                <td>Community Center</td>
+                                <td>Dec 15, 2024</td>
+                                <td>Salt Lake City, UT</td>
+                                <td>50-75</td>
+                                <td><span class="status-badge pending">Pending Review</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view">View Details</button>
+                                        <button class="action-btn schedule">Schedule</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Calendly Integration Section -->
+            <div class="calendly-section">
+                <div class="section-header">
+                    <h2>Schedule Events</h2>
+                </div>
+                <div class="calendly-container">
+                    <!-- Placeholder for Calendly integration -->
+                    <div class="calendly-placeholder">
+                        <p>Calendly Integration Will Be Placed Here</p>
+                        <p class="note">Connect your Calendly to schedule and manage event appointments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

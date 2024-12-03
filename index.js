@@ -1,7 +1,7 @@
 let express = require("express");
 let app = express();
 let path = require("path");
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5500;
 
 const knex = require("knex")({
     client: "pg",
@@ -25,6 +25,7 @@ app.get("/login", (req, res) => res.render("login"));
 
 // New routes for additional pages
 app.get("/about", (req, res) => res.render("about"));
+app.get("/admin", (req, res) => res.render("admin"));
 app.get("/impact", (req, res) => res.render("impact"));
 app.get("/involved", (req, res) => res.render("involved"));
 app.get("/jen", (req, res) => res.render("jen"));
