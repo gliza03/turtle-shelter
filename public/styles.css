@@ -119,7 +119,7 @@ h2 {
 
 /* Hero Section */
 .hero {
-    padding: 10rem 0 8rem;
+    padding: 10rem 0 10rem;
     background-image: linear-gradient(
         rgba(0, 0, 0, 0.5),
         rgba(0, 0, 0, 0.5)
@@ -146,7 +146,7 @@ h2 {
   font-size: 4rem;
   font-weight: 700;
   font-family: inherit;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   line-height: 1.2;
 }
 
@@ -522,5 +522,462 @@ h2 {
 @media (max-width: 768px) {
     .jen-video {
         width: 90%;
+    }
+}
+
+	/* Jen Story Pic */
+.story-image {
+    float: right;
+    margin: 0 0 20px 20px;  /* Top Right Bottom Left */
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments for the image */
+@media (max-width: 768px) {
+    .story-image {
+        float: none;
+        display: block;
+        margin: 20px auto;
+        max-width: 100%;
+    }
+}
+
+/* About Page Layout */
+.about-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 1280px;
+    margin: 7rem auto 0;
+    padding: 0 2rem;
+    min-height: calc(100vh - 400px);
+}
+
+/* Side Navigation Styles */
+.side-nav {
+    position: sticky;
+    top: 7rem;
+    width: 250px;
+    height: fit-content;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.nav-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1rem;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-section i {
+    width: 20px;
+    color: var(--primary);
+}
+
+.nav-section:hover {
+    background-color: var(--surface);
+    color: var(--primary);
+}
+
+.nav-section.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-section.active i {
+    color: white;
+}
+
+/* Content Area */
+.content-area {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+/* Mobile Navigation */
+.mobile-section-nav {
+    display: none;
+    margin: 1rem 0;
+    padding: 0 1rem;
+}
+
+.mobile-section-nav select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    font-size: 1rem;
+    color: var(--text);
+    background-color: white;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .about-container {
+        flex-direction: column;
+        margin-top: 5rem;
+        padding: 0 1rem;
+    }
+
+    .side-nav {
+        display: none;
+    }
+
+    .mobile-section-nav {
+        display: block;
+    }
+
+    .content-area {
+        padding: 1.5rem;
+    }
+}
+
+/* About Containers */
+.content-area h2 {
+	color:#2e2e2e;
+}
+
+/* Tech */
+.impact-quote {
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    background-color: var(--surface);
+    border-left: 4px solid var(--primary);
+    border-radius: 8px;
+}
+
+.impact-quote p {
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.impact-quote footer {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.feature-list li {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.feature-list ul {
+    list-style: disc;
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.feature-list strong {
+    color: var(--primary);
+}
+
+.tech h3 {
+	margin-bottom: 1rem;
+}
+
+/* FAQ Grid Layout */
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* FAQ Item Styling */
+.faq-item {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.faq-item:hover {
+    transform: translateY(-5px);
+}
+
+/* FAQ Image Styling */
+.faq-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* FAQ Content Styling */
+.faq-content {
+    padding: 1.5rem;
+}
+
+.faq-content h3 {
+    color: var(--primary);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.faq-content p {
+    color: var(--text);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.faq-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.faq-turtle {
+	height: fit-content;
+}
+
+/* Board of directors */
+/* Board Grid Layout */
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Board Member Card */
+.board-member {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.board-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Member Image */
+.member-image {
+    width: 100%;
+    padding-top: 100%; /* Creates a perfect square */
+    position: relative;
+    overflow: hidden;
+    background-color: var(--surface);
+}
+
+.member-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.board-member:hover .member-image img {
+    transform: scale(1.05);
+}
+
+/* Member Info */
+.member-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.member-info h3 {
+    color: var(--text);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.member-title {
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .board-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .board-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Vests */
+/* Board Grid Layout */
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Board Member Card */
+.board-member {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.board-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Member Image */
+.member-image {
+    width: 100%;
+    padding-top: 100%; /* Creates a perfect square */
+    position: relative;
+    overflow: hidden;
+    background-color: var(--surface);
+}
+
+.member-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.board-member:hover .member-image img {
+    transform: scale(1.05);
+}
+
+/* Member Info */
+.member-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.member-info h3 {
+    color: var(--text);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.member-title {
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .board-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .board-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Impact List - Fixed Alignment */
+.impact-list {
+    list-style: none;
+    padding: 0 1rem; /* Added padding to contain bullets */
+    margin: 1.5rem 0;
+}
+
+.impact-list li {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: flex; /* Added for better alignment */
+    align-items: flex-start; /* Align items to top */
+}
+
+.impact-list li::before {
+    content: "•";
+    color: var(--primary);
+    font-size: 1.5rem;
+    position: absolute;
+    left: 0;
+    top: -0.25rem;
+    line-height: 1.5; /* Better vertical alignment */
+    display: flex;
+    align-items: center;
+}
+
+/* Container adjustments */
+.text-section {
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensure full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Ensure content stays within bounds */
+.vests-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden; /* Prevent horizontal scroll */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .impact-list {
+        padding: 0 0.5rem; /* Smaller padding on mobile */
+    }
+    
+    .text-section {
+        padding: 1.5rem;
     }
 }
