@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Turtle Shelter Project</title>
+    <meta name="description" content="Admin login portal for Turtle Shelter Project management.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <img src="/images/logo.svg" alt="TSP Logo">
+                <span>Turtle Shelter Project</span>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav-link">Return to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section class="hero admin-login">
+        <div class="container">
+            <div class="login-card">
+                <h1>Admin Portal</h1>
+                <p>Sign in to access the management dashboard</p>
+                
+                <form action="/admin/login" method="POST" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="button button-primary">Sign In</button>
+                </form>
+
+                <div class="login-footer">
+                    <a href="/admin/forgot-password">Forgot your password?</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Need Help?</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact">Contact Support</a></li>
+                        <li><a href="/">Return to Website</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="copyright">
+        <div class="container">
+            <p>&copy; 2024 Turtle Shelter Project. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</body>
+</html>
