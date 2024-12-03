@@ -13,7 +13,7 @@
     <header class="header">
         <div class="container header-container">
             <a href="/" class="logo">
-                <img src="/images/logo.svg" alt="TSP Logo">
+                <img src="images/turtle-logo.png" alt="">
                 <span>Turtle Shelter Project</span>
             </a>
             <nav class="nav">
@@ -26,22 +26,19 @@
     <section class="hero admin-login">
         <div class="container">
             <div class="login-card">
-                <h1>Admin Portal</h1>
-                <p>Sign in to access the management dashboard</p>
-                
+                <h1 style="color:#2c4faf">Admin Portal</h1>
+
                 <form action="/admin/login" method="POST" class="login-form">
                     <div class="form-group">
-                        <label for="username">Username</label>
+                        <label for="username" class="label-form">Username</label>
                         <div class="input-group">
-                            <i class="fas fa-user"></i>
                             <input type="text" id="username" name="username" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password" class="label-form">Password</label>
                         <div class="input-group">
-                            <i class="fas fa-lock"></i>
                             <input type="password" id="password" name="password" required>
                         </div>
                     </div>
@@ -55,25 +52,10 @@
             </div>
         </div>
     </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h4>Need Help?</h4>
-                    <ul class="footer-links">
-                        <li><a href="/contact">Contact Support</a></li>
-                        <li><a href="/">Return to Website</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <div class="copyright">
-        <div class="container">
+        <!-- <div class="container"> -->
             <p>&copy; 2024 Turtle Shelter Project. All rights reserved.</p>
-        </div>
+        <!-- </div> -->
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>

@@ -69,8 +69,8 @@ h2 {
 
 .logo {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  align-items: left;
+  gap: 0rem;
   text-decoration: none;
   color: var(--primary);
   font-family: 'Poppins', Georgia, serif;
@@ -366,7 +366,8 @@ h2 {
 
 .copyright {
   text-align: center;
-  padding: 2rem 0;
+  margin-bottom: 0;
+  padding: 1.5rem 0;
   background-color: var(--surface);
   color: var(--text-light);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -503,3 +504,6 @@ h2 {
     text-decoration: underline;
 }
 
+.label-form {
+	color:black;
+}
