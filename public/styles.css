@@ -484,6 +484,19 @@ h2 {
     outline: none;
 }
 
+.iframe-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #f9f9f9; /* Optional: background color */
+}
+
+iframe {
+  border: 1px solid #ddd; /* Optional: border styling */
+  border-radius: 5px;     /* Optional: rounded corners */
+}
+
 .login-form .button {
     width: 100%;
     margin-top: 1rem;
@@ -506,6 +519,135 @@ h2 {
 
 .label-form {
 	color:black;
+}
+
+.events-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.events-section, .calendly-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+.filter-dropdown {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  background: white;
+}
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.refresh-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+/* Events Table Styles */
+.events-table {
+  overflow-x: auto;
+}
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+}
+.status-badge.pending {
+  background: rgba(234, 88, 12, 0.1);
+  color: #EA580C;
+}
+.status-badge.approved {
+  background: rgba(22, 163, 74, 0.1);
+  color: #16A34A;
+}
+.status-badge.declined {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+.action-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+.action-btn.view {
+  background: var(--surface);
+  color: var(--primary);
+}
+.action-btn.schedule {
+  background: var(--primary);
+  color: white;
+}
+.action-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+/* Calendly Section */
+.calendly-container {
+  min-height: 600px;
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.calendly-placeholder {
+  color: var(--text-light);
+}
+.calendly-placeholder .note {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  opacity: 0.7;
+}
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .events-container {
+      gap: 1.5rem;
+  }
+  .action-buttons {
+      flex-direction: column;
+  }
+  .header-actions {
+      flex-direction: column;
+      gap: 0.5rem;
+  }
+}
+@media (max-width: 768px) {
+  .events-section, .calendly-section {
+      padding: 1rem;
+  }
+  .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+  }
 }
 
 /* Jen's video */
