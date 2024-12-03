@@ -19,7 +19,14 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static('public'));
 
+// Original routes
 app.get("/", (req, res) => res.render("index"));
 app.get("/login", (req, res) => res.render("login"));
+
+// New routes for additional pages
+app.get("/about", (req, res) => res.render("about"));
+app.get("/impact", (req, res) => res.render("impact"));
+app.get("/involved", (req, res) => res.render("involved"));
+app.get("/jen", (req, res) => res.render("jen"));
 
 app.listen(port, () => console.log("Express App has started and server is listening!"));
