@@ -507,3 +507,20 @@ h2 {
 .label-form {
 	color:black;
 }
+
+/* Jen's video */
+.jen-video {
+    display: block;
+    margin: 0 auto 2rem auto;  /* Added bottom margin for spacing */
+    width: 100%;
+    max-width: 700px;  /* Slightly smaller max-width */
+    height: auto;
+    aspect-ratio: 16/9;  /* Maintains video proportion */
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .jen-video {
+        width: 90%;
+    }
+}
