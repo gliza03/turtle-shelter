@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Turtle Shelter Project</title>
-    <meta name="description" content="Learn about the Turtle Shelter Project's mission and the team behind our community service initiatives.">
+    <meta name="description" content="Learn about the Turtle Shelter Project's mission and impact">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -25,90 +25,256 @@
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero" style="background-image: linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+        ), url(images/volunteers-8.png);">
         <div class="container">
-            <h1>Our Story</h1>
-            <div style="background-color:#2c4faf; margin-top: 8px; width: 100px; height: 8px; margin-bottom: 10px;" class="divider-small-border"></div>
-            <p>Founded in 2020, the Turtle Shelter Project began with a simple idea: everyone deserves warmth.</p>
+            <h1>About Us</h1>
         </div>
     </section>
 
-    <section class="features">
-        <div class="container">
-            <h2>Meet Our Team</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3>Sarah Johnson</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3>Michael Chen</h3>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3>Emily Martinez</h3>
-                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="about-container">
+        <!-- Side Navigation -->
+        <nav class="side-nav">
+            <button class="nav-section active" data-section="tech">
+                <i class="fas fa-microchip"></i>
+                Our Tech
+            </button>
+            <button class="nav-section" data-section="vests">
+                <i class="fas fa-vest"></i>
+                Vests Distributed
+            </button>
+            <button class="nav-section" data-section="board">
+                <i class="fas fa-user"></i>
+                Board of Directors
+            </button>
+            <button class="nav-section" data-section="faq">
+                <i class="fas fa-question-circle"></i>
+                FAQs
+            </button>
+        </nav>
 
-    <section class="cta">
-        <div class="container">
-            <h2>Join Our Mission</h2>
-            <p>Together, we can make a difference in our community.</p>
-            <a href="/involved" class="button button-outline">Get Involved</a>
+        <!-- Mobile Navigation Dropdown -->
+        <div class="mobile-section-nav">
+            <select id="section-select">
+                <option value="tech selected">Our Tech</option>
+                <option value="vests">Vests Distributed</option>
+                <option value="board">Board of Directors</option>
+                <option value="faq">FAQs</option>
+            </select>
         </div>
-    </section>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="/about">About Us</a></li>
-                        <li><a href="/events">Events</a></li>
-                        <li><a href="/volunteer">Volunteer</a></li>
-                        <li><a href="/contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul class="footer-links">
-                        <li><a href="/faq">FAQ</a></li>
-                        <li><a href="/guidelines">Volunteer Guidelines</a></li>
-                        <li><a href="/impact">Our Impact</a></li>
-                        <li><a href="/news">News</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contact Us</h4>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-envelope"></i> info@turtleshelterproject.org</li>
-                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Northern Utah</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+        <!-- Content Sections -->
+        <main class="content-area">
+            <!-- Tech Section -->
+            <section id="tech" class="content-section tech">
+                <h2>Our Technology</h2>
+                <div style="background-color:#2c4faf; margin-top: 8px; width: 100px; height: 8px; margin-bottom: 20px;" class="divider-small-border"></div>
+            
+                <h3>Technology Origins</h3>
+                <ul class="feature-list">
+                    <li><strong>Innovation:</strong> Created by outdoor survival expert Jim Phillips</li>
+                    <li><strong>Core Material:</strong> Uses open-cell polyurethane foam insulation</li>
+                    <li><strong>Applications:</strong> Successfully tested in various gear including jackets, hoods, pants, boots, gloves, and sleeping bags</li>
+                </ul>
+            
+                <h3>Key Features</h3>
+                <ul class="feature-list">
+                    <li><strong>Life-Saving Protection:</strong>
+                        <ul>
+                            <li>Maintains warmth even in freezing temperatures</li>
+                            <li>Effective insulation even when wet</li>
+                            <li>Dramatically reduces cold-related risks</li>
+                        </ul>
+                    </li>
+                    <li><strong>Technical Design:</strong>
+                        <ul>
+                            <li>Synthetic shell and lining materials</li>
+                            <li>Breathable construction for moisture wicking</li>
+                            <li>Allows perspiration to evaporate naturally</li>
+                        </ul>
+                    </li>
+                </ul>
+            
+                <h3>The Turtle Shelter Difference</h3>
+                <ul class="feature-list">
+                    <li><strong>Accessibility:</strong> Traditional foam clothing is typically expensive and marketed for emergency preparedness and extreme sports</li>
+                    <li><strong>Our Mission:</strong> Making this life-saving technology available to those who need it most</li>
+                    <li><strong>Design Focus:</strong> Core-warming vest design that functions as a portable shelter</li>
+                </ul>
+            
+                <blockquote class="impact-quote">
+                    <p>"Isn't a person who is homeless living in their emergency right this very moment? They are not waiting for disaster to strike because for them it already has..."</p>
+                    <footer>- Jen's Perspective</footer>
+                </blockquote>
+            
+                <h3>Our Philosophy</h3>
+                <ul class="feature-list">
+                    <li><strong>Value of Life:</strong> Every life has value and deserves protection from the cold</li>
+                    <li><strong>Practical Support:</strong> Helping restore dignity and energy by addressing basic needs</li>
+                    <li><strong>Affordable Solution:</strong> Making life-saving technology accessible to those experiencing homelessness</li>
+                </ul>
+            </section>
 
-    <div class="copyright">
-        <div class="container">
-            <p>&copy; 2024 Turtle Shelter Project. All rights reserved.</p>
-        </div>
+            <!-- Vests Section -->
+            <section id="vests" class="content-section">
+                <h2>Vests Distributed</h2>
+                <div style="background-color:#2c4faf; margin-top: 8px; width: 100px; height: 8px; margin-bottom: 20px;" class="divider-small-border"></div>
+                <p>Content about vest distribution goes here...</p>
+            </section>
+
+            <!-- Board Section -->
+            <section id="board" class="content-section">
+                <h2>Board of Directors</h2>
+                <div style="background-color:#2c4faf; margin-top: 8px; width: 100px; height: 8px; margin-bottom: 20px;" class="divider-small-border"></div>
+                
+                <div class="board-grid">
+                    <!-- Jen Spencer -->
+                    <div class="board-member">
+                        <div class="member-image">
+                            <img src="images/random-portrait-1.jpg" alt="Jen Spencer">
+                        </div>
+                        <div class="member-info">
+                            <h3>Jen Spencer</h3>
+                            <p class="member-title">Founder & Board Member</p>
+                        </div>
+                    </div>
+            
+                    <!-- Bill Evans -->
+                    <div class="board-member">
+                        <div class="member-image">
+                            <img src="images/random-portrait-1.jpg" alt="Bill Evans">
+                        </div>
+                        <div class="member-info">
+                            <h3>Bill Evans</h3>
+                            <p class="member-title">Board Member</p>
+                        </div>
+                    </div>
+            
+                    <!-- Karen Ackerlow -->
+                    <div class="board-member">
+                        <div class="member-image">
+                            <img src="images/random-portrait-1.jpg" alt="Karen Ackerlow">
+                        </div>
+                        <div class="member-info">
+                            <h3>Karen Ackerlow</h3>
+                            <p class="member-title">Board Member</p>
+                        </div>
+                    </div>
+            
+                    <!-- Linda Evans -->
+                    <div class="board-member">
+                        <div class="member-image">
+                            <img src="images/random-portrait-1.jpg" alt="Linda Evans">
+                        </div>
+                        <div class="member-info">
+                            <h3>Linda Evans</h3>
+                            <p class="member-title">Board Member</p>
+                        </div>
+                    </div>
+            
+                    <!-- Marian Edmonds-Allen -->
+                    <div class="board-member">
+                        <div class="member-image">
+                            <img src="images/random-portrait-1.jpg" alt="Marian Edmonds-Allen">
+                        </div>
+                        <div class="member-info">
+                            <h3>Marian Edmonds-Allen</h3>
+                            <p class="member-title">Board Member</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section id="faq" class="content-section">
+                <h2>Frequently Asked Questions</h2>
+                <div style="background-color:#2c4faf; margin-top: 8px; width: 100px; height: 8px; margin-bottom: 20px;" class="divider-small-border"></div>
+                
+                <div class="faq-grid">
+                    <!-- FAQ Item 1 -->
+                    <div class="faq-item">
+                        <img src="images/volunteers-7.png" alt="Timeline" class="faq-image">
+                        <div class="faq-content">
+                            <h3>How long have you been doing this?</h3>
+                            <p>Jen got the idea for the Turtle Shelter Project in 2015 to help keep people experiencing homelessness from freezing to death. We officially incorporated 3 April 2017, on Jen's sobriety anniversary. Our 501c3 status was granted in 2018.</p>
+                            <p>Between September 2017 and January 2018, with a combined 450 volunteer hours, we completed 50 prototype vests to be tested.</p>
+                        </div>
+                    </div>
+            
+                    <!-- FAQ Item 2 -->
+                    <div class="faq-item">
+                        <img src="images/volunteers-2.jpeg" alt="Coat Drive Comparison" class="faq-image">
+                        <div class="faq-content">
+                            <h3>If you want to help homeless people be warm, why not just do a coat drive?</h3>
+                            <p>The foam insulation layer combined with moisture wicking fabrics creates a more effective insulation layer than other winter clothing. Clothing made from foam will provide warmth even if it is wet – it allows the wearer to maintain their core body temperature. You can read more about it in "OUR TECH."</p>
+                        </div>
+                    </div>
+            
+                    <!-- FAQ Item 3 -->
+                    <div class="faq-item">
+                        <img src="images/logo-turtle.png" alt="Turtle Logo" class="faq-image faq-turtle">
+                        <div class="faq-content">
+                            <h3>What does the turtle in your logo have to do with your project?</h3>
+                            <p>A turtle carries it's shelter wherever it goes. Our insulated vests are intended to be a portable "shelter." Instead of having to find shelter, a person can carry their shelter on their back, like a turtle.</p>
+                        </div>
+                    </div>
+            
+                    <!-- FAQ Item 4 -->
+                    <div class="faq-item">
+                        <img src="images/volunteers-3.jpg" alt="Distribution" class="faq-image">
+                        <div class="faq-content">
+                            <h3>How/where are the vests distributed?</h3>
+                            <p>During the winter of 2017-18, the distribution and testing were done mainly in the Ogden area with the help and support of The Episcopal Church of the Good Shepherd and the staff at Youth Futures.</p>
+                            <p>Winter 2018-19 we have been able to distribute vests both to shelters and to individuals in the Ogden and Salt Lake City communities.</p>
+                        </div>
+                    </div>
+            
+                    <!-- FAQ Item 5 -->
+                    <div class="faq-item">
+                        <img src="images/volunteers-4.png" alt="Volunteer Sewing" class="faq-image">
+                        <div class="faq-content">
+                            <h3>Why don't you just have a professional sewing shop make the vests?</h3>
+                            <p>We talked about this idea early in our planning stages, but ultimately decided that our mission had 2 parts - help the homeless or others in need of warm clothing, and provide an opportunity for any willing person to serve. That was how we came up with our motto: Every Life Has Value; Every Person Can Serve.</p>
+                        </div>
+                    </div>
+            
+                    <!-- FAQ Item 6 -->
+                    <div class="faq-item">
+                        <img src="images/volunteers-5.png" alt="Non-sewing Volunteer" class="faq-image">
+                        <div class="faq-content">
+                            <h3>I want to help, but I don't sew.</h3>
+                            <p>Turtle Shelter Project vests are designed to be made by volunteers who have no special sewing skills. We can put any willing volunteer to work who can use a marker or a pair of scissors. Although we do need people with basic and advanced sewing skills, there are lots of the steps that can be done by those with no sewing skills. The final construction is done by our expert staff. The completed vests are then returned to the community where volunteers made them - or to another area with need.</p>
+                        </div>
+                    </div>
+            
+                    <!-- FAQ Item 7 -->
+                    <div class="faq-item">
+                        <img src="images/volunteers-6.jpg" alt="Remote Volunteering" class="faq-image">
+                        <div class="faq-content">
+                            <h3>We don't live close to your Northern Utah operation. Can we still help?</h3>
+                            <p>Yes! Yes! Yes!</p>
+                            <p>We can send parts of the vests to be cut, marked, and/or completed by your group and sent back to us, or we can provide materials and training so you can complete entire vests and distribute them in your area.</p>
+                            <p>We live by the motto that every person can serve, and we will accommodate anyone who wants to help - we are only limited by our funding. Send us a note in CONTACT US or SCHEDULE YOUR OWN EVENT and we will coordinate the best project for you and/or your group.</p>
+                        </div>
+                    </div>
+            
+                    <!-- FAQ Item 8 -->
+                    <div class="faq-item">
+                        <img src="images/vests-2.jpg" alt="Donation Impact" class="faq-image">
+                        <div class="faq-content">
+                            <h3>How much of my donation goes to overhead?</h3>
+                            <p>Our overhead costs are very limited because our staff is 100% volunteer. We have no paid employees. Our yearly operating costs include business registration, website hosting and support, post office box rental, and liability insurance. Other expenses have been to purchase things like scissors and sewing machines. During 2018 these costs were about 25% of our total budget.</p>
+                            <p>Also, if you would like to make a donation specifically for materials or a certain part of our project, we will honor your request.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script src="/about.js"></script>
 </body>
 </html>
