@@ -1,114 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Turtle Service Project</title>
-    <meta charset="utf-8">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turtle Shelter Project - Empowering Communities</title>
+    <meta name="description" content="Join us in providing high-tech winter vests for homeless individuals in northern Utah through community service projects.">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header id="header">
-        <div class="inner">
-            <a href="index.html" class="logo"><strong>Projection</strong></a>
-            <nav id="nav">
-                <a href="index.html">Home</a>
-                <a href="generic.html">Generic</a>
-                <a href="elements.html">Elements</a>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <img src="/images/logo.svg" alt="TSP Logo">
+                <span>Turtle Shelter Project</span>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="/events" class="nav-link">Events</a>
+                <a href="/volunteer" class="nav-link">Volunteer</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/admin" class="nav-link button button-primary">Admin Portal</a>
             </nav>
-            <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
         </div>
     </header>
 
-    <section id="banner">
-        <div class="inner">
-            <header>
-                <h1>IS THIS WORKING OMG</h1>
-            </header>
-            <div class="flex">
-                <div>
-                    <span class="icon fa-car"></span>
-                    <h3>Aliquam</h3>
-                    <p>Suspendisse amet ullamco</p>
-                </div>
-                <div>
-                    <span class="icon fa-camera"></span>
-                    <h3>Elementum</h3>
-                    <p>Class aptent taciti ad litora</p>
-                </div>
-                <div>
-                    <span class="icon fa-bug"></span>
-                    <h3>Ultrices</h3>
-                    <p>Nulla vitae mauris non felis</p>
-                </div>
-            </div>
-            <footer>
-                <a href="#" class="button">Get Started</a>
-            </footer>
-        </div>
-    </section>
-
-    <section id="three" class="wrapper align-center">
-        <div class="inner">
-            <div class="flex flex-2">
-                <article>
-                    <div class="image round">
-                        <img src="images/pic01.jpg" alt="Pic 01" width="150" height="150">
-                    </div>
-                    <header>
-                        <h3>Lorem ipsum<br> dolor amet nullam</h3>
-                    </header>
-                    <p>Morbi in sem quis dui placerat ornare. Pellentesquenisi<br>euismod in, pharetra a, ultricies in diam sed arcu. Cras<br>consequat egestas augue vulputate.</p>
-                    <footer>
-                        <a href="#" class="button">Learn More</a>
-                    </footer>
-                </article>
-                <article>
-                    <div class="image round">
-                        <img src="images/pic02.jpg" alt="Pic 02" width="150" height="150">
-                    </div>
-                    <header>
-                        <h3>Sed feugiat<br> tempus adipicsing</h3>
-                    </header>
-                    <p>Pellentesque fermentum dolor. Aliquam quam lectus<br>facilisis auctor, ultrices ut, elementum vulputate, nunc<br> blandit ellenste egestagus commodo.</p>
-                    <footer>
-                        <a href="#" class="button">Learn More</a>
-                    </footer>
-                </article>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Warming Hearts & Communities</h1>
+            <p>Join our mission to provide high-tech winter vests to those in need through community service and volunteering.</p>
+            <div class="hero-buttons">
+                <a href="/request-event" class="button button-primary">Request an Event</a>
+                <a href="/volunteer" class="button button-outline">Become a Volunteer</a>
             </div>
         </div>
     </section>
 
-    <footer id="footer">
-        <div class="inner">
-            <h3>Get in touch</h3>
-            <form action="#" method="post">
-                <div class="field half first">
-                    <label for="name">Name</label>
-                    <input name="name" id="name" type="text" placeholder="Name">
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Host an Event</h3>
+                    <p>Organize a vest-making event with your organization. Choose between sewing and non-sewing activities.</p>
                 </div>
-                <div class="field half">
-                    <label for="email">Email</label>
-                    <input name="email" id="email" type="email" placeholder="Email">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Volunteer</h3>
+                    <p>Join our community of dedicated volunteers. No experience necessary - we'll provide all the training.</p>
                 </div>
-                <div class="field">
-                    <label for="message">Message</label>
-                    <textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Make an Impact</h3>
+                    <p>Help us create warm, high-quality vests for those facing winter without shelter.</p>
                 </div>
-                <ul class="actions">
-                    <li><input value="Send Message" class="button alt" type="submit"></li>
-                </ul>
-            </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Make a Difference?</h2>
+            <p>Join our community of volunteers and help create warmth for those who need it most.</p>
+            <a href="/volunteer" class="button button-outline">Get Started Today</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/events">Events</a></li>
+                        <li><a href="/volunteer">Volunteer</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/guidelines">Volunteer Guidelines</a></li>
+                        <li><a href="/impact">Our Impact</a></li>
+                        <li><a href="/news">News</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> info@turtleshelterproject.org</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Northern Utah</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
 
     <div class="copyright">
-        Made with: <a href="https://templated.co/">Templated.co</a>
+        <div class="container">
+            <p>&copy; 2024 Turtle Shelter Project. All rights reserved.</p>
+        </div>
     </div>
 
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/skel.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>
 </html>
