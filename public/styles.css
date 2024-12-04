@@ -246,7 +246,7 @@ h2 {
     text-align: center;
     line-height: 1.8;
     color: white;
-    font-size: 1.1rem;
+    font-size: 3rem;
     padding: 0 2rem;
 }
 
@@ -1288,3 +1288,205 @@ iframe {
   justify-content: flex-end;
 }
 
+/* Vests Section Styles */
+.vest-flex-container {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.vest-text-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* Aligns content to the left */
+}
+
+.vest-text-column h2 {
+    text-align: left;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.vest-text-column .highlight-text {
+    text-align: left;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.vest-image-column {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.vest-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .vest-flex-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+/* Metrics Section Styles */
+.metrics-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem 0;
+}
+
+.metric-item {
+    text-align: center;
+    color: white;
+}
+
+.metric-item i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.metric-item h3 {
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+}
+
+.counter {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+/* Sponsors Section Styles */
+.sponsors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.sponsor-item {
+    text-align: center;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.sponsor-item:hover {
+    transform: translateY(-5px);
+}
+
+.sponsor-item img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.sponsor-item h3 {
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .sponsors-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .metrics-grid {
+        flex-direction: column;
+    }
+    
+    .sponsors-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .sponsors-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.view-more-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem 0;
+}
+
+.sponsor-item.stacked {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.sponsor-item.stacked {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers the content vertically */
+    gap: 1.5rem; /* Increased gap between stacked items */
+    padding: 1.5rem;
+    height: 100%; /* Ensures same height as other sponsor items */
+}
+
+.stacked-sponsor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centers content */
+    padding: 0.5rem;
+}
+
+.stacked-sponsor img {
+    width: 60%;
+    margin-bottom: 0.5rem;
+}
+
+.stacked-sponsor h3 {
+    font-size: 1.1rem; /* Matching the size of other sponsor titles */
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* Make sure all sponsor items have consistent text */
+.sponsor-item h3 {
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--text);
+}
+
+/* Update the container for the sponsors section */
+.sponsors .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the content horizontally */
+}
+
+/* Center the grid itself */
+.sponsors-grid {
+    width: 100%;
+    max-width: 1000px; /* Adjust this value as needed */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem 0;
+    margin: 0 auto; /* Centers the grid */
+}
