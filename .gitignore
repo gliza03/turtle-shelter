@@ -1,3 +1,15 @@
 node_modules/
 *.zip
 .DB_Store
+/public/.styles_BASE_1290.css.swp
+/public/.styles_LOCAL_1290.css.swp
+/public/.styles_REMOTE_1290.css.swp
+/public/.styles.css.swp
+/public/styles_BACKUP_1290.css
+/public/styles_BACKUP_1964.css
+/public/styles_BASE_1290.css
+/public/styles_BASE_1964.css
+/public/styles_LOCAL_1290.css
+/public/styles_LOCAL_1964.css
+/public/styles_REMOTE_1290.css
+/public/styles_REMOTE_1964.css
