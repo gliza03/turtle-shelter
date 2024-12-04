@@ -9,10 +9,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "body-parser": "^1.20.3",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "knex": "^3.1.0",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "stripe": "^17.4.0"
   }
 }
-

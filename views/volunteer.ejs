@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Signup</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about" class="nav-link">About Us</a>
+        <a href="/involved" class="nav-link">Get Involved</a>
+        <a href="/impact" class="nav-link">Our Impact</a>
+    </header>
+
+    <div class="volunteer-page">
+        <div class="container">
+            <h1 class="page-title">Volunteer Signup</h1>
+            <p class="page-description">Join us in making a difference by sharing your time and skills!</p>
+
+            <form action="/submit-volunteer" method="POST" class="form">
+                <!-- First Name -->
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="volunteer_first_name" required>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="volunteer_last_name" required>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="volunteer_email" required>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="text" id="phoneNumber" name="volunteer_phone_num" required>
+                </div>
+
+                <!-- Preferred Contact Method -->
+                <div class="form-group">
+                    <label for="preferredContact">Preferred Contact Method</label>
+                    <select id="preferredContact" name="volunteer_preferred_communication" required>
+                        <option value="Call">Call</option>
+                        <option value="Text">Text</option>
+                        <option value="Email">Email</option>
+                    </select>
+                </div>
+
+                <!-- Gender -->
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <input type="radio" id="Male" name="volunteer_gender" value="Male" required>
+                        <label for="Male">Male</label>
+                        <input type="radio" id="Female" name="volunteer_gender" value="Female">
+                        <label for="Female">Female</label>
+                        <input type="radio" id="PreferNotToSay" name="volunteer_gender" value="Other">
+                        <label for="PreferNotToSay">Prefer not to say</label>
+                    </div>
+                </div>
+
+                <!-- Street -->
+                <div class="form-group">
+                    <label for="street">Street</label>
+                    <input type="text" id="street" name="volunteer_street" required>
+                </div>
+
+                <!-- City -->
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="volunteer_city" required>
+                </div>
+
+                <!-- State -->
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <select id="state" name="volunteer_state" required>
+                        <option value="AL">AL</option>
+                        <option value="AK">AK</option>
+                        <option value="AZ">AZ</option>
+                        <option value="AR">AR</option>
+                        <option value="CA">CA</option>
+                        <option value="CO">CO</option>
+                        <option value="CT">CT</option>
+                        <option value="DE">DE</option>
+                        <option value="FL">FL</option>
+                        <option value="GA">GA</option>
+                        <option value="HI">HI</option>
+                        <option value="ID">ID</option>
+                        <option value="IL">IL</option>
+                        <option value="IN">IN</option>
+                        <option value="IA">IA</option>
+                        <option value="KS">KS</option>
+                        <option value="KY">KY</option>
+                        <option value="LA">LA</option>
+                        <option value="ME">ME</option>
+                        <option value="MD">MD</option>
+                        <option value="MA">MA</option>
+                        <option value="MI">MI</option>
+                        <option value="MN">MN</option>
+                        <option value="MS">MS</option>
+                        <option value="MO">MO</option>
+                        <option value="MT">MT</option>
+                        <option value="NE">NE</option>
+                        <option value="NV">NV</option>
+                        <option value="NH">NH</option>
+                        <option value="NJ">NJ</option>
+                        <option value="NM">NM</option>
+                        <option value="NY">NY</option>
+                        <option value="NC">NC</option>
+                        <option value="ND">ND</option>
+                        <option value="OH">OH</option>
+                        <option value="OK">OK</option>
+                        <option value="OR">OR</option>
+                        <option value="PA">PA</option>
+                        <option value="RI">RI</option>
+                        <option value="SC">SC</option>
+                        <option value="SD">SD</option>
+                        <option value="TN">TN</option>
+                        <option value="TX">TX</option>
+                        <option value="UT">UT</option>
+                        <option value="VT">VT</option>
+                        <option value="VA">VA</option>
+                        <option value="WA">WA</option>
+                        <option value="WV">WV</option>
+                        <option value="WI">WI</option>
+                        <option value="WY">WY</option>
+                    </select>
+                </div>
+
+                <!-- Zipcode -->
+                <div class="form-group">
+                    <label for="zipcode">Zipcode</label>
+                    <input type="text" id="zipcode" name="volunteer_zip_code" required>
+                </div>
+
+                <!-- Sewing Level -->
+                <div class="form-group">
+                    <label for="sewingLevel">Sewing Level</label>
+                    <select id="sewingLevel" name="volunteer_sewing_level" required>
+                        <option value="No Experience">No Experience</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Experienced">Experienced</option>
+                    </select>
+                </div>
+
+                <div id="availability-container">
+                    <div class="availability-row">
+                        <h3>Availability 1</h3>
+                        <button type="button" class="remove-date-btn" style="display: none;">X</button>
+                        <div class="form-group">
+                            <label for="dateAvailable1">What date are you available?</label>
+                            <input type="date" id="dateAvailable1" name="availability[0][date]" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime1">What time are you available to start?</label>
+                            <input type="time" id="startTime1" name="availability[0][start]" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime1">Until when are you available?</label>
+                            <input type="time" id="endTime1" name="availability[0][end]" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="add-date-btn" class="btn">Add Another Date</button>
+                <p id="max-dates-warning" style="color: red; display: none;">You can only add up to 5 dates.</p>
+            
+
+                <!-- Leadership -->
+                <div class="form-group">
+                    <label>Would you be willing to lead an event?</label>
+                    <div class="radio-group">
+                        <input type="radio" id="leadYes" name="volunteer_leadership" value="Y" required>
+                        <label for="leadYes">Yes</label>
+                        <input type="radio" id="leadNo" name="volunteer_leadership" value="N">
+                        <label for="leadNo">No</label>
+                    </div>
+                </div>
+
+                <!-- Referral Source -->
+                <div class="form-group">
+                    <label for="refSource">How did you hear about us?</label>
+                    <select id="refSource" name="volunteer_ref_source" required>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Website">Website</option>
+                        <option value="Local Event">Local Event</option>
+                        <option value="Friend Referral">Friend Referral</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+
+           
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('availability-container');
+        const addDateBtn = document.getElementById('add-date-btn');
+        const maxDatesWarning = document.getElementById('max-dates-warning');
+
+        const MAX_DATES = 5;
+
+        const validateTime = (start, end) => {
+            const startTime = new Date(`1970-01-01T${start}:00Z`);
+            const endTime = new Date(`1970-01-01T${end}:00Z`);
+            return endTime > startTime;
+        };
+
+        // Add new date row
+        addDateBtn.addEventListener('click', () => {
+            const rowCount = container.children.length;
+
+            if (rowCount >= MAX_DATES) {
+                maxDatesWarning.style.display = 'block';
+                return;
+            }
+
+            maxDatesWarning.style.display = 'none';
+
+            const row = document.createElement('div');
+            row.classList.add('availability-row');
+            row.innerHTML = `
+                <h3>Availability ${rowCount + 1}</h3>
+                <button type="button" class="remove-date-btn">X</button>
+                <div class="form-group">
+                    <label for="dateAvailable${rowCount}">What date are you available?</label>
+                    <input type="date" id="dateAvailable${rowCount}" name="availability[${rowCount}][date]" required>
+                </div>
+                <div class="form-group">
+                    <label for="startTime${rowCount}">What time are you available to start?</label>
+                    <input type="time" id="startTime${rowCount}" name="availability[${rowCount}][start]" required>
+                </div>
+                <div class="form-group">
+                    <label for="endTime${rowCount}">Until when are you available?</label>
+                    <input type="time" id="endTime${rowCount}" name="availability[${rowCount}][end]" required>
+                </div>
+            `;
+
+            row.querySelector('.remove-date-btn').addEventListener('click', () => {
+                row.remove();
+                updateHeadings();
+            });
+
+            container.appendChild(row);
+        });
+
+        // Update headings after removal
+        const updateHeadings = () => {
+            const rows = container.querySelectorAll('.availability-row');
+            rows.forEach((row, index) => {
+                row.querySelector('h3').textContent = `Availability ${index + 1}`;
+            });
+        };
+
+        // Real-time validation of time inputs
+        container.addEventListener('change', (event) => {
+            if (event.target.type === 'time') {
+                const row = event.target.closest('.availability-row');
+                const start = row.querySelector('input[name$="[start]"]').value;
+                const end = row.querySelector('input[name$="[end]"]').value;
+
+                if (start && end && !validateTime(start, end)) {
+                    alert('End time must be after start time.');
+                    event.target.value = '';
+                }
+            }
+        });
+    });
+</script>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request an Event</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about" class="nav-link">About Us</a>
+        <a href="/involved" class="nav-link">Get Involved</a>
+        <a href="/impact" class="nav-link">Our Impact</a>
+    </header>
+
+    <div class="event-request-page">
+        <div class="container">
+            <h1 class="page-title">Request an Event</h1>
+            <p class="page-description">Let us know how we can help make your event a success!</p>
+
+            <form action="/submit-event-request" method="POST" class="form">
+                <!-- Question 1 -->
+                <div class="form-group">
+                    <label for="eventType">What type of event are you interested in?</label>
+                    <select id="eventType" name="event_type" required>
+                        <option value="Sewing">Sewing</option>
+                        <option value="Non-Sewing">Non-Sewing</option>
+                        <option value="Both">Both</option>
+                    </select>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="form-group">
+                    <label for="eventLocation">Event Location (School, Church, etc)</label>
+                    <input type="text" id="eventLocation" name="event_location" required>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="form-group">
+                    <label>Event Address</label>
+                    <input type="text" name="event_street" placeholder="Street" required>
+                    <input type="text" name="event_city" placeholder="City" required>
+                    <select name="event_state" required>
+                        <option value="AL">AL</option>
+                        <option value="AK">AK</option>
+                        <option value="AZ">AZ</option>
+                        <option value="AR">AR</option>
+                        <option value="CA">CA</option>
+                        <option value="CO">CO</option>
+                        <option value="CT">CT</option>
+                        <option value="DE">DE</option>
+                        <option value="FL">FL</option>
+                        <option value="GA">GA</option>
+                        <option value="HI">HI</option>
+                        <option value="ID">ID</option>
+                        <option value="IL">IL</option>
+                        <option value="IN">IN</option>
+                        <option value="IA">IA</option>
+                        <option value="KS">KS</option>
+                        <option value="KY">KY</option>
+                        <option value="LA">LA</option>
+                        <option value="ME">ME</option>
+                        <option value="MD">MD</option>
+                        <option value="MA">MA</option>
+                        <option value="MI">MI</option>
+                        <option value="MN">MN</option>
+                        <option value="MS">MS</option>
+                        <option value="MO">MO</option>
+                        <option value="MT">MT</option>
+                        <option value="NE">NE</option>
+                        <option value="NV">NV</option>
+                        <option value="NH">NH</option>
+                        <option value="NJ">NJ</option>
+                        <option value="NM">NM</option>
+                        <option value="NY">NY</option>
+                        <option value="NC">NC</option>
+                        <option value="ND">ND</option>
+                        <option value="OH">OH</option>
+                        <option value="OK">OK</option>
+                        <option value="OR">OR</option>
+                        <option value="PA">PA</option>
+                        <option value="RI">RI</option>
+                        <option value="SC">SC</option>
+                        <option value="SD">SD</option>
+                        <option value="TN">TN</option>
+                        <option value="TX">TX</option>
+                        <option value="UT">UT</option>
+                        <option value="VT">VT</option>
+                        <option value="VA">VA</option>
+                        <option value="WA">WA</option>
+                        <option value="WV">WV</option>
+                        <option value="WI">WI</option>
+                        <option value="WY">WY</option>
+                    </select>
+                    <input type="text" name="event_zip_code" placeholder="Zip Code" required>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="form-group">
+                    <label for="eventDate">Event Date</label>
+                    <input type="date" id="eventDate" name="event_date" required>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="form-group">
+                    <label for="startTime">Event Start Time</label>
+                    <input type="time" id="startTime" name="event_start_time" required>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="form-group">
+                    <label for="endTime">Event End Time</label>
+                    <input type="time" id="endTime" name="event_end_time" required>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="form-group">
+                    <label>Would you like Jen to share her story?</label>
+                    <div class="radio-group">
+                        <input type="radio" id="jenYes" name="jens_story" value="Yes" required>
+                        <label for="jenYes">Yes</label>
+                        <input type="radio" id="jenNo" name="jens_story" value="No">
+                        <label for="jenNo">No</label>
+                    </div>
+                </div>
+
+                <!-- Expected Attendance -->
+                <div class="form-group">
+                    <p>Expected Attendance:</p>
+                    <input type="number" name="expected_10_and_under" placeholder="10 yrs and under" required>
+                    <input type="number" name="expected_11_to_17" placeholder="11 yrs - 17 yrs" required>
+                    <input type="number" name="expected_18_and_over" placeholder="18 yrs and older" required>
+                </div>
+
+                <!-- Question 11 -->
+                <div class="form-group">
+                    <label>Who should we contact for this event?</label>
+                    <input type="text" name="contact_first_name" placeholder="First Name" required>
+                    <input type="text" name="contact_last_name" placeholder="Last Name" required>
+                </div>
+
+                <!-- Question 12 -->
+                <div class="form-group">
+                    <label for="contactEmail">Email</label>
+                    <input type="email" id="contactEmail" name="contact_email" required>
+                </div>
+
+                <!-- Question 13 -->
+                <div class="form-group">
+                    <label for="contactPhone">Phone Number</label>
+                    <input type="text" id="contactPhone" name="contact_phone_number" required>
+                </div>
+
+                <!-- Question 14 -->
+                <div class="form-group">
+                    <label for="preferredContact">Preferred Contact Method:</label>
+                    <select id="preferredContact" name="contact_preferred_communication" required>
+                        <option value="Call">Call</option>
+                        <option value="Text">Text</option>
+                        <option value="Email">Email</option>
+                    </select>
+                </div>
+
+                <!-- Question 15 -->
+                <div class="form-group">
+                    <label>Would you like to contribute financially to this event?</label>
+                    <div class="radio-group">
+                        <input type="radio" id="contributionYes" name="contribution" value="Yes" required>
+                        <label for="contributionYes">Yes</label>
+                        <input type="radio" id="contributionNo" name="contribution" value="No">
+                        <label for="contributionNo">No</label>
+                    </div>
+                </div>
+
+                <!-- Question 16 -->
+                <div class="form-group">
+                    <label for="notes">What else would you like us to know about your event?</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn">Send Request</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission response
+        document.querySelector("form").onsubmit = async (e) => {
+            e.preventDefault();
+            alert("Thank you for your interest! We will get back to you shortly!");
+            window.location.href = "/";
+        };
+    </script>
+</body>
+</html>
