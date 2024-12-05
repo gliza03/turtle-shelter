@@ -34,6 +34,16 @@ document.addEventListener('DOMContentLoaded', function() {
         switchSection(e.target.value);
     });
 
-    // Show vests section by default on page load
-    switchSection('tech');
+    // Check for hash in URL and switch to that section if it exists
+    const hash = window.location.hash.slice(1); // Remove the # symbol
+    if (hash) {
+        switchSection(hash);
+        // Update mobile select if it exists
+        if (mobileSelect) {
+            mobileSelect.value = hash;
+        }
+    } else {
+        // Only default to 'vests' if there's no hash
+        switchSection('vests');
+    }
 });

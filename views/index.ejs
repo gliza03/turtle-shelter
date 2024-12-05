@@ -40,47 +40,97 @@
         </div>
     </section>
 
-	<!-- Vests -->
-	<section class="features vests">
+    <section class="features vests">
         <div class="container">
-            <h2>Why Vests?</h2>
+            <div class="vest-flex-container">
+                <div class="vest-text-column">
+                    <h2>The change starts with you!</h2>
+                    <p class="highlight-text">One winter when Jen was homeless, 7 of her friends froze to death. Jen is no longer homeless and has figured out a solution: High tech foam vests that are inexpensive, keep a person warm to 10 degree below zero, help SAVE lives and alleviate suffering.</p>
+                </div>
+                <div class="vest-image-column">
+                    <img src="images/vests.png" alt="Vest Demonstration" class="vest-image">
+                </div>
+            </div>
         </div>
     </section>
-
     <!-- Metrics Section -->
     <section class="features metrics">
         <div class="container">
-			<h2>Our Metrics!</h2>
+            <h2>Our Metrics!</h2>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Events Completed</h3>
+                    <span class="counter" data-target="150">200</span>
+                </div>
+                <div class="metric-item">
+                    <i class="fas fa-vest"></i>
+                    <h3>Vests Made</h3>
+                    <span class="counter" data-target="1200">9500</span>
+                </div>
+                <div class="metric-item">
+                    <i class="fas fa-users"></i>
+                    <h3>Volunteers Engaged</h3>
+                    <span class="counter" data-target="500">300</span>
+                </div>
+            </div>
         </div>
     </section>
-
+    
 	<section class="features">
         <div class="container faq">
-			<h2>Frequent Asked Questions</h2>
+			<h2>Frequently Asked Questions</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-hands-helping"></i>
                     </div>
-                    <h3>Why?</h3>
-                    <p>Organize a vest-making event with your organization. Choose between sewing and non-sewing activities.</p>
+                    <h3>What is a turtle shelter vest?</h3>
+                    <p>A high tech but simple solution to help save lives - a portable "shelter" you can carry with you, just like a turtle... and YOU can help!</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3>How?</h3>
-                    <p>Join our community of dedicated volunteers. No experience necessary - we'll provide all the training.</p>
+                    <h3>How can I help?</h3>
+                    <p>YOU can request vests for your community - and you can make vests and have your friends, business colleagues, church members or club make vests, too!</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-heart"></i>
+            </div>
+
+            <div class="view-more-container">
+                <a href="/about#faq" class="button button-primary">View More FAQs</a>
+            </div>
+
+        </div>
+    </section>
+
+    
+    <!-- Add new Sponsors section: -->
+    <section class="features sponsors" style="background-color: rgb(2, 2, 59);">
+        <div class="container">
+            <h2>Our Sponsors</h2>
+            <div class="sponsors-grid">
+                <div class="sponsor-item">
+                    <img src="images/sponsor1.jpg" alt="Sponsor 1">
+                    <h3>Minky Couture</h3>
+                </div>
+                <div class="sponsor-item stacked">
+                    <div class="stacked-sponsor">
+                        <img src="images/sponsor2.jpg" alt="Sponsor 2">
+                        <h3>The Episcopal Church of the Good Shepherd</h3>
                     </div>
-                    <h3>When?</h3>
-                    <p>Help us create warm, high-quality vests for those facing winter without shelter.</p>
+                    <div class="stacked-sponsor">
+                        <img src="images/sponsor3.jpg" alt="Sponsor 3">
+                        <h3>Give Me A Change: A Daughters of Charity Ministry</h3>
+                    </div>
+                </div>
+                <div class="sponsor-item">
+                    <img src="images/sponsor4.jpg" alt="Sponsor 4">
+                    <h3>Outdoor Wilderness Fabrics</h3>
                 </div>
             </div>
         </div>
+    </section>
     </section>
 
     <!-- CTA Section -->
@@ -101,7 +151,7 @@
                     <ul class="footer-links">
                         <li><a href="/about">About Us</a></li>
                         <li><a href="/events">Events</a></li>
-                        <li><a href="/volunteer">Volunteer</a></li>
+                        <li><a href="/involved">Volunteer</a></li>
                         <li><a href="/contact">Contact</a></li>
                     </ul>
                 </div>
@@ -109,9 +159,7 @@
                     <h4>Resources</h4>
                     <ul class="footer-links">
                         <li><a href="/faq">FAQ</a></li>
-                        <li><a href="/guidelines">Volunteer Guidelines</a></li>
                         <li><a href="/impact">Our Impact</a></li>
-                        <li><a href="/news">News</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -134,5 +182,7 @@
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script src="/counter.js"></script>
+
 </body>
 </html>
