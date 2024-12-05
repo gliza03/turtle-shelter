@@ -179,6 +179,114 @@ app.post('/submit-donation', async (req, res) => {
     }
 });
 
+app.post('/submit-event-request', async (req, res) => {
+    const {
+        event_type,
+        event_location,
+        event_street,
+        event_city,
+        event_state,
+        event_zip_code,
+        event_date,
+        event_start_time,
+        event_end_time,
+        jens_story,
+        expected_10_and_under,
+        expected_11_to_17,
+        expected_18_and_over,
+        contact_first_name,
+        contact_last_name,
+        contact_email,
+        contact_phone_number,
+        contact_preferred_communication,
+        contribution,
+        notes,
+    } = req.body;
+
+    console.log('Form Data:', req.body);
+
+    try {
+        await knex.transaction(async (trx) => {
+            // Insert into event_contacts and extract plain integer contact_id
+            const [contactIdObj] = await trx('event_contacts')
+                .insert({
+                    contact_first_name,
+                    contact_last_name,
+                    contact_email: contact_email.toLowerCase(),
+                    contact_phone_number,
+                    contact_preferred_communication,
+                })
+                .returning('contact_id');
+
+            const contactId = contactIdObj.contact_id || contactIdObj;
+            console.log('Inserted Contact ID:', contactId);
+
+            // Calculate event total hours
+            const startTime = new Date(`1970-01-01T${event_start_time}:00Z`);
+            const endTime = new Date(`1970-01-01T${event_end_time}:00Z`);
+            const eventTotalHours = Math.round(
+                (new Date(`1970-01-01T${event_end_time}:00Z`) - new Date(`1970-01-01T${event_start_time}:00Z`)) / 
+                (1000 * 60 * 60)
+            );
+            
+            // Insert into events and extract plain integer event_id
+            const [eventIdObj] = await trx('events').insert({
+                contact_id: contactId,
+                event_type,
+                event_date,
+                date_of_request: trx.raw('CURRENT_TIMESTAMP'),
+                event_start_time,
+                event_end_time,
+                event_total_hours: eventTotalHours,
+                event_location,
+                event_street,
+                event_city,
+                event_state,
+                event_zip_code,
+                jens_story: jens_story === 'Yes' ? 'Y' : 'N', // Map Yes/No to Y/N
+                contribution: contribution === 'Yes' ? 'Y' : 'N', // Map Yes/No to Y/N
+                notes: notes || null, // Optional field
+            })
+            
+                .returning('event_id');
+
+            const eventId = eventIdObj.event_id || eventIdObj;
+            console.log('Inserted Event ID:', eventId);
+
+            // Insert into event_attendance
+            await trx('event_attendance').insert({
+                event_id: eventId,
+                total_expected_attendance:
+                    parseInt(expected_10_and_under) +
+                    parseInt(expected_11_to_17) +
+                    parseInt(expected_18_and_over),
+                expected_10_and_under: parseInt(expected_10_and_under),
+                expected_11_to_17: parseInt(expected_11_to_17),
+                expected_18_and_over: parseInt(expected_18_and_over),
+                total_actual_attendance: 0,
+                actual_10_and_under: 0,
+                actual_11_to_17: 0,
+                actual_18_and_over: 0,
+            });
+
+            console.log('Attendance Data Inserted');
+        });
+
+        // Redirect to a thank-you page
+        res.redirect('/thank-you');
+    } catch (error) {
+        console.error('Error processing event request:', error);
+        res.status(500).send('Error processing event request. Please try again later.');
+    }
+});
+
+
+
+
+
+
+
+
 
 app.post('/submit-vest-distribution', async (req, res) => {
     const {
@@ -322,86 +430,82 @@ app.post('/create-account', async (req, res) => {
         }
     }
 });
+// Fetch Admins with Pagination
+app.get('/admins', async (req, res) => {
+    const { page = 1, search = "" } = req.query;
+    const limit = 30; // Number of admins per page
+    const offset = (page - 1) * limit;
 
-app.get('/admin', async (req, res) => {
     try {
-        // Fetch accounts data
-        const accounts = await knex('accounts').select('*');
-        
-        // Fetch initial set of volunteers (e.g., first 30 for pagination)
-        const volunteers = await knex('volunteers').select('*').limit(30);
+        const query = knex("accounts")
+            .select("*")
+            .where("account_first_name", "ilike", `%${search}%`)
+            .orWhere("account_last_name", "ilike", `%${search}%`)
+            .limit(limit)
+            .offset(offset);
 
-        // Render the admin view with both accounts and volunteers
-        res.render('admin', { accounts, volunteers });
+        const admins = await query;
+        res.json({ admins });
     } catch (error) {
-        console.error('Error fetching admin data:', error);
-        res.status(500).send('An error occurred while loading the admin page.');
+        console.error("Error fetching admins:", error);
+        res.status(500).send("Error fetching admins");
     }
 });
 
-
-
-
-app.post('/editAccount', async (req, res) => {
-    const {
-      account_id,
-      account_first_name,
-      account_last_name,
-      account_username,
-      account_email,
-      role_id
-    } = req.body;
-  
-    try {
-      // Validate that email and username are unique (if they are changed)
-      const existingAccount = await knex('accounts')
-        .select('account_id')
-        .where((qb) => {
-          qb.where('account_email', account_email)
-            .orWhere('account_username', account_username);
-        })
-        .andWhere('account_id', '!=', account_id);
-  
-      if (existingAccount.length > 0) {
-        return res.status(400).send('Email or username already exists for another account.');
-      }
-  
-      // Update the account in the database
-      await knex('accounts')
-        .where('account_id', account_id)
-        .update({
-          account_first_name,
-          account_last_name,
-          account_username,
-          account_email: account_email.toLowerCase(),
-          role_id: parseInt(role_id), // Ensure role_id is an integer
-        });
-  
-      res.redirect('/admin'); // Redirect back to the admin portal or appropriate page
-    } catch (error) {
-      console.error('Error updating account:', error);
-      res.status(500).send('An error occurred while updating the account.');
-    }
-  });
-  
-
-
-  app.post('/deleteAccount', async (req, res) => {
-    const { account_id } = req.body;
+// Edit Admin - Dynamic Save
+app.post('/admins/:id', async (req, res) => {
+    const { id } = req.params;
+    const { account_first_name, account_last_name, account_username, account_email, role_id } = req.body;
 
     try {
-        // Delete the account by ID
+        // Validate that email and username are unique (if they are changed)
+        const existingAccount = await knex('accounts')
+            .select('account_id')
+            .where((qb) => {
+                qb.where('account_email', account_email)
+                  .orWhere('account_username', account_username);
+            })
+            .andWhere('account_id', '!=', id);
+
+        if (existingAccount.length > 0) {
+            return res.status(400).send('Email or username already exists for another account.');
+        }
+
+        // Update the account in the database
         await knex('accounts')
-            .where({ account_id })
+            .where('account_id', id)
+            .update({
+                account_first_name,
+                account_last_name,
+                account_username,
+                account_email: account_email.toLowerCase(),
+                role_id: parseInt(role_id), // Ensure role_id is an integer
+            });
+
+        res.status(200).send("Admin updated successfully");
+    } catch (error) {
+        console.error("Error updating admin:", error);
+        res.status(500).send("Error updating admin");
+    }
+});
+
+// Delete Admin - Dynamic
+app.delete('/admins/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await knex('accounts')
+            .where({ account_id: id })
             .del();
 
-        console.log(`Account with ID ${account_id} deleted successfully.`);
-        res.redirect('/admin'); // Redirect back to admin page
+        console.log(`Account with ID ${id} deleted successfully.`);
+        res.status(200).send("Admin deleted successfully");
     } catch (error) {
-        console.error('Error deleting account:', error);
-        res.status(500).send('An error occurred while deleting the account.');
+        console.error('Error deleting admin:', error);
+        res.status(500).send("Error deleting admin");
     }
 });
+
 
 // Fetch Volunteers with Pagination and Search
 app.get('/volunteers', async (req, res) => {
@@ -437,6 +541,36 @@ app.delete('/volunteers/:id', async (req, res) => {
         res.status(500).send("Error deleting volunteer");
     }
 });
+
+
+app.post('/volunteers/:id', async (req, res) => {
+    const { id } = req.params;
+    const {
+        volunteer_first_name,
+        volunteer_last_name,
+        volunteer_email,
+        volunteer_phone_num,
+        volunteer_preferred_communication,
+    } = req.body;
+
+    try {
+        await knex("volunteers")
+            .where({ volunteer_id: id })
+            .update({
+                volunteer_first_name,
+                volunteer_last_name,
+                volunteer_email,
+                volunteer_phone_num,
+                volunteer_preferred_communication,
+            });
+
+        res.status(200).send("Volunteer updated successfully");
+    } catch (error) {
+        console.error("Error updating volunteer:", error);
+        res.status(500).send("Error updating volunteer");
+    }
+});
+
 
 
 // THIS IS FOR STRIPE TESTING:
