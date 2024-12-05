@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Creation</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInput = document.getElementById('password');
+            const passwordRequirements = document.getElementById('passwordRequirements');
+
+            passwordInput.addEventListener('input', () => {
+                const value = passwordInput.value;
+                const hasUppercase = /[A-Z]/.test(value);
+                const hasLowercase = /[a-z]/.test(value);
+                const hasNumber = /\d/.test(value);
+                const isLongEnough = value.length >= 12;
+
+                passwordRequirements.innerHTML = `
+                    <p style="color: ${isLongEnough ? 'green' : 'red'}">At least 12 characters</p>
+                    <p style="color: ${hasUppercase ? 'green' : 'red'}">At least one uppercase letter</p>
+                    <p style="color: ${hasLowercase ? 'green' : 'red'}">At least one lowercase letter</p>
+                    <p style="color: ${hasNumber ? 'green' : 'red'}">At least one number</p>
+                `;
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about" class="nav-link">About Us</a>
+        <a href="/involved" class="nav-link">Get Involved</a>
+        <a href="/impact" class="nav-link">Our Impact</a>
+    </header>
+
+    <div class="account-creation-page">
+        <div class="container">
+            <h1 class="page-title">Create an Account</h1>
+            <p class="page-description">Fill out the form to create your account.</p>
+
+            <form action="/create-account" method="POST" class="form">
+                <!-- First Name -->
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="account_first_name" required>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="account_last_name" required>
+                </div>
+
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="account_username" required>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="account_email" required>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="account_password" required>
+                    <div id="passwordRequirements" class="password-requirements">
+                        <p style="color: red">At least 12 characters</p>
+                        <p style="color: red">At least one uppercase letter</p>
+                        <p style="color: red">At least one lowercase letter</p>
+                        <p style="color: red">At least one number</p>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

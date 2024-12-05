@@ -26,6 +26,7 @@ app.use('/js', express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: true }));
+
 app.use(express.json());
 
 
@@ -35,6 +36,7 @@ app.get("/login", (req, res) => res.render("login"));
 
 // New routes for additional pages
 app.get("/about", (req, res) => res.render("about"));
+app.get("/createaccount", (req, res) => res.render("createaccount"));
 app.get("/distribution", (req, res) => res.render("distribution"));
 app.get("/donationform", (req, res) => res.render("donationform"));
 app.get("/eventrequest", (req, res) => res.render("eventrequest"));
@@ -243,6 +245,87 @@ app.post('/submit-vest-distribution', async (req, res) => {
         res.status(500).send('Error saving vest distribution data.');
     }
 });
+
+const bcrypt = require('bcrypt');
+
+
+app.post('/create-account', async (req, res) => {
+    const {
+        account_first_name,
+        account_last_name,
+        account_username,
+        account_email,
+        account_password,
+    } = req.body;
+
+    try {
+        // Validate password
+        const passwordRequirements = {
+            length: account_password.length >= 12,
+            uppercase: /[A-Z]/.test(account_password),
+            lowercase: /[a-z]/.test(account_password),
+            number: /\d/.test(account_password),
+        };
+
+        if (!Object.values(passwordRequirements).every(Boolean)) {
+            return res.status(400).send('Password does not meet the required criteria.');
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(account_password, 10);
+
+        // Insert into the database
+        await knex.transaction(async (trx) => {
+            // Handle `account_email` conflict
+            const emailConflictQuery = trx('accounts')
+                .insert({
+                    account_first_name,
+                    account_last_name,
+                    account_username,
+                    account_email: account_email.toLowerCase(),
+                    account_password: hashedPassword,
+                    role_id: 1,
+                })
+                .onConflict('account_email') // Handle conflict on email
+                .merge({
+                    account_first_name,
+                    account_last_name,
+                    account_password: hashedPassword,
+                });
+
+            // Handle `account_username` conflict
+            const usernameConflictQuery = trx('accounts')
+                .insert({
+                    account_first_name,
+                    account_last_name,
+                    account_username,
+                    account_email: account_email.toLowerCase(),
+                    account_password: hashedPassword,
+                    role_id: 1,
+                })
+                .onConflict('account_username') // Handle conflict on username
+                .merge({
+                    account_first_name,
+                    account_last_name,
+                    account_password: hashedPassword,
+                });
+
+            // Execute both queries
+            await Promise.all([emailConflictQuery, usernameConflictQuery]);
+        });
+
+        res.status(200).send('Account created successfully!');
+    } catch (error) {
+        console.error('Error creating account:', error);
+        if (error.code === '23505') { // Unique constraint violation
+            const conflictField = error.detail.includes('account_email') ? 'Email' : 'Username';
+            res.status(400).send(`${conflictField} is already in use. Please choose a different one.`);
+        } else {
+            res.status(500).send('Error creating account.');
+        }
+    }
+});
+
 
 
 
