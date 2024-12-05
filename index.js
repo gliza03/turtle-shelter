@@ -40,7 +40,6 @@ app.get("/createaccount", (req, res) => res.render("createaccount"));
 app.get("/distribution", (req, res) => res.render("distribution"));
 app.get("/donationform", (req, res) => res.render("donationform"));
 app.get("/eventrequest", (req, res) => res.render("eventrequest"));
-app.get("/admin", (req, res) => res.render("admin"));
 app.get("/volunteer", (req, res) => res.render("volunteer"));
 app.get("/donation", (req, res) => res.render("donation"));
 app.get("/impact", (req, res) => res.render("impact"));
@@ -324,8 +323,120 @@ app.post('/create-account', async (req, res) => {
     }
 });
 
+app.get('/admin', async (req, res) => {
+    try {
+        // Fetch accounts data
+        const accounts = await knex('accounts').select('*');
+        
+        // Fetch initial set of volunteers (e.g., first 30 for pagination)
+        const volunteers = await knex('volunteers').select('*').limit(30);
+
+        // Render the admin view with both accounts and volunteers
+        res.render('admin', { accounts, volunteers });
+    } catch (error) {
+        console.error('Error fetching admin data:', error);
+        res.status(500).send('An error occurred while loading the admin page.');
+    }
+});
 
 
+
+
+app.post('/editAccount', async (req, res) => {
+    const {
+      account_id,
+      account_first_name,
+      account_last_name,
+      account_username,
+      account_email,
+      role_id
+    } = req.body;
+  
+    try {
+      // Validate that email and username are unique (if they are changed)
+      const existingAccount = await knex('accounts')
+        .select('account_id')
+        .where((qb) => {
+          qb.where('account_email', account_email)
+            .orWhere('account_username', account_username);
+        })
+        .andWhere('account_id', '!=', account_id);
+  
+      if (existingAccount.length > 0) {
+        return res.status(400).send('Email or username already exists for another account.');
+      }
+  
+      // Update the account in the database
+      await knex('accounts')
+        .where('account_id', account_id)
+        .update({
+          account_first_name,
+          account_last_name,
+          account_username,
+          account_email: account_email.toLowerCase(),
+          role_id: parseInt(role_id), // Ensure role_id is an integer
+        });
+  
+      res.redirect('/admin'); // Redirect back to the admin portal or appropriate page
+    } catch (error) {
+      console.error('Error updating account:', error);
+      res.status(500).send('An error occurred while updating the account.');
+    }
+  });
+  
+
+
+  app.post('/deleteAccount', async (req, res) => {
+    const { account_id } = req.body;
+
+    try {
+        // Delete the account by ID
+        await knex('accounts')
+            .where({ account_id })
+            .del();
+
+        console.log(`Account with ID ${account_id} deleted successfully.`);
+        res.redirect('/admin'); // Redirect back to admin page
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        res.status(500).send('An error occurred while deleting the account.');
+    }
+});
+
+// Fetch Volunteers with Pagination and Search
+app.get('/volunteers', async (req, res) => {
+    const { page = 1, search = "" } = req.query;
+    const limit = 30; // Number of volunteers per page
+    const offset = (page - 1) * limit;
+
+    try {
+        const query = knex("volunteers")
+            .select("*")
+            .where("volunteer_first_name", "ilike", `%${search}%`)
+            .orWhere("volunteer_last_name", "ilike", `%${search}%`)
+            .limit(limit)
+            .offset(offset);
+
+        const volunteers = await query;
+        res.json({ volunteers });
+    } catch (error) {
+        console.error("Error fetching volunteers:", error);
+        res.status(500).send("Error fetching volunteers");
+    }
+});
+
+// Delete Volunteer
+app.delete('/volunteers/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await knex("volunteers").where({ volunteer_id: id }).del();
+        res.status(200).send("Volunteer deleted successfully");
+    } catch (error) {
+        console.error("Error deleting volunteer:", error);
+        res.status(500).send("Error deleting volunteer");
+    }
+});
 
 
 // THIS IS FOR STRIPE TESTING:
