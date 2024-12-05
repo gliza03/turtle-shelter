@@ -160,6 +160,12 @@ h2 {
   line-height: 1.8;
 }
 
+.hero-buttons {
+    display: flex;
+    z-index: 1;  /* Add this to ensure buttons are clickable */
+    position: relative;  /* Add this to ensure z-index works */
+}
+
 /* Features Section */
 .features {
   padding: 8rem 0;
@@ -482,19 +488,6 @@ h2 {
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.1);
     outline: none;
-}
-
-.iframe-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Full viewport height */
-  background-color: #f9f9f9; /* Optional: background color */
-}
-
-iframe {
-  border: 1px solid #ddd; /* Optional: border styling */
-  border-radius: 5px;     /* Optional: rounded corners */
 }
 
 .login-form .button {
@@ -1552,3 +1545,32 @@ iframe {
   background-color: var(--primary-dark);
 }
 
+.to-help {
+  margin: 0;
+  padding: 5rem 0;
+  background-color: #001b65;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.to-help h2 {
+  margin-bottom: 1.5rem; /* Reduced space between title and iframe */
+  color: white;
+}
+
+.to-help iframe {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  max-width: 100%; /* Makes it responsive */
+  margin: 0 auto; /* Centers the iframe */
+}
+
+/* Add responsiveness for smaller screens */
+@media (max-width: 850px) {
+  .to-help iframe {
+      width: 90%;
+      height: 500px;
+  }
+}
