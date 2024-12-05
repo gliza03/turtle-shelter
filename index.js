@@ -20,6 +20,13 @@ const knex = require("knex")({
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https' && process.env.NODE_ENV === 'production') {
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+    next();
+});
+
 // Update your existing static middleware if needed
 app.use(express.static('public'));
 app.use('/js', express.static(path.join(__dirname, 'public')));
@@ -29,11 +36,28 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
+// Session configuration
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
 
+// Authenticated route middleware - add this
+const isAuthenticated = (req, res, next) => {
+    if (req.session && req.session.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+};
 
 // Original routes
 app.get("/", (req, res) => res.render("index"));
-app.get("/login", (req, res) => res.render("login"));
 
 // New routes for additional pages
 app.get("/about", (req, res) => res.render("about"));
@@ -48,7 +72,7 @@ app.get("/involved", (req, res) => res.render("involved"));
 app.get("/jen", (req, res) => res.render("jen"));
 
 
-app.post('/submit-volunteer', async (req, res) => {
+app.post('/submit-volunteer', isAuthenticated, async (req, res) => { /* your existing volunteer submission logic */
     const {
         volunteer_first_name,
         volunteer_last_name,
@@ -181,7 +205,7 @@ app.post('/submit-donation', async (req, res) => {
 });
 
 
-app.post('/submit-vest-distribution', async (req, res) => {
+app.post('/submit-vest-distribution', isAuthenticated, async (req, res) => { /* your existing distribution logic */
     const {
         distribution_neighborhood,
         distribution_city,
@@ -324,153 +348,13 @@ app.post('/create-account', async (req, res) => {
     }
 });
 
-
-        // Render the admin view with both accounts and volunteers
-        res.render('admin', { accounts, volunteers });
-    } catch (error) {
-        console.error('Error fetching admin data:', error);
-        res.status(500).send('An error occurred while loading the admin page.');
-    }
-});
-
-
-
-
-app.post('/editAccount', async (req, res) => {
-    const {
-      account_id,
-      account_first_name,
-      account_last_name,
-      account_username,
-      account_email,
-      role_id
-    } = req.body;
-  
+app.get('/admin', async (req, res) => {
     try {
-      // Validate that email and username are unique (if they are changed)
-      const existingAccount = await knex('accounts')
-        .select('account_id')
-        .where((qb) => {
-          qb.where('account_email', account_email)
-            .orWhere('account_username', account_username);
-        })
-        .andWhere('account_id', '!=', account_id);
-  
-      if (existingAccount.length > 0) {
-        return res.status(400).send('Email or username already exists for another account.');
-      }
-  
-      // Update the account in the database
-      await knex('accounts')
-        .where('account_id', account_id)
-        .update({
-          account_first_name,
-          account_last_name,
-          account_username,
-          account_email: account_email.toLowerCase(),
-          role_id: parseInt(role_id), // Ensure role_id is an integer
-        });
-  
-      res.redirect('/admin'); // Redirect back to the admin portal or appropriate page
-    } catch (error) {
-      console.error('Error updating account:', error);
-      res.status(500).send('An error occurred while updating the account.');
-    }
-  });
-  
-
-
-  app.post('/deleteAccount', async (req, res) => {
-    const { account_id } = req.body;
-
-    try {
-        // Delete the account by ID
-        await knex('accounts')
-            .where({ account_id })
-            .del();
-
-        console.log(`Account with ID ${account_id} deleted successfully.`);
-        res.redirect('/admin'); // Redirect back to admin page
-    } catch (error) {
-        console.error('Error deleting account:', error);
-        res.status(500).send('An error occurred while deleting the account.');
-    }
-});
-
-// Fetch Volunteers with Pagination and Search
-app.get('/volunteers', async (req, res) => {
-    const { page = 1, search = "" } = req.query;
-    const limit = 30; // Number of volunteers per page
-    const offset = (page - 1) * limit;
-
-    try {
-        const query = knex("volunteers")
-            .select("*")
-            .where("volunteer_first_name", "ilike", `%${search}%`)
-            .orWhere("volunteer_last_name", "ilike", `%${search}%`)
-            .limit(limit)
-            .offset(offset);
-
-        const volunteers = await query;
-        res.json({ volunteers });
-    } catch (error) {
-        console.error("Error fetching volunteers:", error);
-        res.status(500).send("Error fetching volunteers");
-    }
-});
-
-// Delete Volunteer
-app.delete('/volunteers/:id', async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        await knex("volunteers").where({ volunteer_id: id }).del();
-        res.status(200).send("Volunteer deleted successfully");
-    } catch (error) {
-        console.error("Error deleting volunteer:", error);
-        res.status(500).send("Error deleting volunteer");
-    }
-});
-
-
-// THIS IS FOR STRIPE TESTING:
-//
-//
-//
-const bodyParser = require('body-parser');
-const stripe = require('stripe')('sk_test_your_secret_key'); // Replace with your secret key
-
-
-// Middleware
-app.use(bodyParser.json());
-
-// Your existing routes
-app.get('/', (req, res) => {
-    res.send('Welcome to Turtle Shelter Project Backend!');
-});
-
-// Add Stripe Payment Intent Route
-app.post('/create-payment-intent', async (req, res) => {
-    const { amount, currency } = req.body;
-
-    try {
-        // Create a PaymentIntent with the specified amount and currency
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount, // Amount in smallest currency unit (e.g., cents for USD)
-            currency,
-        });
-
-        // Send the client secret to the frontend
-        res.json({ clientSecret: paymentIntent.client_secret });
-    } catch (error) {
-        console.error('Error creating payment intent:', error);
-        res.status(500).json({ error: 'Failed to create payment intent' });
-    }
-});
-//
-//
-//
-// END STRIPE TEST CODE
+        // Fetch accounts data
+        const accounts = await knex('accounts').select('*');
+        
+        // Fetch initial set of volunteers (e.g., first 30 for pagination)
+        const volunteers = await knex('volunteers').select('*').limit(30);
 
 app.get('/test-db', async (req, res) => {
     try {
@@ -485,38 +369,77 @@ app.get('/test-db', async (req, res) => {
 });
 
 
-// Add session middleware configuration
-app.use(session({
-    secret: 'your-secret-key', // Change this to a secure secret
-    resave: false,
-    saveUninitialized: false,
-    cookie: { 
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
-}));
-
-// Middleware to check if user is authenticated
-const isAuthenticated = (req, res, next) => {
+// Activity tracking middleware
+const activityTracker = (req, res, next) => {
     if (req.session.user) {
-        next();
-    } else {
-        res.redirect('/login');
+        const now = Date.now();
+        const inactiveTime = now - (req.session.lastActivity || now);
+        
+        if (inactiveTime > 5 * 60 * 1000) {
+            req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
+            console.log('Session extended for user:', req.session.user.username);
+        }
+        
+        req.session.lastActivity = now;
     }
+    next();
 };
 
-// Apply middleware to protected routes
-app.get('/admin', isAuthenticated, (req, res) => {
+
+// Update role checking middleware
+const checkRole = (allowedRoles) => {
+    return (req, res, next) => {
+        // First check if user is authenticated
+        if (!req.session || !req.session.user) {
+            return res.redirect('/login');
+        }
+
+        const userRole = req.session.user.role;
+        
+        // Check if user's role is allowed
+        if (allowedRoles.includes(userRole)) {
+            next();
+        } else {
+            // Redirect based on user's role
+            switch (userRole) {
+                case 1:
+                    res.redirect('/regular');
+                    break;
+                case 2:
+                    res.redirect('/admin');
+                    break;
+                case 3:
+                    res.redirect('/super-admin');
+                    break;
+                default:
+                    res.redirect('/regular');
+            }
+        }
+    };
+};
+
+app.use(activityTracker);
+
+// Update your dashboard routes to use both middlewares
+app.get('/regular', isAuthenticated, checkRole([1, 2, 3]), (req, res) => {
+    res.render('regular', { user: req.session.user });
+});
+
+app.get('/admin', isAuthenticated, checkRole([2, 3]), (req, res) => {
     res.render('admin', { user: req.session.user });
 });
-// Login route handler
+
+app.get('/super-admin', isAuthenticated, checkRole([3]), (req, res) => {
+    res.render('admin-super', { user: req.session.user });
+});
+
 app.post('/admin/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
         // Find user in database
         const user = await knex('accounts')
-            .select('account_username', 'account_password', 'role_id')
+            .select('account_username', 'account_password', 'role_id', 'account_id')
             .where({ account_username: username })
             .first();
 
@@ -549,6 +472,19 @@ app.post('/admin/login', async (req, res) => {
             });
         }
 
+        // After successful verification, add redirect logic
+        let redirectUrl;
+        switch (user.role_id) {
+            case 3:
+                redirectUrl = '/super-admin';
+                break;
+            case 2:
+                redirectUrl = '/admin';
+                break;
+            default:
+                redirectUrl = '/regular';
+        }
+
         // Set user session
         req.session.user = {
             id: user.account_id,
@@ -558,7 +494,7 @@ app.post('/admin/login', async (req, res) => {
 
         res.json({ 
             success: true,
-            role: user.role_id
+            redirect: redirectUrl
         });
 
     } catch (error) {
@@ -567,6 +503,65 @@ app.post('/admin/login', async (req, res) => {
             success: false, 
             error: 'server_error' 
         });
+    }
+});
+
+// Remove the existing sessionTimeoutChecker and replace with this:
+const sessionTimeoutChecker = setInterval(() => {
+    // Note: We can't access req here directly
+    // Instead, you might want to implement this check differently
+    // Perhaps through a database cleanup of expired sessions
+    console.log('Checking for expired sessions...');
+}, 5 * 60 * 1000);
+
+// Cleanup handler
+process.on('SIGTERM', () => {
+    clearInterval(sessionTimeoutChecker);
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Logout error:', err);
+        }
+        res.redirect('/login');
+    });
+});
+
+app.get('/login', (req, res) => {
+    // If user is already logged in, redirect to appropriate dashboard
+    if (req.session && req.session.user) {
+        switch (req.session.user.role) {
+            case 3:
+                res.redirect('/super-admin');
+                break;
+            case 2:
+                res.redirect('/admin');
+                break;
+            default:
+                res.redirect('/regular');
+        }
+    } else {
+        res.render('login');
+    }
+});
+
+// Add this as the last route
+app.get('*', (req, res) => {
+    if (!req.session || !req.session.user) {
+        res.redirect('/login');
+    } else {
+        // Redirect to appropriate dashboard based on role
+        switch (req.session.user.role) {
+            case 3:
+                res.redirect('/super-admin');
+                break;
+            case 2:
+                res.redirect('/admin');
+                break;
+            default:
+                res.redirect('/regular');
+        }
     }
 });
 
