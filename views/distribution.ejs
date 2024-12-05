@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vest Distribution Information</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        // Add JavaScript for dynamic recipient management
+        document.addEventListener('DOMContentLoaded', () => {
+            let recipientCounter = 0;
+            const recipientContainer = document.getElementById('recipientContainer');
+            const addRecipientButton = document.getElementById('addRecipientButton');
+
+            addRecipientButton.addEventListener('click', () => {
+                recipientCounter++;
+                const recipientDiv = document.createElement('div');
+                recipientDiv.classList.add('recipient');
+                recipientDiv.innerHTML = `
+                    <div class="form-group">
+                        <label for="recipientFirstName${recipientCounter}">Recipient First Name</label>
+                        <input type="text" id="recipientFirstName${recipientCounter}" name="recipient_first_name[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipientLastName${recipientCounter}">Recipient Last Name</label>
+                        <input type="text" id="recipientLastName${recipientCounter}" name="recipient_last_name[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipientSize${recipientCounter}">Recipient Size</label>
+                        <select id="recipientSize${recipientCounter}" name="recipient_size[]" required>
+                            <option value="XS">XS</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                            <option value="XXXL">XXXL</option>
+                            <option value="XXXXL">XXXXL</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-remove" onclick="this.parentNode.remove()">Remove Recipient</button>
+                `;
+                recipientContainer.appendChild(recipientDiv);
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about" class="nav-link">About Us</a>
+        <a href="/involved" class="nav-link">Get Involved</a>
+        <a href="/impact" class="nav-link">Our Impact</a>
+    </header>
+
+    <div class="vest-distribution-page">
+        <div class="container">
+            <h1 class="page-title">Vest Distribution Information</h1>
+            <p class="page-description">Provide details about the distribution and recipients.</p>
+
+            <form action="/submit-vest-distribution" method="POST" class="form">
+                <!-- Distribution Location -->
+                <h2>Vest Distribution Location</h2>
+                <div class="form-group">
+                    <label for="distributionNeighborhood">Neighborhood</label>
+                    <input type="text" id="distributionNeighborhood" name="distribution_neighborhood" required>
+                </div>
+                <div class="form-group">
+                    <label for="distributionCity">City</label>
+                    <input type="text" id="distributionCity" name="distribution_city" required>
+                </div>
+                <div class="form-group">
+                    <label for="distributionState">State</label>
+                    <select id="distributionState" name="distribution_state" required>
+                        <!-- Add all states -->
+                        <option value="AL">AL</option>
+                        <option value="AK">AK</option>
+                        <option value="AZ">AZ</option>
+                        <option value="AR">AR</option>
+                        <option value="CA">CA</option>
+                        <option value="CO">CO</option>
+                        <option value="CT">CT</option>
+                        <option value="DE">DE</option>
+                        <option value="FL">FL</option>
+                        <option value="GA">GA</option>
+                        <option value="HI">HI</option>
+                        <option value="ID">ID</option>
+                        <option value="IL">IL</option>
+                        <option value="IN">IN</option>
+                        <option value="IA">IA</option>
+                        <option value="KS">KS</option>
+                        <option value="KY">KY</option>
+                        <option value="LA">LA</option>
+                        <option value="ME">ME</option>
+                        <option value="MD">MD</option>
+                        <option value="MA">MA</option>
+                        <option value="MI">MI</option>
+                        <option value="MN">MN</option>
+                        <option value="MS">MS</option>
+                        <option value="MO">MO</option>
+                        <option value="MT">MT</option>
+                        <option value="NE">NE</option>
+                        <option value="NV">NV</option>
+                        <option value="NH">NH</option>
+                        <option value="NJ">NJ</option>
+                        <option value="NM">NM</option>
+                        <option value="NY">NY</option>
+                        <option value="NC">NC</option>
+                        <option value="ND">ND</option>
+                        <option value="OH">OH</option>
+                        <option value="OK">OK</option>
+                        <option value="OR">OR</option>
+                        <option value="PA">PA</option>
+                        <option value="RI">RI</option>
+                        <option value="SC">SC</option>
+                        <option value="SD">SD</option>
+                        <option value="TN">TN</option>
+                        <option value="TX">TX</option>
+                        <option value="UT">UT</option>
+                        <option value="VT">VT</option>
+                        <option value="VA">VA</option>
+                        <option value="WA">WA</option>
+                        <option value="WV">WV</option>
+                        <option value="WI">WI</option>
+                        <option value="WY">WY</option>
+                    </select>
+                </div>
+
+                <!-- Distribution Date -->
+                <div class="form-group">
+                    <label for="distributionDate">Distribution Date</label>
+                    <input type="date" id="distributionDate" name="distribution_date" required>
+                </div>
+
+                <!-- Vests Information -->
+                <div class="form-group">
+                    <label for="vestsBrought">How many vests were brought to distribute?</label>
+                    <input type="number" id="vestsBrought" name="vests_brought" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="vestsLeft">How many vests were left over?</label>
+                    <input type="number" id="vestsLeft" name="vests_left" min="0" required>
+                </div>
+
+                <!-- Recipients Section -->
+                <h2>Recipients</h2>
+                <div id="recipientContainer"></div>
+                <button type="button" id="addRecipientButton" class="btn">Add Recipient</button>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Submit Distribution</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

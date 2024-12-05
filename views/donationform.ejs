@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Form</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about" class="nav-link">About Us</a>
+        <a href="/involved" class="nav-link">Get Involved</a>
+        <a href="/impact" class="nav-link">Our Impact</a>
+    </header>
+
+    <!-- Donation Form Section -->
+    <div class="donation-page">
+        <div class="container">
+            <h1 class="page-title">Donate to Support Us</h1>
+            <p class="page-description">Your contribution helps us create meaningful change. Please fill out the form below to proceed.</p>
+
+            <form action="/submit-donation" method="POST" class="form">
+                <!-- First Name -->
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="donor_first_name" required>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="donor_last_name" required>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="donor_email" required>
+                </div>
+
+                                <!-- Phone Number -->
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="text" id="phoneNumber" name="donor_phone_num" required>
+                </div>
+
+                <!-- Donation Amount -->
+                <div class="form-group">
+                    <label for="donationAmount">Donation Amount</label>
+                    <input type="number" id="donationAmount" name="desired_donation_amount" step="0.01" min="0" required>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn">Donate</button>
+            </form>
+
+            <p class="donation-notice">
+                We will email you a link within the next 2-3 business days with more information to complete your donation.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

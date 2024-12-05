@@ -33,6 +33,8 @@ app.get("/login", (req, res) => res.render("login"));
 
 // New routes for additional pages
 app.get("/about", (req, res) => res.render("about"));
+app.get("/distribution", (req, res) => res.render("distribution"));
+app.get("/donationform", (req, res) => res.render("donationform"));
 app.get("/eventrequest", (req, res) => res.render("eventrequest"));
 app.get("/admin", (req, res) => res.render("admin"));
 app.get("/volunteer", (req, res) => res.render("volunteer"));
@@ -116,6 +118,129 @@ function calculateHours(start, end) {
     const difference = Math.floor((endTime - startTime) / (1000 * 60 * 60)); // Convert ms to hours
     return difference > 0 ? difference : null; // Ensure non-negative
 }
+
+
+app.post('/submit-donation', async (req, res) => {
+    const {
+        donor_first_name,
+        donor_last_name,
+        donor_email,
+        donor_phone_num, // Optional field
+        desired_donation_amount,
+    } = req.body;
+
+    try {
+        // Check if donor already exists or insert a new donor
+        const [donor] = await knex('donors')
+            .select('donor_id')
+            .where({ donor_email: donor_email.toLowerCase() });
+
+        let donor_id;
+
+        if (donor) {
+            // Donor already exists, retrieve donor_id
+            donor_id = donor.donor_id;
+        } else {
+            // Donor does not exist, insert into 'donors' table
+            const [newDonor] = await knex('donors')
+                .insert({
+                    donor_first_name,
+                    donor_last_name,
+                    donor_email: donor_email.toLowerCase(),
+                    donor_phone_num: donor_phone_num || null, // Provide null if not supplied
+                })
+                .returning('donor_id');
+
+            donor_id = newDonor.donor_id || newDonor; // Handle scalar or object response
+        }
+
+        // Get the current max donation_num for this donor
+        const [currentMaxDonation] = await knex('donation_info')
+            .select(knex.raw('COALESCE(MAX(donation_num), 0) as max_donation_num'))
+            .where({ donor_id });
+
+        const donation_num = currentMaxDonation.max_donation_num + 1;
+
+        // Insert into 'donation_info' table
+        await knex('donation_info').insert({
+            donor_id,
+            desired_donation_amount: parseFloat(desired_donation_amount),
+            donation_num,
+            donation_date: knex.fn.now(), // Set the current date and time
+        });
+
+        res.redirect('/thank-you'); // Redirect to thank-you page
+    } catch (error) {
+        console.error('Error saving donation data:', error);
+        res.status(500).send('An error occurred while processing your donation. Please try again later.');
+    }
+});
+
+
+app.post('/submit-vest-distribution', async (req, res) => {
+    const {
+        distribution_neighborhood,
+        distribution_city,
+        distribution_state,
+        distribution_date,
+        vests_brought,
+        vests_left,
+        recipients // Array of recipients { recipient_first_name, recipient_last_name, recipient_size }
+    } = req.body;
+
+    try {
+        const trx = await knex.transaction();
+
+        let locationId;
+
+        // Insert or fetch the location_id for the distribution location
+        const result = await trx.raw(
+            `
+            INSERT INTO distribution_location (distribution_neighborhood, distribution_city, distribution_state)
+            VALUES (?, ?, ?)
+            ON CONFLICT (distribution_neighborhood, distribution_city, distribution_state)
+            DO UPDATE SET 
+                distribution_neighborhood = EXCLUDED.distribution_neighborhood,
+                distribution_city = EXCLUDED.distribution_city,
+                distribution_state = EXCLUDED.distribution_state
+            RETURNING location_id
+            `,
+            [distribution_neighborhood, distribution_city, distribution_state]
+        );
+
+        locationId = result.rows[0].location_id;
+
+        // Insert vest inventory data
+        const [inventoryId] = await trx('vest_inventory')
+            .insert({
+                distribution_date,
+                vests_brought,
+                vests_left,
+                location_id: locationId,
+            })
+            .returning('inventory_id');
+
+        // Insert recipients
+        if (recipients && recipients.length > 0) {
+            const recipientData = recipients.map((recipient) => ({
+                recipient_first_name: recipient.recipient_first_name,
+                recipient_last_name: recipient.recipient_last_name,
+                recipient_size: recipient.recipient_size,
+                inventory_id: inventoryId, // Associate with the vest inventory
+            }));
+
+            await trx('recipients').insert(recipientData);
+        }
+
+        // Commit transaction
+        await trx.commit();
+
+        res.status(200).send('Vest distribution data saved successfully!');
+    } catch (error) {
+        console.error('Error saving vest distribution data:', error);
+        res.status(500).send('Error saving vest distribution data.');
+    }
+});
 
 
 
