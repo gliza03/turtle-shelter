@@ -46,6 +46,8 @@ app.get("/donation", (req, res) => res.render("donation"));
 app.get("/impact", (req, res) => res.render("impact"));
 app.get("/involved", (req, res) => res.render("involved"));
 app.get("/jen", (req, res) => res.render("jen"));
+app.get("/admin-super", (req, res) => res.render("admin-super"));
+app.get("/regular", (req, res) => res.render("regular"));
 
 
 app.post('/submit-volunteer', async (req, res) => {
