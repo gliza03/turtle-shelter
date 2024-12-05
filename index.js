@@ -246,8 +246,6 @@ app.post('/submit-vest-distribution', async (req, res) => {
     }
 });
 
-const bcrypt = require('bcrypt');
-
 
 app.post('/create-account', async (req, res) => {
     const {
