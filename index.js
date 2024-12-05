@@ -20,6 +20,13 @@ const knex = require("knex")({
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https' && process.env.NODE_ENV === 'production') {
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+    next();
+});
+
 // Update your existing static middleware if needed
 app.use(express.static('public'));
 app.use('/js', express.static(path.join(__dirname, 'public')));
@@ -28,6 +35,7 @@ app.use('/css', express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
+
 
 
 // Original routes
