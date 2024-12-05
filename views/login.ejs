@@ -7,13 +7,81 @@
     <meta name="description" content="Admin login portal for Turtle Shelter Project management.">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .input-group {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 5px;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Fixed button styles */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Ensure the login form has proper z-index */
+        .login-form {
+            position: relative;
+            z-index: 0;
+        }
+
+        /* Adjust login card styles */
+        .login-card {
+            position: relative;
+            z-index: 1;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="container header-container">
             <a href="/" class="logo">
-                <img src="images/turtle-logo.png" alt="">
                 <span>Turtle Shelter Project</span>
             </a>
             <nav class="nav">
@@ -28,22 +96,27 @@
             <div class="login-card">
                 <h1 style="color:#2c4faf">Admin Portal</h1>
 
-                <form action="/admin/login" method="POST" class="login-form">
+                <form id="loginForm" action="/admin/login" method="POST" class="login-form">
                     <div class="form-group">
                         <label for="username" class="label-form">Username</label>
                         <div class="input-group">
-                            <input type="text" id="username" name="username" required>
+                            <input type="text" id="username" name="username" required minlength="3">
                         </div>
+                        <div id="usernameError" class="error-message">Account does not exist</div>
                     </div>
 
                     <div class="form-group">
                         <label for="password" class="label-form">Password</label>
                         <div class="input-group">
                             <input type="password" id="password" name="password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                                <i class="far fa-eye"></i>
+                            </button>
                         </div>
+                        <div id="passwordError" class="error-message">Incorrect password</div>
                     </div>
 
-                    <button type="submit" class="button button-primary">Sign In</button>
+                    <input type="submit" value="Sign In" class="submit-btn">
                 </form>
 
                 <div class="login-footer">
@@ -52,11 +125,65 @@
             </div>
         </div>
     </section>
+    
     <div class="copyright">
-        <!-- <div class="container"> -->
-            <p>&copy; 2024 Turtle Shelter Project. All rights reserved.</p>
-        <!-- </div> -->
+        <p>&copy; 2024 Turtle Shelter Project. All rights reserved.</p>
     </div>
+
+    <script>
+        // Password toggle function
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('.password-toggle i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Form submission handler
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            console.log('Form submitted');
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                
+                // Reset error messages
+                document.getElementById('usernameError').classList.remove('show');
+                document.getElementById('passwordError').classList.remove('show');
+
+                if (data.success) {
+                    window.location.href = '/admin';
+                } else {
+                    if (data.error === 'user_not_found') {
+                        document.getElementById('usernameError').classList.add('show');
+                    } else if (data.error === 'invalid_password') {
+                        document.getElementById('passwordError').classList.add('show');
+                    }
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+            }
+        });
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>

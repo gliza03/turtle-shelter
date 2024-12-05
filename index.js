@@ -1,6 +1,8 @@
 let express = require("express");
 let app = express();
 let path = require("path");
+const bcrypt = require('bcrypt');
+const session = require('express-session');
 const port = process.env.PORT || 5500;
 
 const knex = require("knex")({
@@ -296,5 +298,90 @@ app.get('/test-db', async (req, res) => {
     }
 });
 
+
+// Add session middleware configuration
+app.use(session({
+    secret: 'your-secret-key', // Change this to a secure secret
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
+
+// Middleware to check if user is authenticated
+const isAuthenticated = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
+// Apply middleware to protected routes
+app.get('/admin', isAuthenticated, (req, res) => {
+    res.render('admin', { user: req.session.user });
+});
+// Login route handler
+app.post('/admin/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        // Find user in database
+        const user = await knex('accounts')
+            .select('account_username', 'account_password', 'role_id')
+            .where({ account_username: username })
+            .first();
+
+        console.log('Found user:', user); // Debug log
+
+        if (!user) {
+            return res.status(401).json({ 
+                success: false, 
+                error: 'user_not_found' 
+            });
+        }
+
+        // Check if password exists in database
+        if (!user.account_password) {
+            console.error('No password hash found for user');
+            return res.status(500).json({ 
+                success: false, 
+                error: 'invalid_password' 
+            });
+        }
+
+        // Compare the plain text password with the stored hash
+        const validPassword = await bcrypt.compare(password, user.account_password);
+        console.log('Password valid:', validPassword); // Debug log
+            
+        if (!validPassword) {
+            return res.status(401).json({ 
+                success: false, 
+                error: 'invalid_password' 
+            });
+        }
+
+        // Set user session
+        req.session.user = {
+            id: user.account_id,
+            username: user.account_username,
+            role: user.role_id
+        };
+
+        res.json({ 
+            success: true,
+            role: user.role_id
+        });
+
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: 'server_error' 
+        });
+    }
+});
 
 app.listen(port, () => console.log("Express App has started and server is listening!"));
