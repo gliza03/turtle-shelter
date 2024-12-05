@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header class="header">
+    <header class="header" style="position: sticky; top: 0; z-index: 1000; background: white; box-shadow: 0em 0.125em 0.25em rgba(0, 0, 0, 0.1);">
         <div class="container header-container">
             <a href="/" class="logo">
                 <span>Turtle Shelter Project</span>
@@ -25,58 +25,91 @@
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero" style="padding: 5em 0; background-color: var(--surface);">
         <div class="container">
             <h1>Our Impact</h1>
-            <div style="background-color:#2c4faf; margin-top: 8px; width: 100px; height: 8px; margin-bottom: 10px;" class="divider-small-border"></div>
+            <div style="background-color:#2c4faf; margin-top: 0.5em; width: 6.25em; height: 0.5em; margin-bottom: 0.625em;" class="divider-small-border"></div>
             <p>Every vest makes a difference. See how our community is creating change.</p>
         </div>
     </section>
 
-    <section class="metrics">
+    <section class="metrics" style="padding: 5em 0; background-color: var(--surface);">
         <div class="container">
-            <h2>Impact by Numbers</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-vest"></i>
-                    </div>
-                    <h3>1,200+</h3>
-                    <p>Vests Distributed</p>
+            <h2 style="color: var(--primary);">Impact by Numbers</h2>
+            <div class="features-grid" style="display: flex; justify-content: space-between; gap: 1em;">
+                <!-- Spinning Number -->
+                <div class="feature-card" style="flex: 1; text-align: center; background-color: var(--primary);">
+                    <div id="spinning-number" style="font-size: 4rem; font-weight: bold; padding: 1em; color: rgb(255, 255, 255);">500</div>
+                    <p style="color: rgb(255, 255, 255);">Active Volunteers</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
+
+                <!-- Tableau Graph -->
+                <div class='feature-card' style='flex: 2; text-align: center;'>
+                    <div class='tableauPlaceholder' id='viz1733433975614' style='position: relative; max-width: 100%; height: 20em;'>
+                        <style>
+                            .tableauPlaceholder .tableauLegend {
+                                position: absolute;
+                                top: 10px;
+                                right: 10px;
+                                z-index: 100;
+                                background: rgba(255, 255, 255, 0.9);
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                padding: 10px;
+                                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                            }
+                        </style>
+                        <noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IN&#47;INTEX1_17334334657650&#47;VestsDistributedbyState&#47;1_rss.png' style='border: none' /></a></noscript>
+                        <object class='tableauViz' style='width: 100%; height: 100%;'>
+                            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                            <param name='embed_code_version' value='3' /> 
+                            <param name='site_root' value='' />
+                            <param name='name' value='INTEX1_17334334657650&#47;VestsDistributedbyState' />
+                            <param name='tabs' value='no' />
+                            <param name='toolbar' value='no' />
+                            <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IN&#47;INTEX1_17334334657650&#47;VestsDistributedbyState&#47;1.png' /> 
+                            <param name='animate_transition' value='yes' />
+                            <param name='display_static_image' value='yes' />
+                            <param name='display_spinner' value='yes' />
+                            <param name='display_overlay' value='yes' />
+                            <param name='display_count' value='yes' />
+                            <param name='language' value='en-US' />
+                        </object>
                     </div>
-                    <h3>500+</h3>
-                    <p>Active Volunteers</p>
+                    <script type='text/javascript'>
+                        var divElement = document.getElementById('viz1733433975614');
+                        var vizElement = divElement.getElementsByTagName('object')[0];
+                        vizElement.style.width='100%';
+                        vizElement.style.height=(divElement.offsetWidth*0.75)+'px';
+                        var scriptElement = document.createElement('script');
+                        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+                    </script>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3>5,000+</h3>
-                    <p>Volunteer Hours</p>
+
+                <!-- Hard-Coded Number -->
+                <div class="feature-card" style="flex: 1; text-align: center; background-color: var(--primary);">
+                    <div id="spinning-number" style="font-size: 4rem; font-weight: bold; padding: 1em; color: rgb(255, 255, 255);">12 000</div>
+                    <p style="color: rgb(255, 255, 255);">Vests Distributed</p>
                 </div>
-            </div>
         </div>
     </section>
 
-    <section class="features">
+    <section class="features" style="background-color: var(--primary); color: white; padding: 5em 0;">
         <div class="container">
-            <h2>Success Stories</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>Community Partners</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h2 style="color: rgb(255, 255, 255);">Success Stories</h2>
+            <div class="features-grid" style="display: flex; justify-content: space-between; gap: 1.25em;">
+                <div class="feature-card" style="background-color: white; color: black; padding: 1.25em; border-radius: 0.5em; text-align: center;">
+                    <h3>Samantha Davis</h3>
+                    <p>After years of struggling with addiction, Samantha finally found the strength to get clean and sober. One day, as she was walking through her neighborhood, she noticed a group of people huddled together, trying to stay warm on the cold street corner. Remembering her own experiences of homelessness, Samantha's heart ached for them. That night, she prayed for guidance, hoping to find a way to help those in need. Little did she know, her simple act of compassion would soon blossom into something much greater.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>Volunteer Stories</h3>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <div class="feature-card" style="background-color: white; color: black; padding: 1.25em; border-radius: 0.5em; text-align: center;">
+                    <h3>Emma Johnson</h3>
+                    <p>In a small town on the outskirts of the city, a young woman named Emma had just started a new job at a local nonprofit. As she settled into her role, she couldn't help but notice the growing number of people sleeping on park benches and under bridges. Moved by their plight, Emma began to research ways she could make a difference. It wasn't long before she discovered the innovative Turtle Shelter Project, which was creating unique vests to keep the homeless warm, no matter the weather. Determined to get involved, Emma reached out to the project's founders, eager to lend her sewing skills to the cause.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>recipient Testimonials</h3>
-                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <div class="feature-card" style="background-color: white; color: black; padding: 1.25em; border-radius: 0.5em; text-align: center;">
+                    <h3>Evelyn Samuels</h3>
+                    <p>For years, retired seamstress Evelyn had been searching for a way to use her talents to make a meaningful impact. When she heard about the Turtle Shelter Project, she knew she had found her calling. Gathering a group of fellow volunteers, Evelyn set to work, meticulously crafting each vest with care and attention to detail. As the project gained momentum, Evelyn marveled at the difference these simple garments were making in the lives of those struggling with homelessness. With every stitch, she poured her heart into creating a sense of warmth and dignity for those in need.</p>
                 </div>
             </div>
         </div>
@@ -89,26 +122,23 @@
                     <h4>Quick Links</h4>
                     <ul class="footer-links">
                         <li><a href="/about">About Us</a></li>
-                        <li><a href="/events">Events</a></li>
+                        <li><a href="/eventrequest">Event Request</a></li>
                         <li><a href="/volunteer">Volunteer</a></li>
-                        <li><a href="/contact">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Resources</h4>
                     <ul class="footer-links">
                         <li><a href="/faq">FAQ</a></li>
-                        <li><a href="/guidelines">Volunteer Guidelines</a></li>
                         <li><a href="/impact">Our Impact</a></li>
-                        <li><a href="/news">News</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Contact Us</h4>
                     <ul class="footer-links">
-                        <li><i class="fas fa-envelope"></i> info@turtleshelterproject.org</li>
-                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Northern Utah</li>
+                        <li><i class="fas fa-envelope"></i> turtleshelterproject@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> 801-872-3190</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Turtle Shelter Project, PO Box 382, Kaysville, UT 84037</li>
                     </ul>
                 </div>
             </div>
@@ -122,5 +152,21 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        // Spinning Number Animation
+        let numberElement = document.getElementById("spinning-number");
+        let currentNumber = 0;
+        const targetNumber = 1200;
+
+        const incrementNumber = () => {
+            if (currentNumber < targetNumber) {
+                currentNumber += Math.ceil(targetNumber / 100);
+                numberElement.textContent = currentNumber > targetNumber ? targetNumber : currentNumber;
+                requestAnimationFrame(incrementNumber);
+            }
+        };
+
+        incrementNumber();
+    </script>
 </body>
 </html>

@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-  --primary: #2c4faf;        /* Darker, more sophisticated blue */
-  --primary-dark: #172554;   /* Even darker blue for contrast */
+  --primary: #638b66;        /* Darker, more sophisticated blue */
+  --primary-dark: #a2ceaa;
+  --gray-blue: #4f6980;
+  --light-gray: #849db1;   /* Even darker blue for contrast */
   --secondary: #334155;      /* Darker gray for sophistication */
   --accent: #0369a1;        /* Deep accent blue */
   --background: #ffffff;
@@ -12,6 +14,7 @@
   --error: #991b1b;
   --success: #15803d;
   --warning: #854d0e;
+  --yellow: #69a197;
 }
 
 * {
@@ -243,7 +246,7 @@ h2 {
 
 /* Metrics */
 .metrics {
-	background-color: rgb(2, 2, 59);
+	background-color: var(--primary);
 }
 
 .metrics p {
@@ -306,6 +309,7 @@ h2 {
   transition: all 0.3s ease;
   font-size: 1.1rem;
   margin-right: 10px;
+  z-index: 10;
 }
 
 .button-primary {
@@ -1299,6 +1303,7 @@ h2 {
 .vest-text-column h2 {
     text-align: left;
     margin-bottom: 1.5rem;
+    color: var(--primary);
     width: 100%;
 }
 
@@ -1843,4 +1848,24 @@ h2 {
   .dashboard-grid {
       grid-template-columns: 1fr;
   }
+}
+
+.impact-quote-extended {
+  margin: 0rem 0;
+  padding: 0rem 0rem;
+  font-size: 1rem;
+  background-color: var(--surface);
+}
+
+
+.impact-quote-extended p {
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.impact-quote footer {
+  color: var(--text-light);
+  font-weight: 500;
 }

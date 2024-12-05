@@ -139,7 +139,7 @@ app.get("/eventrequest", (req, res) => res.render("eventrequest", { user: req.se
 app.get("/volunteer", (req, res) => res.render("volunteer", { user: req.session.user }));
 app.get("/donation", (req, res) => res.render("donation", { user: req.session.user }));
 app.get("/impact", (req, res) => res.render("impact", { user: req.session.user }));
-app.get("/involved", (req, res) => res.render("involved", { user: req.session.user }));
+app.get("/involved", (req, res) => res.render("involved"));
 app.get("/jen", (req, res) => res.render("jen", { user: req.session.user }));
 
 // Form Submission Routes
