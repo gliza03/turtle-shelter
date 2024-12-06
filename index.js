@@ -146,6 +146,8 @@ app.get("/donation", (req, res) => res.render("donation"));
 app.get("/impact", (req, res) => res.render("impact"));
 app.get("/involved", (req, res) => res.render("involved"));
 app.get("/jen", (req, res) => res.render("jen"));
+app.get("/thank-you", (req, res) => res.render("index"));
+
 
 
 app.post('/submit-volunteer', async (req, res) => {
