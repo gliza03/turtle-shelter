@@ -6,64 +6,194 @@
     <title>Vest Distribution Information</title>
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <script>
-        // Add JavaScript for dynamic recipient management
-        document.addEventListener('DOMContentLoaded', () => {
-            let recipientCounter = 0;
-            const recipientContainer = document.getElementById('recipientContainer');
-            const addRecipientButton = document.getElementById('addRecipientButton');
+    <style>
+        .distribution-wrapper {
+            background-color: #f8fafc;
+            min-height: calc(100vh - 80px);
+            padding: 4rem 0;
+        }
 
-            addRecipientButton.addEventListener('click', () => {
-                recipientCounter++;
-                const recipientDiv = document.createElement('div');
-                recipientDiv.classList.add('recipient');
-                recipientDiv.innerHTML = `
-                    <div class="form-group">
-                        <label for="recipientFirstName${recipientCounter}">Recipient First Name</label>
-                        <input type="text" id="recipientFirstName${recipientCounter}" name="recipient_first_name[]" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipientLastName${recipientCounter}">Recipient Last Name</label>
-                        <input type="text" id="recipientLastName${recipientCounter}" name="recipient_last_name[]" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipientSize${recipientCounter}">Recipient Size</label>
-                        <select id="recipientSize${recipientCounter}" name="recipient_size[]" required>
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                            <option value="XXXL">XXXL</option>
-                            <option value="XXXXL">XXXXL</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btn btn-remove" onclick="this.parentNode.remove()">Remove Recipient</button>
-                `;
-                recipientContainer.appendChild(recipientDiv);
-            });
-        });
-    </script>
+        .distribution-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .distribution-title {
+            color: #2c4faf;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .distribution-description {
+            color: #475569;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .distribution-form {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+        }
+
+        .distribution-form h2 {
+            color: #2c4faf;
+            font-size: 1.5rem;
+            margin: 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #2c4faf;
+            font-weight: 600;
+        }
+
+        .distribution-form h2:first-child {
+            margin-top: 0;
+        }
+
+        .distribution-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .distribution-form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .distribution-form-group input,
+        .distribution-form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .distribution-form-group input:focus,
+        .distribution-form-group select:focus {
+            outline: none;
+            border-color: #2c4faf;
+            box-shadow: 0 0 0 3px rgba(44, 79, 175, 0.1);
+        }
+
+        .distribution-recipient {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .distribution-add-btn {
+            background-color: white;
+            color: #2c4faf;
+            border: 2px solid #2c4faf;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 2rem;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .distribution-add-btn:hover {
+            background-color: #2c4faf;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .distribution-remove-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #FEE2E2;
+            color: #DC2626;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .distribution-remove-btn:hover {
+            background-color: #DC2626;
+            color: white;
+        }
+
+        .distribution-submit-btn {
+            background-color: #2c4faf;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .distribution-submit-btn:hover {
+            background-color: #1e3a8a;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .distribution-wrapper {
+                padding: 2rem 0;
+            }
+
+            .distribution-container {
+                padding: 0 1rem;
+            }
+
+            .distribution-form {
+                padding: 1.5rem;
+            }
+
+            .distribution-recipient {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <header class="navbar">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/about" class="nav-link">About Us</a>
-        <a href="/involved" class="nav-link">Get Involved</a>
-        <a href="/impact" class="nav-link">Our Impact</a>
+    <header class="header" style="position: sticky; top: 0; z-index: 1000; background: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <span>Turtle Shelter Project</span>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/about" class="nav-link">About Us</a>
+                <a href="/involved" class="nav-link">Get Involved</a>
+                <a href="/impact" class="nav-link">Our Impact</a>
+            </nav>
+        </div>
     </header>
 
-    <div class="vest-distribution-page">
-        <div class="container">
-            <h1 class="page-title">Vest Distribution Information</h1>
-            <p class="page-description">Provide details about the distribution and recipients.</p>
+    <div class="distribution-wrapper">
+        <div class="distribution-container">
+            <h1 class="distribution-title">Vest Distribution Information</h1>
+            <p class="distribution-description">Help us track the impact of our work by providing details about the distribution and recipients.</p>
 
-            <form action="/submit-vest-distribution" method="POST" class="form">
-                <!-- Distribution Location -->
-                <h2>Vest Distribution Location</h2>
-                <div class="form-group">
+            <form action="/submit-vest-distribution" method="POST" class="distribution-form">
+                <!-- Rest of your form fields stay the same, just update the class names to match the new styles -->
+                <h2>Distribution Location</h2>
+                <div class="distribution-form-group">
                     <label for="distributionNeighborhood">Neighborhood</label>
                     <input type="text" id="distributionNeighborhood" name="distribution_neighborhood" required>
                 </div>
@@ -147,12 +277,51 @@
                 <!-- Recipients Section -->
                 <h2>Recipients</h2>
                 <div id="recipientContainer"></div>
-                <button type="button" id="addRecipientButton" class="btn">Add Recipient</button>
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary">Submit Distribution</button>
+                <button type="button" id="addRecipientButton" class="distribution-add-btn">Add Recipient</button>
+                <button type="submit" class="distribution-submit-btn">Submit Distribution</button>
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let recipientCounter = 0;
+            const recipientContainer = document.getElementById('recipientContainer');
+            const addRecipientButton = document.getElementById('addRecipientButton');
+        
+            addRecipientButton.addEventListener('click', () => {
+                recipientCounter++;
+                const recipientDiv = document.createElement('div');
+                recipientDiv.classList.add('distribution-recipient');
+                recipientDiv.innerHTML = `
+                    <div class="distribution-form-group">
+                        <label for="recipientFirstName${recipientCounter}">First Name</label>
+                        <input type="text" id="recipientFirstName${recipientCounter}" name="recipient_first_name[]" required>
+                    </div>
+                    <div class="distribution-form-group">
+                        <label for="recipientLastName${recipientCounter}">Last Name</label>
+                        <input type="text" id="recipientLastName${recipientCounter}" name="recipient_last_name[]" required>
+                    </div>
+                    <div class="distribution-form-group">
+                        <label for="recipientSize${recipientCounter}">Size</label>
+                        <select id="recipientSize${recipientCounter}" name="recipient_size[]" required>
+                            <option value="">Select Size</option>
+                            <option value="XS">XS</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                            <option value="XXXL">XXXL</option>
+                            <option value="XXXXL">XXXXL</option>
+                        </select>
+                    </div>
+                    <button type="button" class="distribution-remove-btn" onclick="this.parentNode.remove()">Remove Recipient</button>
+                `;
+                recipientContainer.appendChild(recipientDiv);
+            });
+        });
+        </script>
+    <!-- Your existing footer here -->
 </body>
 </html>

@@ -442,7 +442,7 @@ app.post('/submit-vest-distribution', async (req, res) => {
         // Commit transaction
         await trx.commit();
 
-        res.status(200).send('Vest distribution data saved successfully!');
+        res.redirect('/admin');
     } catch (error) {
         console.error('Error saving vest distribution data:', error);
         res.status(500).send('Error saving vest distribution data.');

@@ -138,15 +138,36 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>Turtle Shelter Admin</h2>
+                <h2>Turtle Shelter</h2>
             </div>
             <ul class="nav-list">
-                <li data-section="dashboard" class="nav-item active"><i class="fas fa-home"></i> Dashboard</li>
-                <li data-section="event-management" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</li>
-                <li data-section="Users" class="nav-item"><i class="fas fa-users"></i> Users</li>
-                <li data-section="Volunteers" class="nav-item"><i class="fas fa-hands-helping"></i> Volunteers</li>
-                <li data-section="Distribution" class="nav-item"><i class="fas fa-truck"></i> Distribution Management</li>
+                <li data-section="dashboard" class="nav-item active">
+                    <i class="fas fa-home"></i> 
+                    <span class="nav-text">Dashboard</span>
+                </li>
+                <li data-section="event-management" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i> 
+                    <span class="nav-text">Events</span>
+                </li>
+                <li data-section="Users" class="nav-item">
+                    <i class="fas fa-users"></i> 
+                    <span class="nav-text">Users</span>
+                </li>
+                <li data-section="Volunteers" class="nav-item">
+                    <i class="fas fa-hands-helping"></i> 
+                    <span class="nav-text">Volunteers</span>
+                </li>
+                <li data-section="Distribution" class="nav-item">
+                    <i class="fas fa-truck"></i> 
+                    <span class="nav-text">Distribution Management</span>
+                </li>
             </ul>
+            <div class="sidebar-footer">
+                <a href="/logout" class="logout-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </div>
         </aside>
 
         <!-- Main Content -->
@@ -543,7 +564,7 @@
                 </script>
             
             <section id="Users" class="content-section">
-                <h2>Admin User Management</h2>
+                <h2 style="color:black;">Admin User Management</h2>
             
                 <!-- Search Bar -->
                 <div class="admin-search-container">
@@ -555,6 +576,9 @@
                         autocomplete="off"
                     >
                 </div>
+                <div class="text-center">
+                    <a href="/createaccount" class="create-account-button" style="margin-top: 1rem; margin-bottom: 1rem;">Create New Account</a>
+                </div>
             
                 <!-- Admin List -->
                 <div id="adminList">
@@ -564,9 +588,6 @@
                 <!-- Load More Button -->
                 <button id="loadMoreAdmins" class="admin-load-more">Load More Admins</button>
     
-                <div class="text-center">
-                    <a href="/createaccount" class="create-account-button">Create New Account</a>
-                </div>
             </section>
             
             <style>
@@ -801,7 +822,7 @@
                         
 
             <section id="Volunteers" class="content-section">
-                <h2>Volunteer Management</h2>
+                <h2 style="color:black;">Volunteer Management</h2>
             
                 <!-- Search Bar -->
                 <div class="search-container">
@@ -993,7 +1014,7 @@
 
 <!-- Distribution Management Section in admin.ejs -->
 <section id="Distribution" class="content-section">
-    <h2>Distribution Management</h2>
+    <h2 style="color:black;">Distribution Management</h2>
     <a href="/distribution" class="button button-primary" style="background-color: var(--primary);">Add Distribution</a>
     <div id="distribution-management-container">
         <table class="event-table">
@@ -1012,7 +1033,6 @@
                 <!-- Populated dynamically -->
             </tbody>
         </table>
-        <button id="load-more-distributions" class="button">Load More</button>
     </div>
 </section>
 
