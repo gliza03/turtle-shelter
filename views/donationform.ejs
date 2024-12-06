@@ -6,14 +6,22 @@
     <title>Donation Form</title>
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body style="background-color: var(--primary);">
     <!-- Navigation Bar -->
-    <header class="navbar">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/about" class="nav-link">About Us</a>
-        <a href="/involved" class="nav-link">Get Involved</a>
-        <a href="/impact" class="nav-link">Our Impact</a>
+    <header class="header" style="position: sticky; top: 0; z-index: 1000; background: white; box-shadow: 0em 0.125em 0.25em rgba(0, 0, 0, 0.1);">
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <span>Turtle Shelter Project</span>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/about" class="nav-link">About Us</a>
+                <a href="/involved" class="nav-link">Get Involved</a>
+                <a href="/impact" class="nav-link">Our Impact</a>
+            </nav>
+        </div>
     </header>
 
     <!-- Donation Form Section -->
@@ -41,7 +49,7 @@
                     <input type="email" id="email" name="donor_email" required>
                 </div>
 
-                                <!-- Phone Number -->
+                <!-- Phone Number -->
                 <div class="form-group">
                     <label for="phoneNumber">Phone Number</label>
                     <input type="text" id="phoneNumber" name="donor_phone_num" required>
@@ -49,8 +57,8 @@
 
                 <!-- Donation Amount -->
                 <div class="form-group">
-                    <label for="donationAmount">Donation Amount</label>
-                    <input type="number" id="donationAmount" name="desired_donation_amount" step="0.01" min="0" required>
+                    <label for="donationAmount">Donation Amount ($)</label>
+                    <input type="number" id="donationAmount" name="desired_donation_amount" step="0.1" min="0" required>
                 </div>
 
                 <!-- Submit Button -->
@@ -62,5 +70,55 @@
             </p>
         </div>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/eventrequest">Event Request</a></li>
+                        <li><a href="/volunteer">Volunteer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/impact">Our Impact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> turtleshelterproject@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> 801-872-3190</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Turtle Shelter Project, PO Box 382, Kaysville, UT 84037</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="copyright">
+        <div class="container">
+            <p>&copy; 2024 Turtle Shelter Project. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        function handleFormSubmission(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+    
+            // Display the thank-you message
+            alert('Thank you for filling out the donation form! An email will be sent to you shortly with further steps.');
+    
+            // Optionally, clear the form
+            event.target.reset();
+        }
+    </script>
 </body>
 </html>

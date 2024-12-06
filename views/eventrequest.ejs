@@ -6,44 +6,45 @@
     <title>Request an Event</title>
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
-<body>
+<body style="background-color: var(--primary);">
     <!-- Navigation Bar -->
-    <header class="navbar">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/about" class="nav-link">About Us</a>
-        <a href="/involved" class="nav-link">Get Involved</a>
-        <a href="/impact" class="nav-link">Our Impact</a>
+    <header class="header" style="position: sticky; top: 0; z-index: 1000; background: white; box-shadow: 0em 0.125em 0.25em rgba(0, 0, 0, 0.1);">
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <span>Turtle Shelter Project</span>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/involved" class="nav-link">Get Involved</a>
+                <a href="/about" class="nav-link">About Us</a>
+                <a href="/impact" class="nav-link">Impact</a>
+                <a href="/jen" class="nav-link">Jen's Story</a>
+                <a href="/login" class="nav-link button button-primary">Admin Portal</a>
+            </nav>
+        </div>
     </header>
 
     <div class="event-request-page">
-        <div class="container">
+        <div class="container" style="margin-top: 1rem; margin-bottom: 1rem;">
             <h1 class="page-title">Request an Event</h1>
             <p class="page-description">Let us know how we can help make your event a success!</p>
 
             <form action="/submit-event-request" method="POST" class="form">
-                <!-- Question 1 -->
-                <div class="form-group">
-                    <label for="eventType">What type of event are you interested in?</label>
-                    <select id="eventType" name="event_type" required>
-                        <option value="Sewing">Sewing</option>
-                        <option value="Non-Sewing">Non-Sewing</option>
-                        <option value="Both">Both</option>
-                    </select>
-                </div>
+        <!-- Example of updated form group structure -->
+        <div class="form-group">
+            <label for="eventLocation">Event Location (School, Church, etc)</label>
+            <input type="text" id="eventLocation" name="event_location" required>
+        </div>
 
-                <!-- Question 2 -->
-                <div class="form-group">
-                    <label for="eventLocation">Event Location (School, Church, etc)</label>
-                    <input type="text" id="eventLocation" name="event_location" required>
-                </div>
-
-                <!-- Question 3 -->
-                <div class="form-group">
-                    <label>Event Address</label>
-                    <input type="text" name="event_street" placeholder="Street" required>
-                    <input type="text" name="event_city" placeholder="City" required>
-                    <select name="event_state" required>
+        <!-- For address fields, stack them vertically -->
+        <div class="form-group">
+            <label>Event Address</label>
+            <input type="text" name="event_street" placeholder="Street" required class="mb-2">
+            <input type="text" name="event_city" placeholder="City" required class="mb-2">
+            <select name="event_state" required class="mb-2">
                         <option value="AL">AL</option>
                         <option value="AK">AK</option>
                         <option value="AZ">AZ</option>
@@ -96,7 +97,7 @@
                         <option value="WY">WY</option>
                     </select>
                     <input type="text" name="event_zip_code" placeholder="Zip Code" required>
-                </div>
+                </div>                
 
                 <!-- Question 4 -->
                 <div class="form-group">
@@ -129,16 +130,18 @@
 
                 <!-- Expected Attendance -->
                 <div class="form-group">
-                    <p>Expected Attendance:</p>
-                    <input type="number" name="expected_10_and_under" placeholder="10 yrs and under" required>
-                    <input type="number" name="expected_11_to_17" placeholder="11 yrs - 17 yrs" required>
-                    <input type="number" name="expected_18_and_over" placeholder="18 yrs and older" required>
+                    <label>Expected Attendance</label>
+                    <div class="input-stack">
+                        <input type="number" name="expected_10_and_under" placeholder="10 yrs and under" required class="mb-2">
+                        <input type="number" name="expected_11_to_17" placeholder="11 yrs - 17 yrs" required class="mb-2">
+                        <input type="number" name="expected_18_and_over" placeholder="18 yrs and older" required>
+                    </div>
                 </div>
 
                 <!-- Question 11 -->
                 <div class="form-group">
-                    <label>Who should we contact for this event?</label>
-                    <input type="text" name="contact_first_name" placeholder="First Name" required>
+                    <label>Event Contact</label>
+                    <input type="text" name="contact_first_name" placeholder="First Name" required class="mb-2">
                     <input type="text" name="contact_last_name" placeholder="Last Name" required>
                 </div>
 
@@ -194,5 +197,43 @@
         };
 
     </script>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/eventrequest">Event Request</a></li>
+                        <li><a href="/volunteer">Volunteer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/impact">Our Impact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> turtleshelterproject@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> 801-872-3190</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Turtle Shelter Project, PO Box 382, Kaysville, UT 84037</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="copyright">
+        <div class="container">
+            <p>&copy; 2024 Turtle Shelter Project. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>
 </html>
