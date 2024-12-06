@@ -142,10 +142,10 @@
             </div>
             <ul class="nav-list">
                 <li data-section="dashboard" class="nav-item active"><i class="fas fa-home"></i> Dashboard</li>
-                <li data-section="event-management" class="nav-item"><i class="fas fa-calendar-alt"></i> Event Management</li>
+                <li data-section="event-management" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</li>
                 <li data-section="Users" class="nav-item"><i class="fas fa-users"></i> Users</li>
-                <li data-section="Volunteers" class="nav-item"><i class="fas fa-users"></i> Volunteers</li>
-                <li data-section="settings" class="nav-item"><i class="fas fa-cog"></i> Settings</li>
+                <li data-section="Volunteers" class="nav-item"><i class="fas fa-hands-helping"></i> Volunteers</li>
+                <li data-section="Distribution" class="nav-item"><i class="fas fa-truck"></i> Distribution Management</li>
             </ul>
         </aside>
 
@@ -228,6 +228,7 @@
                         </tbody>
                     </table>
                     <button id="load-more-events">Load More</button>
+                    <a href="/eventrequest" class="button button-primary" style="background-color: var(--primary);">Add Event</a>
                 </div>
             </section>
             
@@ -664,6 +665,7 @@
             
                 <!-- Load More Button -->
                 <button id="loadMoreVolunteers" class="button">Load More Volunteers</button>
+                <a href="/volunteer" class="button button-primary" style="background-color: var(--primary);">Sign Up</a>
             </section>
             
             <style>
@@ -866,10 +868,209 @@
             
             
 
-            <section id="settings" class="content-section">
-                <h2>Settings</h2>
-                <p>Placeholder for admin settings and configuration.</p>
-            </section>
+<!-- Distribution Management Section in admin.ejs -->
+<section id="Distribution" class="content-section">
+    <h2>Distribution Management</h2>
+    <div id="distribution-management-container">
+        <table class="event-table">
+            <thead>
+                <tr>
+                    <th>Neighborhood</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Date</th>
+                    <th>Vests Brought</th>
+                    <th>Vests Left</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="distribution-activities-table">
+                <!-- Populated dynamically -->
+            </tbody>
+        </table>
+        <button id="load-more-distributions" class="button">Load More</button>
+    </div>
+</section>
+
+<script>
+    const loadedDistributions = new Set(); // Track loaded distributions to prevent duplicates
+
+    // Fetch and display distributions and recipients
+    async function fetchDistributions(page = 1) {
+        try {
+            const response = await fetch(`/distributions?page=${page}`);
+            const { distributions, recipientsGrouped } = await response.json();
+
+            const table = document.getElementById('distribution-activities-table');
+
+            distributions.forEach((distribution) => {
+                if (loadedDistributions.has(distribution.inventory_id)) return; // Skip duplicates
+                loadedDistributions.add(distribution.inventory_id);
+
+                // Add distribution header row
+                const distributionRow = document.createElement('tr');
+                distributionRow.dataset.distributionId = distribution.inventory_id;
+                distributionRow.innerHTML = `
+                    <td>${distribution.distribution_neighborhood}</td>
+                    <td>${distribution.distribution_city}</td>
+                    <td>${distribution.distribution_state}</td>
+                    <td>${new Date(distribution.distribution_date).toISOString().split('T')[0]}</td>
+                    <td>${distribution.vests_brought}</td>
+                    <td>${distribution.vests_left}</td>
+                    <td>
+                        <button class="edit-btn" onclick="editDistribution(${distribution.inventory_id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteDistribution(${distribution.inventory_id})">Delete</button>
+                    </td>
+                `;
+                table.appendChild(distributionRow);
+
+                // Add recipient table under each distribution
+                const recipientTableRow = document.createElement('tr');
+                recipientTableRow.innerHTML = `
+                    <td colspan="7">
+                        <table class="recipient-table">
+                            <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Size</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recipients-${distribution.inventory_id}">
+                                <!-- Recipients populated dynamically -->
+                            </tbody>
+                        </table>
+                    </td>
+                `;
+                table.appendChild(recipientTableRow);
+
+                // Populate recipients for the distribution
+                const recipientTableBody = document.getElementById(`recipients-${distribution.inventory_id}`);
+                const recipients = recipientsGrouped[distribution.inventory_id] || [];
+                recipients.forEach((recipient) => {
+                    const recipientRow = document.createElement('tr');
+                    recipientRow.dataset.recipientId = recipient.recipient_id;
+                    recipientRow.innerHTML = `
+                        <td>${recipient.recipient_first_name}</td>
+                        <td>${recipient.recipient_last_name}</td>
+                        <td>${recipient.size}</td>
+                        <td>
+                            <button class="edit-btn" onclick="editRecipient(${recipient.recipient_id})">Edit</button>
+                            <button class="delete-btn" onclick="deleteRecipient(${recipient.recipient_id})">Delete</button>
+                        </td>
+                    `;
+                    recipientTableBody.appendChild(recipientRow);
+                });
+            });
+
+            currentPage = page; // Update current page
+        } catch (err) {
+            console.error('Error fetching distributions:', err);
+        }
+    }
+
+    // Edit Distribution
+    async function editDistribution(distributionId) {
+        const row = document.querySelector(`tr[data-distribution-id="${distributionId}"]`);
+        row.querySelectorAll('td').forEach((td, index) => {
+            if (index < 6) td.contentEditable = true; // Make cells editable
+        });
+
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        saveButton.onclick = async () => {
+            const updatedData = {
+                distribution_neighborhood: row.children[0].textContent.trim(),
+                distribution_city: row.children[1].textContent.trim(),
+                distribution_state: row.children[2].textContent.trim(),
+                vests_brought: row.children[4].textContent.trim(),
+                vests_left: row.children[5].textContent.trim(),
+            };
+
+            try {
+                await fetch(`/distributions/${distributionId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData),
+                });
+                alert('Distribution updated successfully!');
+                row.querySelectorAll('td').forEach((td) => (td.contentEditable = false)); // Exit edit mode
+                saveButton.remove();
+            } catch (err) {
+                console.error('Error updating distribution:', err);
+                alert('Failed to update distribution.');
+            }
+        };
+
+        row.children[6].appendChild(saveButton);
+    }
+
+    // Delete Distribution
+    async function deleteDistribution(distributionId) {
+        if (confirm('Are you sure you want to delete this distribution?')) {
+            try {
+                await fetch(`/distributions/${distributionId}`, { method: 'DELETE' });
+                alert('Distribution deleted successfully!');
+                document.querySelector(`tr[data-distribution-id="${distributionId}"]`).remove();
+                document.getElementById(`recipients-${distributionId}`).remove(); // Remove recipients
+            } catch (err) {
+                console.error('Error deleting distribution:', err);
+                alert('Failed to delete distribution.');
+            }
+        }
+    }
+
+    // Load more distributions
+    document.getElementById('load-more-distributions').addEventListener('click', () => {
+        fetchDistributions(currentPage + 1);
+    });
+
+    // Initial fetch
+    fetchDistributions();
+</script>
+
+
+<style>
+    .recipient-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .recipient-table th,
+    .recipient-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .recipient-table th {
+        background-color: #6c757d;
+        color: white;
+        font-weight: bold;
+    }
+
+    .event-table {
+        width: 100%;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+    }
+
+    .event-table th,
+    .event-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .event-table th {
+        background-color: #007BFF;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
         </main>
     </div>
     <script src="script.js"></script>

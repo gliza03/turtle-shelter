@@ -995,6 +995,151 @@ app.get('/events/history', async (req, res) => {
 
 
 
+
+
+// Updated Server-Side Logic for Distributions and Recipients
+
+// Fetch all distributions with their recipients
+// Fetch distributions with recipients
+app.get('/distributions', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const offset = (page - 1) * limit;
+
+    try {
+        // Fetch distributions
+        const distributions = await knex('vest_inventory')
+            .join('distribution_location', 'vest_inventory.location_id', '=', 'distribution_location.location_id')
+            .select(
+                'vest_inventory.inventory_id',
+                'distribution_location.distribution_neighborhood',
+                'distribution_location.distribution_city',
+                'distribution_location.distribution_state',
+                'vest_inventory.distribution_date',
+                'vest_inventory.vests_brought',
+                'vest_inventory.vests_left'
+            )
+            .limit(limit)
+            .offset(offset);
+
+        // Fetch all recipients and group by `location_id`
+        const recipients = await knex('recipients')
+            .select(
+                'recipient_id',
+                'recipient_first_name',
+                'recipient_last_name',
+                'size',
+                'location_id'
+            );
+
+        const recipientsGrouped = recipients.reduce((acc, recipient) => {
+            if (!acc[recipient.location_id]) {
+                acc[recipient.location_id] = [];
+            }
+            acc[recipient.location_id].push(recipient);
+            return acc;
+        }, {});
+
+        res.json({ distributions, recipientsGrouped });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error fetching distributions and recipients' });
+    }
+});
+
+// Edit Distribution
+app.put('/distributions/:distributionId', async (req, res) => {
+    const { distributionId } = req.params;
+    const { distribution_neighborhood, distribution_city, distribution_state, vests_brought, vests_left } = req.body;
+
+    try {
+        // Update the distribution location
+        await knex('distribution_location')
+            .where('location_id', function () {
+                this.select('location_id').from('vest_inventory').where('inventory_id', distributionId);
+            })
+            .update({
+                distribution_neighborhood,
+                distribution_city,
+                distribution_state
+            });
+
+        // Update the vest inventory
+        await knex('vest_inventory')
+            .where('inventory_id', distributionId)
+            .update({
+                vests_brought,
+                vests_left
+            });
+
+        res.json({ message: 'Distribution updated successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error updating distribution' });
+    }
+});
+
+// Edit Recipient
+app.put('/recipients/:recipientId', async (req, res) => {
+    const { recipientId } = req.params;
+    const { recipient_first_name, recipient_last_name, size } = req.body;
+
+    try {
+        await knex('recipients')
+            .where('recipient_id', recipientId)
+            .update({
+                recipient_first_name,
+                recipient_last_name,
+                size
+            });
+
+        res.json({ message: 'Recipient updated successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error updating recipient' });
+    }
+});
+
+// Delete Distribution
+app.delete('/distributions/:distributionId', async (req, res) => {
+    const { distributionId } = req.params;
+
+    try {
+        // Delete recipients associated with the distribution first
+        await knex('recipients')
+            .where('location_id', function () {
+                this.select('location_id').from('vest_inventory').where('inventory_id', distributionId);
+            })
+            .del();
+
+        // Delete the distribution itself
+        await knex('vest_inventory')
+            .where('inventory_id', distributionId)
+            .del();
+
+        res.json({ message: 'Distribution and associated recipients deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error deleting distribution' });
+    }
+});
+
+// Delete Recipient
+app.delete('/recipients/:recipientId', async (req, res) => {
+    const { recipientId } = req.params;
+
+    try {
+        await knex('recipients')
+            .where('recipient_id', recipientId)
+            .del();
+
+        res.json({ message: 'Recipient deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error deleting recipient' });
+    }
+});
+
 // PROTECTED ROUTES
 app.get("/about", (req, res) => res.render("about", { user: req.session.user }));
 app.get("/distribution", isAuthenticated, (req, res) => res.render("distribution"));
