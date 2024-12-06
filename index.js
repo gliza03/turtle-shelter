@@ -988,6 +988,186 @@ app.get('/events/history', async (req, res) => {
     }
 });
 
+
+
+
+
+
+// Updated Server-Side Logic for Distributions and Recipients
+
+// Fetch all distributions with their recipients
+// Fetch distributions with recipients
+// Fetch distributions with recipients
+app.get('/distributions', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const offset = (page - 1) * limit;
+
+    try {
+        // Fetch distributions
+        const distributions = await knex('vest_inventory')
+            .join('distribution_location', 'vest_inventory.location_id', '=', 'distribution_location.location_id')
+            .select(
+                'vest_inventory.inventory_id',
+                'distribution_location.distribution_neighborhood',
+                'distribution_location.distribution_city',
+                'distribution_location.distribution_state',
+                'vest_inventory.distribution_date',
+                'vest_inventory.vests_brought',
+                'vest_inventory.vests_left'
+            )
+            .limit(limit)
+            .offset(offset);
+
+        // Fetch all recipients for the fetched distributions
+        const distributionIds = distributions.map(dist => dist.inventory_id);
+        const recipients = await knex('recipients')
+            .whereIn('location_id', function () {
+                this.select('location_id')
+                    .from('vest_inventory')
+                    .whereIn('inventory_id', distributionIds);
+            })
+            .select(
+                'recipient_id',
+                'recipient_first_name',
+                'recipient_last_name',
+                'size',
+                'location_id'
+            );
+
+        // Group recipients by location_id
+        const recipientsGrouped = recipients.reduce((acc, recipient) => {
+            if (!acc[recipient.location_id]) acc[recipient.location_id] = [];
+            acc[recipient.location_id].push(recipient);
+            return acc;
+        }, {});
+
+        res.json({ distributions, recipientsGrouped });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error fetching distributions and recipients' });
+    }
+});
+
+
+// Edit Distribution
+app.put('/distributions/:distributionId', async (req, res) => {
+    const { distributionId } = req.params;
+    const { distribution_neighborhood, distribution_city, distribution_state, vests_brought, vests_left } = req.body;
+
+    if (!distribution_neighborhood || !distribution_city || !distribution_state || vests_brought == null || vests_left == null) {
+        return res.status(400).json({ error: 'Missing required fields for distribution update' });
+    }
+
+    try {
+        // Transaction to ensure atomicity
+        await knex.transaction(async (trx) => {
+            // Update distribution location
+            await trx('distribution_location')
+                .where('location_id', function () {
+                    this.select('location_id').from('vest_inventory').where('inventory_id', distributionId);
+                })
+                .update({
+                    distribution_neighborhood,
+                    distribution_city,
+                    distribution_state
+                });
+
+            // Update vest inventory
+            await trx('vest_inventory')
+                .where('inventory_id', distributionId)
+                .update({
+                    vests_brought,
+                    vests_left
+                });
+        });
+
+        res.json({ message: 'Distribution updated successfully' });
+    } catch (err) {
+        console.error('Error updating distribution:', err.stack);
+        res.status(500).json({ error: 'Error updating distribution' });
+    }
+});
+
+// Edit Recipient
+app.put('/recipients/:recipientId', async (req, res) => {
+    const { recipientId } = req.params;
+    const { recipient_first_name, recipient_last_name, size } = req.body;
+
+    try {
+        await knex('recipients')
+            .where('recipient_id', recipientId)
+            .update({
+                recipient_first_name,
+                recipient_last_name,
+                size
+            });
+
+        res.json({ message: 'Recipient updated successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error updating recipient' });
+    }
+});
+
+// Delete Distribution
+app.delete('/distributions/:distributionId', async (req, res) => {
+    const { distributionId } = req.params;
+
+    try {
+        // Transaction to ensure atomicity
+        await knex.transaction(async (trx) => {
+            // Delete associated recipients first
+            await trx('recipients')
+                .where('location_id', function () {
+                    this.select('location_id').from('vest_inventory').where('inventory_id', distributionId);
+                })
+                .del();
+
+            // Delete the distribution itself
+            const deletedRows = await trx('vest_inventory')
+                .where('inventory_id', distributionId)
+                .del();
+
+            if (deletedRows === 0) {
+                throw new Error('No distribution found with the provided ID');
+            }
+        });
+
+        res.json({ message: 'Distribution and associated recipients deleted successfully' });
+    } catch (err) {
+        console.error('Error deleting distribution:', err.stack);
+        res.status(500).json({ error: err.message || 'Error deleting distribution' });
+    }
+});
+
+// Delete Recipient
+app.delete('/recipients/:recipientId', async (req, res) => {
+    const { recipientId } = req.params;
+
+    try {
+        await knex('recipients')
+            .where('recipient_id', recipientId)
+            .del();
+
+        res.json({ message: 'Recipient deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error deleting recipient' });
+    }
+});
+
+// PROTECTED ROUTES
+app.get("/about", (req, res) => res.render("about", { user: req.session.user }));
+app.get("/distribution", isAuthenticated, (req, res) => res.render("distribution"));
+app.get("/donationform", (req, res) => res.render("donationform"));
+app.get("/eventrequest", (req, res) => res.render("eventrequest"));
+app.get("/volunteer", (req, res) => res.render("volunteer"));
+app.get("/donation", (req, res) => res.render("donation"));
+app.get("/impact", (req, res) => res.render("impact"));
+app.get("/involved", (req, res) => res.render("involved"));
+app.get("/jen", (req, res) => res.render("jen"));
+
 // DASHBOARD ROUTES
 app.get('/regular', isAuthenticated, checkRole([1, 2, 3]), (req, res) => {
     res.render('regular', { user: req.session.user });

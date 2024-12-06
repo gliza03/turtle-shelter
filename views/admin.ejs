@@ -142,10 +142,10 @@
             </div>
             <ul class="nav-list">
                 <li data-section="dashboard" class="nav-item active"><i class="fas fa-home"></i> Dashboard</li>
-                <li data-section="event-management" class="nav-item"><i class="fas fa-calendar-alt"></i> Event Management</li>
+                <li data-section="event-management" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</li>
                 <li data-section="Users" class="nav-item"><i class="fas fa-users"></i> Users</li>
-                <li data-section="Volunteers" class="nav-item"><i class="fas fa-users"></i> Volunteers</li>
-                <li data-section="settings" class="nav-item"><i class="fas fa-cog"></i> Settings</li>
+                <li data-section="Volunteers" class="nav-item"><i class="fas fa-hands-helping"></i> Volunteers</li>
+                <li data-section="Distribution" class="nav-item"><i class="fas fa-truck"></i> Distribution Management</li>
             </ul>
         </aside>
 
@@ -331,6 +331,7 @@
                             <!-- Populated dynamically -->
                         </tbody>
                     </table>
+                    <a href="/eventrequest" class="button button-primary" style="background-color: var(--primary);">Add Event</a>
                 </div>
             </section>
             
@@ -990,10 +991,279 @@
             
             
 
-            <section id="settings" class="content-section">
-                <h2>Settings</h2>
-                <p>Placeholder for admin settings and configuration.</p>
-            </section>
+<!-- Distribution Management Section in admin.ejs -->
+<section id="Distribution" class="content-section">
+    <h2>Distribution Management</h2>
+    <a href="/distribution" class="button button-primary" style="background-color: var(--primary);">Add Distribution</a>
+    <div id="distribution-management-container">
+        <table class="event-table">
+            <thead>
+                <tr>
+                    <th>Neighborhood</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Date</th>
+                    <th>Vests Brought</th>
+                    <th>Vests Left</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="distribution-activities-table">
+                <!-- Populated dynamically -->
+            </tbody>
+        </table>
+        <button id="load-more-distributions" class="button">Load More</button>
+    </div>
+</section>
+
+<script>
+
+    // Fetch and display distributions with recipients
+    // Fetch and display distributions with recipients
+// Fetch and display distributions with recipients
+async function fetchDistributions(page = 1) {
+    try {
+        const response = await fetch(`/distributions?page=${page}`);
+        const { distributions, recipientsGrouped } = await response.json();
+
+        const table = document.getElementById('distribution-activities-table');
+
+        distributions.forEach((distribution) => {
+            // Create distribution row
+            const distributionRow = document.createElement('tr');
+            distributionRow.dataset.distributionId = distribution.inventory_id;
+            distributionRow.innerHTML = `
+                <td>${distribution.distribution_neighborhood}</td>
+                <td>${distribution.distribution_city}</td>
+                <td>${distribution.distribution_state}</td>
+                <td>${new Date(distribution.distribution_date).toISOString().split('T')[0]}</td>
+                <td>${distribution.vests_brought}</td>
+                <td>${distribution.vests_left}</td>
+                <td>
+                    <button onclick="viewRecipients(${distribution.inventory_id})">View Recipients</button>
+                    <button class="edit-btn" onclick="editDistribution(${distribution.inventory_id})">Edit</button>
+                    <button class="delete-btn" onclick="deleteDistribution(${distribution.inventory_id})">Delete</button>
+                </td>
+            `;
+            table.appendChild(distributionRow);
+
+            // Create recipient row (hidden by default)
+            const recipientRow = document.createElement('tr');
+            recipientRow.dataset.recipientFor = distribution.inventory_id;
+            recipientRow.style.display = 'none';
+            recipientRow.innerHTML = `
+                <td colspan="7">
+                    <table class="recipient-table">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Size</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recipients-${distribution.inventory_id}">
+                            ${
+                                (recipientsGrouped[distribution.inventory_id] || [])
+                                    .map(recipient => `
+                                        <tr data-recipient-id="${recipient.recipient_id}">
+                                            <td>${recipient.recipient_first_name}</td>
+                                            <td>${recipient.recipient_last_name}</td>
+                                            <td>${recipient.size}</td>
+                                            <td>
+                                                <button onclick="editRecipient(${recipient.recipient_id})">Edit</button>
+                                                <button onclick="deleteRecipient(${recipient.recipient_id})">Delete</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            `;
+            table.appendChild(recipientRow);
+        });
+
+        currentPage = page;
+    } catch (error) {
+        console.error('Error fetching distributions:', error);
+    }
+}
+
+// Toggle recipients visibility
+function viewRecipients(distributionId) {
+    const recipientRow = document.querySelector(`tr[data-recipient-for="${distributionId}"]`);
+    if (recipientRow.style.display === 'none') {
+        recipientRow.style.display = '';
+    } else {
+        recipientRow.style.display = 'none';
+    }
+}
+
+// Edit Distribution
+async function editDistribution(distributionId) {
+    const row = document.querySelector(`tr[data-distribution-id="${distributionId}"]`);
+    const originalState = row.children[2].textContent.trim();
+    const originalDate = row.children[3].textContent.trim();
+
+    row.querySelectorAll('td').forEach((td, index) => {
+        if (index === 2) {
+            td.innerHTML = `
+                <select>
+                    ${[
+                        "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS",
+                        "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY",
+                        "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
+                        "WI", "WY"
+                    ].map(state => `<option value="${state}" ${state === originalState ? 'selected' : ''}>${state}</option>`).join('')}
+                </select>
+            `;
+        } else if (index === 3) {
+            td.innerHTML = `<input type="date" value="${originalDate}">`;
+        } else if (index < 6) {
+            td.contentEditable = true;
+        }
+    });
+
+    const saveButton = document.createElement('button');
+    saveButton.textContent = 'Save';
+    saveButton.classList.add('save-btn');
+    saveButton.onclick = async () => {
+        const updatedData = {
+            distribution_neighborhood: row.children[0].textContent.trim(),
+            distribution_city: row.children[1].textContent.trim(),
+            distribution_state: row.children[2].querySelector('select').value,
+            distribution_date: row.children[3].querySelector('input').value,
+            vests_brought: parseInt(row.children[4].textContent.trim()),
+            vests_left: parseInt(row.children[5].textContent.trim()),
+        };
+
+        try {
+            await fetch(`/distributions/${distributionId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedData),
+            });
+
+            alert('Distribution updated successfully!');
+            row.children[0].textContent = updatedData.distribution_neighborhood;
+            row.children[1].textContent = updatedData.distribution_city;
+            row.children[2].textContent = updatedData.distribution_state;
+            row.children[3].textContent = updatedData.distribution_date;
+            row.children[4].textContent = updatedData.vests_brought;
+            row.children[5].textContent = updatedData.vests_left;
+
+            row.querySelectorAll('td').forEach(td => (td.contentEditable = false));
+            saveButton.remove();
+        } catch (error) {
+            console.error('Error updating distribution:', error);
+            alert('Failed to update distribution.');
+        }
+    };
+
+    row.children[6].appendChild(saveButton);
+}
+
+// Edit recipient
+async function editRecipient(recipientId) {
+    const row = document.querySelector(`tr[data-recipient-id="${recipientId}"]`);
+    const originalSize = row.children[2].textContent.trim();
+
+    row.querySelectorAll('td').forEach((td, index) => {
+        if (index === 2) {
+            td.innerHTML = `
+                <select>
+                    ${["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"]
+                        .map(size => `<option value="${size}" ${size === originalSize ? 'selected' : ''}>${size}</option>`).join('')}
+                </select>
+            `;
+        } else if (index < 3) {
+            td.contentEditable = true;
+        }
+    });
+
+    const saveButton = document.createElement('button');
+    saveButton.textContent = 'Save';
+    saveButton.onclick = async () => {
+        const updatedRecipient = {
+            recipient_first_name: row.children[0].textContent.trim(),
+            recipient_last_name: row.children[1].textContent.trim(),
+            size: row.children[2].querySelector('select').value,
+        };
+
+        try {
+            await fetch(`/recipients/${recipientId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedRecipient),
+            });
+
+            alert('Recipient updated successfully!');
+            row.children[0].textContent = updatedRecipient.recipient_first_name;
+            row.children[1].textContent = updatedRecipient.recipient_last_name;
+            row.children[2].textContent = updatedRecipient.size;
+
+            row.querySelectorAll('td').forEach(td => (td.contentEditable = false));
+            saveButton.remove();
+        } catch (error) {
+            console.error('Error updating recipient:', error);
+            alert('Failed to update recipient.');
+        }
+    };
+
+    row.children[3].appendChild(saveButton);
+}
+
+// Initial fetch
+fetchDistributions();
+
+
+</script>
+
+
+
+<style>
+    .recipient-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .recipient-table th,
+    .recipient-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .recipient-table th {
+        background-color: #6c757d;
+        color: white;
+        font-weight: bold;
+    }
+
+    .event-table {
+        width: 100%;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+    }
+
+    .event-table th,
+    .event-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .event-table th {
+        background-color: #007BFF;
+        color: white;
+        font-weight: bold;
+    }
+
+    
+</style>
+
         </main>
     </div>
     <script src="script.js"></script>
