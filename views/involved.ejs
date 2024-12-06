@@ -52,8 +52,8 @@
                     <div class="feature-icon" style="background-color: var(--primary);">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <h3>Host an Event</h3>
-                    <p>Organize a vest-making event with your community, workplace, or organization. We provide all materials and guidance needed.</p>
+                    <h3>Request an Event</h3>
+                    <p>Request a vest-making event with your community, workplace, or organization!</p>
                     <br>
                     <a href="/eventrequest" class="button button-primary" style="background-color: var(--primary);">Plan Event</a>
                 </div>
@@ -71,25 +71,30 @@
     </section>
     
     <!-- Add Impact Stats Section -->
-    <section class="features metrics" style="background-color: var(--primary);">
+    <section class="metrics" style="padding: 5em 0; background-color: var(--primary-dark);">
         <div class="container">
-            <h2>Our Impact So Far</h2>
-            <div class="metrics-grid">
-                <div class="metric-item">
-                    <i class="fas fa-calendar-check"></i>
-                    <h3>Events Completed</h3>
-                    <span class="counter" data-target="150">0</span>
-                </div>
-                <div class="metric-item">
-                    <i class="fas fa-vest"></i>
-                    <h3>Vests Made</h3>
-                    <span class="counter" data-target="1200">0</span>
-                </div>
-                <div class="metric-item">
-                    <i class="fas fa-users"></i>
-                    <h3>Volunteers Engaged</h3>
-                    <span class="counter" data-target="500">0</span>
-                </div>
+            <h2 style="color: white;">Some of our metrics!</h2>
+            <div class="features-grid" style="display: flex; justify-content: space-between; gap: 1em;">
+                <!-- Spinning Number -->
+                <div class="feature-card" style="flex: 1; text-align: center; background-color: rgb(255, 255, 255); display: flex; flex-direction: column; justify-content: center; min-height: 8rem;">
+                    <div style="padding: 1rem;">
+                        <div id="spinning-number" style="font-size: 3rem; font-weight: bold; color: rgb(83, 83, 83); margin-bottom: 0.5rem;">400</div>
+                        <p style="color: rgb(83, 83, 83); margin-bottom: 2rem;">Total Volunteers</p>
+                    </div>
+                </div> 
+                <div class="feature-card" style="flex: 1; text-align: center; background-color: rgb(255, 255, 255); display: flex; flex-direction: column; justify-content: center; min-height: 8rem;">
+                    <div style="padding: 1rem;">
+                        <div id="spinning-number" style="font-size: 3rem; font-weight: bold; color: rgb(83, 83, 83); margin-bottom: 0.5rem;">5500</div>
+                        <p style="color: rgb(83, 83, 83); margin-bottom: 2rem;">Vests Created</p>
+                    </div>
+                </div> 
+                <div class="feature-card" style="flex: 1; text-align: center;background-color: rgb(255, 255, 255); display: flex; flex-direction: column; justify-content: center; min-height: 8rem;">
+                    <div style="padding: 1rem;">
+                        <p style="color: rgb(83, 83, 83);">Only</p>
+                        <div id="spinning-number" style="font-size: 3rem; font-weight: bold; color: rgb(83, 83, 83); margin-bottom: 0.5rem;">30</div>
+                        <p style="color: rgb(83, 83, 83); margin-bottom: 2rem;">seconds to warm up with a vest!</p>
+                    </div>
+                </div> 
             </div>
         </div>
     </section>

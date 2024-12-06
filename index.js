@@ -146,6 +146,8 @@ app.get("/donation", (req, res) => res.render("donation"));
 app.get("/impact", (req, res) => res.render("impact"));
 app.get("/involved", (req, res) => res.render("involved"));
 app.get("/jen", (req, res) => res.render("jen"));
+app.get("/thank-you", (req, res) => res.render("index"));
+
 
 
 app.post('/submit-volunteer', async (req, res) => {
@@ -994,28 +996,15 @@ app.get('/events/history', async (req, res) => {
 
 
 // PROTECTED ROUTES
-app.get("/about", isAuthenticated, (req, res) => res.render("about", { user: req.session.user }));
-app.get("/distribution", isAuthenticated, (req, res) => res.render("distribution", { user: req.session.user }));
-app.get("/donationform", isAuthenticated, (req, res) => res.render("donationform", { user: req.session.user }));
-app.get("/eventrequest", isAuthenticated, (req, res) => res.render("eventrequest", { user: req.session.user }));
-app.get("/volunteer", isAuthenticated, (req, res) => res.render("volunteer", { user: req.session.user }));
-app.get("/donation", isAuthenticated, (req, res) => res.render("donation", { user: req.session.user }));
-app.get("/impact", isAuthenticated, (req, res) => res.render("impact", { user: req.session.user }));
-app.get("/involved", isAuthenticated, (req, res) => res.render("involved", { user: req.session.user }));
-app.get("/jen", isAuthenticated, (req, res) => res.render("jen", { user: req.session.user }));
-
-// Protected form submissions
-app.post('/submit-volunteer', isAuthenticated, async (req, res) => {
-    // Your existing volunteer submission logic
-});
-
-app.post('/submit-donation', isAuthenticated, async (req, res) => {
-    // Your existing donation submission logic
-});
-
-app.post('/submit-vest-distribution', isAuthenticated, async (req, res) => {
-    // Your existing vest distribution logic
-});
+app.get("/about", (req, res) => res.render("about", { user: req.session.user }));
+app.get("/distribution", isAuthenticated, (req, res) => res.render("distribution"));
+app.get("/donationform", (req, res) => res.render("donationform"));
+app.get("/eventrequest", (req, res) => res.render("eventrequest"));
+app.get("/volunteer", (req, res) => res.render("volunteer"));
+app.get("/donation", (req, res) => res.render("donation"));
+app.get("/impact", (req, res) => res.render("impact"));
+app.get("/involved", (req, res) => res.render("involved"));
+app.get("/jen", (req, res) => res.render("jen"));
 
 // DASHBOARD ROUTES
 app.get('/regular', isAuthenticated, checkRole([1, 2, 3]), (req, res) => {
