@@ -809,6 +809,190 @@ app.post('/volunteers/:id', async (req, res) => {
     }
 });
 
+
+// Fetch New Events with Status "Requested"
+app.get('/events/new', async (req, res) => {
+    try {
+        const newEvents = await knex('events')
+            .join('event_contacts', 'events.contact_id', 'event_contacts.contact_id')
+            .select(
+                'events.event_id',
+                'events.event_type',
+                'events.event_location',
+                'events.event_street',
+                'events.event_city',
+                'events.event_state',
+                'events.event_zip_code',
+                'events.event_date',
+                'events.event_start_time',
+                'events.event_end_time',
+                'events.event_total_hours',
+                'events.event_status',
+                'events.jens_story',
+                'events.contribution',
+                'events.notes',
+                'event_contacts.contact_first_name',
+                'event_contacts.contact_last_name',
+                'event_contacts.contact_email',
+                'event_contacts.contact_phone_number',
+                'event_contacts.contact_preferred_communication'
+            )
+            .where('events.event_status', 'Requested')
+            .orderBy('events.event_date', 'asc');
+
+        res.json(newEvents);
+    } catch (error) {
+        console.error('Error fetching new events:', error);
+        res.status(500).send('Error fetching new events');
+    }
+});
+
+// Update Event Details and Status
+app.post('/events/update/:id', async (req, res) => {
+    const { id } = req.params;
+    const {
+        event_type,
+        event_location,
+        event_street,
+        event_city,
+        event_state,
+        event_zip_code,
+        event_date,
+        event_start_time,
+        event_end_time,
+        jens_story,
+        contribution,
+        notes,
+        event_status,
+    } = req.body;
+
+    try {
+        await knex('events')
+            .where('event_id', id)
+            .update({
+                event_type,
+                event_location,
+                event_street,
+                event_city,
+                event_state,
+                event_zip_code,
+                event_date,
+                event_start_time,
+                event_end_time,
+                jens_story,
+                contribution,
+                notes,
+                event_status,
+            });
+
+        res.status(200).send('Event updated successfully');
+    } catch (error) {
+        console.error('Error updating event:', error);
+        res.status(500).send('Error updating event');
+    }
+});
+
+// Delete Event
+app.delete('/events/delete/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await knex('events')
+            .where('event_id', id)
+            .del();
+
+        res.status(200).send('Event deleted successfully');
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        res.status(500).send('Error deleting event');
+    }
+});
+
+// Fetch All Events for Management
+app.get('/events/all', async (req, res) => {
+    const { page = 1, search = '' } = req.query;
+    const limit = 20;
+    const offset = (page - 1) * limit;
+
+    try {
+        const allEvents = await knex('events')
+            .join('event_contacts', 'events.contact_id', 'event_contacts.contact_id')
+            .select(
+                'events.event_id',
+                'events.event_type',
+                'events.event_location',
+                'events.event_street',
+                'events.event_city',
+                'events.event_state',
+                'events.event_zip_code',
+                'events.event_date',
+                'events.event_start_time',
+                'events.event_end_time',
+                'events.event_total_hours',
+                'events.event_status',
+                'events.jens_story',
+                'events.contribution',
+                'events.notes',
+                'event_contacts.contact_first_name',
+                'event_contacts.contact_last_name',
+                'event_contacts.contact_email',
+                'event_contacts.contact_phone_number',
+                'event_contacts.contact_preferred_communication'
+            )
+            .where((builder) => {
+                if (search) {
+                    builder
+                        .where('events.event_type', 'ilike', `%${search}%`)
+                        .orWhere('events.event_location', 'ilike', `%${search}%`)
+                        .orWhere('event_contacts.contact_first_name', 'ilike', `%${search}%`)
+                        .orWhere('event_contacts.contact_last_name', 'ilike', `%${search}%`);
+                }
+            })
+            .orderBy('events.event_date', 'desc')
+            .limit(limit)
+            .offset(offset);
+
+        res.json(allEvents);
+    } catch (error) {
+        console.error('Error fetching all events:', error);
+        res.status(500).send('Error fetching all events');
+    }
+});
+
+app.get('/events/history', async (req, res) => {
+    const { page = 1, search = '' } = req.query;
+    const limit = 30;
+    const offset = (page - 1) * limit;
+
+    try {
+        // Query events excluding "Requested"
+        const query = knex('events')
+            .select('*')
+            .where('event_status', '!=', 'Requested')
+            .andWhere((builder) => {
+                if (search) {
+                    builder
+                        .where('event_type', 'ilike', `%${search}%`)
+                        .orWhere('event_location', 'ilike', `%${search}%`)
+                        .orWhere('notes', 'ilike', `%${search}%`);
+                }
+            })
+            .orderBy('event_date', 'desc') // Sort by date
+            .limit(limit)
+            .offset(offset);
+
+        const events = await query;
+
+        res.json(events);
+    } catch (error) {
+        console.error('Error fetching event history:', error);
+        res.status(500).send('Error fetching event history.');
+    }
+});
+
+
+
+
 // PROTECTED ROUTES
 app.get("/about", isAuthenticated, (req, res) => res.render("about", { user: req.session.user }));
 app.get("/distribution", isAuthenticated, (req, res) => res.render("distribution", { user: req.session.user }));
