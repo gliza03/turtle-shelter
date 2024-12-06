@@ -142,7 +142,6 @@ app.get("/distribution", (req, res) => res.render("distribution"));
 app.get("/donationform", (req, res) => res.render("donationform"));
 app.get("/eventrequest", (req, res) => res.render("eventrequest"));
 app.get("/volunteer", (req, res) => res.render("volunteer"));
-app.get("/donation", (req, res) => res.render("donation"));
 app.get("/impact", (req, res) => res.render("impact"));
 app.get("/involved", (req, res) => res.render("involved"));
 app.get("/jen", (req, res) => res.render("jen"));
@@ -477,9 +476,6 @@ app.post('/admin/login', async (req, res) => {
 
         let redirectUrl;
         switch (user.role_id) {
-            case 3:
-                redirectUrl = '/super-admin';
-                break;
             case 2:
                 redirectUrl = '/admin';
                 break;
@@ -992,20 +988,6 @@ app.get('/events/history', async (req, res) => {
     }
 });
 
-
-
-
-// PROTECTED ROUTES
-app.get("/about", (req, res) => res.render("about", { user: req.session.user }));
-app.get("/distribution", isAuthenticated, (req, res) => res.render("distribution"));
-app.get("/donationform", (req, res) => res.render("donationform"));
-app.get("/eventrequest", (req, res) => res.render("eventrequest"));
-app.get("/volunteer", (req, res) => res.render("volunteer"));
-app.get("/donation", (req, res) => res.render("donation"));
-app.get("/impact", (req, res) => res.render("impact"));
-app.get("/involved", (req, res) => res.render("involved"));
-app.get("/jen", (req, res) => res.render("jen"));
-
 // DASHBOARD ROUTES
 app.get('/regular', isAuthenticated, checkRole([1, 2, 3]), (req, res) => {
     res.render('regular', { user: req.session.user });
@@ -1134,9 +1116,6 @@ app.get('*', (req, res) => {
         res.redirect('/login');
     } else {
         switch (req.session.user.role) {
-            case 3:
-                res.redirect('/super-admin');
-                break;
             case 2:
                 res.redirect('/admin');
                 break;

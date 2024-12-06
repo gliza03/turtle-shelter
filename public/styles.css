@@ -2149,3 +2149,793 @@ textarea {
   color: var(--text-light);
   font-style: italic;
 }
+
+.tableau-container {
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.tableau-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+}
+
+.tableau-dashboard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.tableau-dashboard h3 {
+  margin-bottom: 1rem;
+  color: var(--primary);
+  font-size: 1.25rem;
+}
+
+.tableau-viz {
+  width: 100%;
+  height: 500px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Responsive design */
+@media (min-width: 1200px) {
+  .tableau-grid {
+      grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .tableau-viz {
+      height: 400px;
+  }
+}
+
+/* Event Management Section Base */
+.event-management {
+  padding: 2rem;
+}
+
+/* Calendar Layout */
+.calendar-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.calendly-inline-widget {
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 600px !important;  /* Match Google Calendar height */
+}
+
+.iframe-container {
+  margin: 0;
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Container Styles */
+#new-events-management,
+#old-events-management {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+#new-events-management h3,
+#old-events-management h3 {
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Updated Table Styles */
+.event-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1rem 0;
+}
+
+#new-events-management
+.event-table th {
+  background-color: var(--gray-blue);  /* Your primary blue */
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.event-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.event-table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.event-table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.event-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.95rem;
+}
+
+/* Unified Action Button Styles */
+.action-btn {
+  min-width: 80px;  /* Set consistent width */
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-align: center;
+  margin: 0 4px;
+}
+
+.action-btn.edit {
+  background-color: #2c4faf;
+  color: white;
+}
+
+.action-btn.save {
+  background-color: #15803D;
+  color: white;
+}
+
+.action-btn.delete {
+  background-color: #dc2626;
+  color: white;
+}
+
+.action-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Action Buttons Container */
+.action-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .calendar-container {
+      grid-template-columns: 1fr;
+  }
+  
+  .calendly-inline-widget,
+  .iframe-container {
+      height: 500px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .event-table {
+      overflow-x: auto;
+      display: block;
+  }
+  
+  .action-buttons {
+      flex-direction: column;
+      gap: 0.25rem;
+  }
+  
+  .action-btn {
+      width: 100%;
+      margin: 2px 0;
+  }
+}
+
+/* Volunteer Management Specific Styles */
+.volunteer-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.volunteer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.volunteer-info {
+  flex: 1;
+}
+
+.volunteer-info h3 {
+  color: var(--primary);
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.volunteer-info p {
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.volunteer-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* New Button Styles */
+.volunteer-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  min-width: 70px;
+}
+
+.edit-button {
+  background-color: #2c4faf;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #1e3a8a;
+}
+
+.cancel-button {
+  background-color: #6B7280;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #4B5563;
+}
+
+.delete-button {
+  background-color: #FEE2E2;
+  color: #DC2626;
+}
+
+.delete-button:hover {
+  background-color: #DC2626;
+  color: white;
+}
+
+/* Search Container */
+.search-container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+/* Load More Button */
+.volunteer-load-more {
+  display: block;
+  margin: 2rem auto;
+  padding: 0.75rem 2rem;
+  background-color: white;
+  color: #2c4faf;
+  border: 2px solid #2c4faf;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.volunteer-load-more:hover {
+  background-color: #2c4faf;
+  color: white;
+}
+
+/* Editable Fields */
+[contenteditable="true"] {
+  outline: 2px dashed #2c4faf;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background-color: rgba(44, 79, 175, 0.05);
+}
+
+/* Volunteer Card Layout */
+.volunteer-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 2rem; /* Add space between info and buttons */
+}
+
+.volunteer-info {
+  flex: 1;
+  max-width: 70%; /* Prevent info section from getting too wide */
+}
+
+/* Editable Fields Styling */
+.volunteer-info h3[contenteditable="true"] {
+  display: inline-block;
+  min-width: 100px;
+  max-width: 60%;
+  margin-right: 1rem;
+}
+
+.volunteer-info span[contenteditable="true"] {
+  display: inline-block;
+  min-width: 200px;
+  padding: 4px 8px;
+  margin: -4px 0;
+}
+
+/* Field Labels */
+.volunteer-info p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.volunteer-info p > span {
+  flex: 1;
+  max-width: 60%;
+}
+
+/* Editable State */
+[contenteditable="true"] {
+  outline: 2px dashed #2c4faf;
+  border-radius: 4px;
+  background-color: rgba(44, 79, 175, 0.05);
+  min-height: 28px;
+  line-height: 1.5;
+}
+
+/* Right-side buttons container */
+.volunteer-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-self: flex-start;
+  min-width: fit-content; /* Prevent buttons from wrapping */
+}
+
+/* Adjust button sizes */
+.volunteer-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  min-width: 70px;
+}
+
+/* Admin Management Section Styles */
+.admin-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 2rem;
+}
+
+.admin-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-info {
+  flex: 1;
+  max-width: 70%;
+}
+
+/* Admin Info Fields */
+.admin-info h3 {
+  color: var(--primary);
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.admin-info p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.admin-info p > span {
+  flex: 1;
+  max-width: 60%;
+}
+
+/* Editable Fields */
+.admin-info h3[contenteditable="true"] {
+  display: inline-block;
+  min-width: 100px;
+  max-width: 60%;
+  margin-right: 1rem;
+}
+
+.admin-info span[contenteditable="true"] {
+  display: inline-block;
+  min-width: 200px;
+  padding: 4px 8px;
+  margin: -4px 0;
+}
+
+[contenteditable="true"] {
+  outline: 2px dashed #2c4faf;
+  border-radius: 4px;
+  background-color: rgba(44, 79, 175, 0.05);
+  min-height: 28px;
+  line-height: 1.5;
+}
+
+/* Role Selector */
+.role-select {
+  padding: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  background-color: white;
+  min-width: 120px;
+}
+
+/* Admin Actions */
+.admin-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-self: flex-start;
+  min-width: fit-content;
+}
+
+/* Admin Button Styles */
+.admin-button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  min-width: 70px;
+  white-space: nowrap;
+}
+
+.admin-edit-button {
+  background-color: #2c4faf;
+  color: white;
+}
+
+.admin-edit-button:hover {
+  background-color: #1e3a8a;
+}
+
+.admin-cancel-button {
+  background-color: #6B7280;
+  color: white;
+}
+
+.admin-cancel-button:hover {
+  background-color: #4B5563;
+}
+
+.admin-delete-button {
+  background-color: #FEE2E2;
+  color: #DC2626;
+}
+
+.admin-delete-button:hover {
+  background-color: #DC2626;
+  color: white;
+}
+
+/* Search Container */
+.admin-search-container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-search-container input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.admin-search-container input:focus {
+  outline: none;
+  border-color: #2c4faf;
+  box-shadow: 0 0 0 3px rgba(44, 79, 175, 0.1);
+}
+
+/* Load More Button */
+.admin-load-more {
+  display: block;
+  margin: 2rem auto;
+  padding: 0.75rem 2rem;
+  background-color: white;
+  color: #2c4faf;
+  border: 2px solid #2c4faf;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.admin-load-more:hover {
+  background-color: #2c4faf;
+  color: white;
+}
+
+/* Create New Account Button */
+.create-account-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #2c4faf;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-top: 1.5rem;
+}
+
+.create-account-button:hover {
+  background-color: #1e3a8a;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-card {
+      flex-direction: column;
+  }
+
+  .admin-info {
+      max-width: 100%;
+  }
+
+  .admin-actions {
+      width: 100%;
+      justify-content: flex-end;
+      margin-top: 1rem;
+  }
+
+  .admin-search-container {
+      flex-direction: column;
+      align-items: stretch;
+  }
+
+  .admin-search-container label {
+      margin-bottom: 0.5rem;
+  }
+}
+
+/* Event Management Section */
+#event-management {
+  padding: 2rem;
+}
+
+/* Table Container */
+#new-events-management,
+#old-events-management {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;  /* Enable horizontal scroll for table */
+}
+
+/* Table Styles */
+.event-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 1000px;  /* Minimum width to prevent squishing */
+}
+
+.event-table th {
+  background-color: #2c4faf;
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.event-table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.event-table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.event-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.95rem;
+}
+
+/* Input Styles within Table */
+.event-table input,
+.event-table select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  min-width: 120px;  /* Minimum width for inputs */
+}
+
+/* Button Styles */
+.event-table button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  min-width: 70px;
+  margin: 0 0.25rem;
+}
+
+.edit-btn {
+  background-color: #2c4faf;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #1e3a8a;
+}
+
+.save-btn {
+  background-color: #059669;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #047857;
+}
+
+.cancel-btn {
+  background-color: #6B7280;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #4B5563;
+}
+
+.delete-btn {
+  background-color: #FEE2E2;
+  color: #DC2626;
+}
+
+.delete-btn:hover {
+  background-color: #DC2626;
+  color: white;
+}
+
+/* Search Container */
+.search-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.search-container button {
+  padding: 0.75rem 1.5rem;
+  background-color: #2c4faf;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-container button:hover {
+  background-color: #1e3a8a;
+}
+
+/* Calendar Layout */
+.calendar-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.calendly-inline-widget {
+  height: 600px !important;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.iframe-container {
+  height: 600px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Status Colors */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+.status-requested { background-color: #FEF3C7; color: #92400E; }
+.status-scheduled { background-color: #DBEAFE; color: #1E40AF; }
+.status-completed { background-color: #D1FAE5; color: #065F46; }
+.status-canceled { background-color: #FEE2E2; color: #991B1B; }
+.status-declined { background-color: #FEE2E2; color: #991B1B; }
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .calendar-container {
+      grid-template-columns: 1fr;
+  }
+}

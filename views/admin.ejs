@@ -39,7 +39,7 @@
         }
     
         #event-management .event-table th {
-            background-color: #007BFF;
+            background-color: var(--gray-blue);
             color: white;
             font-weight: bold;
         }
@@ -157,24 +157,121 @@
                 <button class="button button-outline">Logout</button>
             </header>
 
-            <!-- Dynamic Sections -->
             <section id="dashboard" class="content-section active">
-                <h2>Dashboard</h2>
-                <div class="dashboard-grid">
-                    <div class="dashboard-card">
-                        <h3>Pending Event Approvals</h3>
-                        <p>15</p>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>Total Volunteers</h3>
-                        <p>120</p>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>Pending Approvals</h3>
-                        <p>5</p>
+                <h2 style="color:black">Dashboards!</h2>
+                <!-- Tableau Dashboards Section -->
+                <div class="tableau-container">
+                    <div class="tableau-grid">
+                        <div class="tableau-dashboard">
+                            <h3>Volunteer Analytics</h3>
+                            <div class='tableauPlaceholder' id='viz1733468419797' style='position: relative'>
+                                <noscript><a href='#'><img alt=' ' src='https://public.tableau.com/static/images/IN/INTEX1_17334334657650/Volunteers/1_rss.png' style='border: none' /></a></noscript>
+                                <object class='tableauViz' style='display:none;'>
+                                    <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                                    <param name='embed_code_version' value='3' /> 
+                                    <param name='site_root' value='' />
+                                    <param name='name' value='INTEX1_17334334657650/Volunteers' />
+                                    <param name='tabs' value='yes' />
+                                    <param name='toolbar' value='yes' />
+                                    <param name='static_image' value='https://public.tableau.com/static/images/IN/INTEX1_17334334657650/Volunteers/1.png' /> 
+                                    <param name='animate_transition' value='yes' />
+                                    <param name='display_static_image' value='yes' />
+                                    <param name='display_spinner' value='yes' />
+                                    <param name='display_overlay' value='yes' />
+                                    <param name='display_count' value='yes' />
+                                    <param name='language' value='en-US' />
+                                    <param name='filter' value='publish=yes' />
+                                </object>
+                            </div>
+                        </div>
+            
+                        <div class="tableau-dashboard">
+                            <h3>Event Analytics</h3>
+                            <div class='tableauPlaceholder' id='viz1733468687166' style='position: relative'>
+                                <noscript><a href='#'><img alt=' ' src='https://public.tableau.com/static/images/IN/INTEX1_17334334657650/Events/1_rss.png' style='border: none' /></a></noscript>
+                                <object class='tableauViz' style='display:none;'>
+                                    <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                                    <param name='embed_code_version' value='3' /> 
+                                    <param name='site_root' value='' />
+                                    <param name='name' value='INTEX1_17334334657650/Events' />
+                                    <param name='tabs' value='yes' />
+                                    <param name='toolbar' value='yes' />
+                                    <param name='static_image' value='https://public.tableau.com/static/images/IN/INTEX1_17334334657650/Events/1.png' /> 
+                                    <param name='animate_transition' value='yes' />
+                                    <param name='display_static_image' value='yes' />
+                                    <param name='display_spinner' value='yes' />
+                                    <param name='display_overlay' value='yes' />
+                                    <param name='display_count' value='yes' />
+                                    <param name='language' value='en-US' />
+                                    <param name='filter' value='publish=yes' />
+                                </object>
+                            </div>
+                        </div>
+            
+                        <div class="tableau-dashboard">
+                            <h3>Distribution Analytics</h3>
+                            <div class='tableauPlaceholder' id='viz1733468760043' style='position: relative'>
+                                <noscript><a href='#'><img alt=' ' src='https://public.tableau.com/static/images/IN/INTEX1_17334334657650/Distribution/1_rss.png' style='border: none' /></a></noscript>
+                                <object class='tableauViz' style='display:none;'>
+                                    <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                                    <param name='embed_code_version' value='3' /> 
+                                    <param name='site_root' value='' />
+                                    <param name='name' value='INTEX1_17334334657650/Distribution' />
+                                    <param name='tabs' value='yes' />
+                                    <param name='toolbar' value='yes' />
+                                    <param name='static_image' value='https://public.tableau.com/static/images/IN/INTEX1_17334334657650/Distribution/1.png' /> 
+                                    <param name='animate_transition' value='yes' />
+                                    <param name='display_static_image' value='yes' />
+                                    <param name='display_spinner' value='yes' />
+                                    <param name='display_overlay' value='yes' />
+                                    <param name='display_count' value='yes' />
+                                    <param name='language' value='en-US' />
+                                    <param name='filter' value='publish=yes' />
+                                </object>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
+            <script type='text/javascript'>
+                function initializeTableauDashboards() {
+                    const dashboardIds = ['viz1733468419797', 'viz1733468687166', 'viz1733468760043'];
+                    
+                    dashboardIds.forEach(id => {
+                        const divElement = document.getElementById(id);
+                        if (divElement) {
+                            const vizElement = divElement.getElementsByTagName('object')[0];
+                            setVizDimensions(divElement, vizElement);
+                        }
+                    });
+                }
+            
+                function setVizDimensions(divElement, vizElement) {
+                    if (divElement.offsetWidth > 800) {
+                        vizElement.style.minWidth = '1000px';
+                        vizElement.style.maxWidth = '100%';
+                        vizElement.style.minHeight = '850px';
+                        vizElement.style.maxHeight = (divElement.offsetWidth * 0.75) + 'px';
+                    } else if (divElement.offsetWidth > 500) {
+                        vizElement.style.minWidth = '1000px';
+                        vizElement.style.maxWidth = '100%';
+                        vizElement.style.minHeight = '850px';
+                        vizElement.style.maxHeight = (divElement.offsetWidth * 0.75) + 'px';
+                    } else {
+                        vizElement.style.width = '100%';
+                        vizElement.style.minHeight = '1150px';
+                        vizElement.style.maxHeight = (divElement.offsetWidth * 1.77) + 'px';
+                    }
+                }
+            
+                // Initialize when DOM is loaded
+                document.addEventListener('DOMContentLoaded', function() {
+                    var scriptElement = document.createElement('script');
+                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                    scriptElement.onload = initializeTableauDashboards;
+                    document.body.appendChild(scriptElement);
+                });
+            </script>
 
             <section id="event-management" class="content-section">
                 <h2>Event Management</h2>
@@ -199,11 +296,18 @@
                     </table>
                 </div>
                 <!-- Calendly and Calendar -->
-                <div class="calendly-inline-widget" data-url="https://calendly.com/intexgroup414/jacket-volunteering-event" style="min-width:320px;height:700px;"></div>
-                <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-                <div class="iframe-container">
-                    <iframe src="https://calendar.google.com/calendar/embed?src=intexgroup414%40gmail.com&ctz=America%2FFort_Nelson" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+                <div class="calendar-container">
+                    <div class="calendly-inline-widget" data-url="https://calendly.com/intexgroup414/jacket-volunteering-event"></div>
+                    <div class="iframe-container">
+                        <iframe 
+                            src="https://calendar.google.com/calendar/embed?src=intexgroup414%40gmail.com&ctz=America%2FFort_Nelson" 
+                            style="border: 0; width: 100%; height: 100%;" 
+                            frameborder="0" 
+                            scrolling="no">
+                        </iframe>
+                    </div>
                 </div>
+                <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
                 <div id="old-events-management">
                     <h3>All Events</h3>
                     <div class="search-container">
@@ -227,185 +331,228 @@
                             <!-- Populated dynamically -->
                         </tbody>
                     </table>
-                    <button id="load-more-events">Load More</button>
                 </div>
             </section>
             
-<script>
-    // Fetch and display new events
-    async function fetchNewEvents() {
-        const response = await fetch('/events/new');
-        const events = await response.json();
-        populateEvents(events, 'new-events-table', true);
-    }
-
-    // Fetch and display old events
-    async function fetchOldEvents(page = 1, search = '') {
-        const response = await fetch(`/events/history?page=${page}&search=${search}`);
-        const events = await response.json();
-        populateEvents(events, 'old-events-table', false, page);
-        document.getElementById('old-events-management').dataset.page = page;
-    }
-
-    // Populate events into tables
-    function populateEvents(events, tableId, isNew, page = 1) {
-        const table = document.getElementById(tableId);
-        if (page === 1) table.innerHTML = ''; // Clear table only on the first page
-
-        events.forEach((event) => {
-            const row = document.createElement('tr');
-            row.dataset.originalRow = JSON.stringify(event); // Save original data for cancel functionality
-            row.innerHTML = `
-                <td>${event.event_type}</td>
-                <td>${event.event_location}</td>
-                <td>${event.event_street}, ${event.event_city}, ${event.event_state} ${event.event_zip_code}</td>
-                <td>${new Date(event.event_date).toISOString().split('T')[0]}</td>
-                <td>${event.event_start_time}</td>
-                <td>${event.event_end_time}</td>
-                <td>${isNew ? event.event_status : ''}</td>
-                <td>
-                    <button class="edit-btn" data-id="${event.event_id}">Edit</button>
-                    <button class="save-btn" data-id="${event.event_id}" style="display:none;">Save</button>
-                    <button class="cancel-btn" data-id="${event.event_id}" style="display:none;">Cancel</button>
-                    <button class="delete-btn" data-id="${event.event_id}">Delete</button>
-                </td>
-            `;
-            table.appendChild(row);
-        });
-        addEventListeners(tableId);
-    }
-
-    // Add event listeners
-    function addEventListeners(tableId) {
-        document.querySelectorAll(`#${tableId} .edit-btn`).forEach((btn) => btn.addEventListener('click', handleEdit));
-        document.querySelectorAll(`#${tableId} .save-btn`).forEach((btn) => btn.addEventListener('click', handleSave));
-        document.querySelectorAll(`#${tableId} .cancel-btn`).forEach((btn) => btn.addEventListener('click', handleCancel));
-        document.querySelectorAll(`#${tableId} .delete-btn`).forEach((btn) => btn.addEventListener('click', handleDelete));
-    }
-
-    // Handle edit functionality
-    function handleEdit(e) {
-        const row = e.target.closest('tr');
-        const originalData = JSON.parse(row.dataset.originalRow);
-
-        row.querySelectorAll('td').forEach((td, i) => {
-            if (i === 0) {
-                td.innerHTML = `
-                    <select class="event-type">
-                        <option value="Sewing" ${originalData.event_type === 'Sewing' ? 'selected' : ''}>Sewing</option>
-                        <option value="Non-Sewing" ${originalData.event_type === 'Non-Sewing' ? 'selected' : ''}>Non-Sewing</option>
-                        <option value="Both" ${originalData.event_type === 'Both' ? 'selected' : ''}>Both</option>
-                    </select>`;
-            } else if (i === 6) {
-                td.innerHTML = `
-                    <select class="event-status">
-                        <option value="Requested" ${originalData.event_status === 'Requested' ? 'selected' : ''}>Requested</option>
-                        <option value="Scheduled" ${originalData.event_status === 'Scheduled' ? 'selected' : ''}>Scheduled</option>
-                        <option value="Completed" ${originalData.event_status === 'Completed' ? 'selected' : ''}>Completed</option>
-                        <option value="Canceled" ${originalData.event_status === 'Canceled' ? 'selected' : ''}>Canceled</option>
-                        <option value="Declined" ${originalData.event_status === 'Declined' ? 'selected' : ''}>Declined</option>
-                    </select>`;
-            } else if (i < 6) {
-                const value = td.textContent.trim();
-                td.innerHTML = `<input type="text" value="${value}" />`;
-            }
-        });
-        toggleActionButtons(row, true);
-    }
-
-    // Handle save functionality
-    async function handleSave(e) {
-        const row = e.target.closest('tr');
-        const id = e.target.dataset.id;
-        const inputs = row.querySelectorAll('input');
-        const eventTypeSelect = row.querySelector('.event-type');
-        const eventStatusSelect = row.querySelector('.event-status');
-
-        const updatedEvent = {
-            event_type: eventTypeSelect ? eventTypeSelect.value : row.children[0].textContent.trim(),
-            event_location: inputs[0].value,
-            event_street: inputs[1].value.split(',')[0],
-            event_city: inputs[1].value.split(',')[1].trim(),
-            event_state: inputs[1].value.split(',')[2].trim().split(' ')[0],
-            event_zip_code: inputs[1].value.split(',')[2].trim().split(' ')[1],
-            event_date: inputs[2].value,
-            event_start_time: inputs[3].value,
-            event_end_time: inputs[4].value,
-            event_status: eventStatusSelect ? eventStatusSelect.value : row.children[6].textContent.trim(),
-        };
-
-        await fetch(`/events/update/${id}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedEvent),
-        });
-
-        // Refetch to reflect changes
-        fetchNewEvents();
-        fetchOldEvents();
-    }
-
-    // Handle cancel functionality
-    function handleCancel(e) {
-        const row = e.target.closest('tr');
-        const originalData = JSON.parse(row.dataset.originalRow);
-
-        row.querySelectorAll('td').forEach((td, i) => {
-            if (i === 0) {
-                td.textContent = originalData.event_type;
-            } else if (i === 6) {
-                td.textContent = originalData.event_status;
-            } else if (i < 6) {
-                td.textContent = Object.values(originalData)[i];
-            }
-        });
-        toggleActionButtons(row, false);
-    }
-
-    // Handle delete functionality
-    async function handleDelete(e) {
-        const id = e.target.dataset.id;
-        await fetch(`/events/delete/${id}`, { method: 'DELETE' });
-        fetchNewEvents();
-        fetchOldEvents();
-    }
-
-    // Toggle action buttons visibility
-    function toggleActionButtons(row, isEditing) {
-        row.querySelector('.edit-btn').style.display = isEditing ? 'none' : 'inline-block';
-        row.querySelector('.save-btn').style.display = isEditing ? 'inline-block' : 'none';
-    }
-
-    // Initialize
-    fetchNewEvents();
-    fetchOldEvents();
-
-    document.getElementById('search-events-btn').addEventListener('click', () => {
-        const search = document.getElementById('event-search').value;
-        fetchOldEvents(1, search);
-    });
-
-    document.getElementById('load-more-events').addEventListener('click', () => {
-        const search = document.getElementById('event-search').value;
-        const currentPage = parseInt(document.getElementById('old-events-management').dataset.page || 1);
-        fetchOldEvents(currentPage + 1, search);
-    });
-</script>
-
-            
-            
-            
-            
-            
-            
+            <script>
+                // Fetch and display new events
+                async function fetchNewEvents() {
+                    const response = await fetch('/events/new');
+                    const events = await response.json();
+                    populateEvents(events, 'new-events-table', true);
+                }
+                
+                // Fetch and display old events
+                async function fetchOldEvents(page = 1, search = '') {
+                    const response = await fetch(`/events/history?page=${page}&search=${search}`);
+                    const events = await response.json();
+                    populateEvents(events, 'old-events-table', false, page);
+                    document.getElementById('old-events-management').dataset.page = page;
+                }
+                
+                // Populate events into tables
+                function populateEvents(events, tableId, isNew, page = 1) {
+                    const table = document.getElementById(tableId);
+                    if (page === 1) table.innerHTML = '';
+                
+                    events.forEach((event) => {
+                        const row = document.createElement('tr');
+                        row.dataset.originalRow = JSON.stringify(event);
+                        row.innerHTML = `
+                            <td>${event.event_type}</td>
+                            <td>${event.event_location}</td>
+                            <td>${event.event_street}, ${event.event_city}, ${event.event_state} ${event.event_zip_code}</td>
+                            <td>${new Date(event.event_date).toISOString().split('T')[0]}</td>
+                            <td>${event.event_start_time}</td>
+                            <td>${event.event_end_time}</td>
+                            <td>
+                                <span class="status-badge status-${event.event_status.toLowerCase()}">
+                                    ${event.event_status}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="button-group">
+                                    <button class="edit-btn" data-id="${event.event_id}">Edit</button>
+                                    <button class="save-btn" data-id="${event.event_id}" style="display:none;">Save</button>
+                                    <button class="cancel-btn" data-id="${event.event_id}" style="display:none;">Cancel</button>
+                                    <button class="delete-btn" data-id="${event.event_id}">Delete</button>
+                                </div>
+                            </td>
+                        `;
+                        table.appendChild(row);
+                
+                        // Add event listeners to the buttons
+                        const buttons = row.querySelectorAll('button');
+                        buttons.forEach(button => {
+                            if (button.classList.contains('edit-btn')) {
+                                button.addEventListener('click', handleEdit);
+                            } else if (button.classList.contains('save-btn')) {
+                                button.addEventListener('click', handleSave);
+                            } else if (button.classList.contains('cancel-btn')) {
+                                button.addEventListener('click', handleCancel);
+                            } else if (button.classList.contains('delete-btn')) {
+                                button.addEventListener('click', handleDelete);
+                            }
+                        });
+                    });
+                }
+                
+                // Toggle action buttons visibility
+                function toggleActionButtons(row, isEditing) {
+                    const editBtn = row.querySelector('.edit-btn');
+                    const saveBtn = row.querySelector('.save-btn');
+                    const cancelBtn = row.querySelector('.cancel-btn');
+                    const deleteBtn = row.querySelector('.delete-btn');
+                
+                    editBtn.style.display = isEditing ? 'none' : 'inline-block';
+                    saveBtn.style.display = isEditing ? 'inline-block' : 'none';
+                    cancelBtn.style.display = isEditing ? 'inline-block' : 'none';
+                    deleteBtn.style.display = isEditing ? 'none' : 'inline-block';
+                }
+                
+                // Handle edit functionality
+                function handleEdit(e) {
+                    const row = e.target.closest('tr');
+                    const originalData = JSON.parse(row.dataset.originalRow);
+                
+                    row.querySelectorAll('td').forEach((td, i) => {
+                        if (i === 0) {
+                            td.innerHTML = `
+                                <select class="event-type">
+                                    <option value="Sewing" ${originalData.event_type === 'Sewing' ? 'selected' : ''}>Sewing</option>
+                                    <option value="Non-Sewing" ${originalData.event_type === 'Non-Sewing' ? 'selected' : ''}>Non-Sewing</option>
+                                    <option value="Both" ${originalData.event_type === 'Both' ? 'selected' : ''}>Both</option>
+                                </select>`;
+                        } else if (i === 6) {
+                            td.innerHTML = `
+                                <select class="event-status">
+                                    <option value="Requested" ${originalData.event_status === 'Requested' ? 'selected' : ''}>Requested</option>
+                                    <option value="Scheduled" ${originalData.event_status === 'Scheduled' ? 'selected' : ''}>Scheduled</option>
+                                    <option value="Completed" ${originalData.event_status === 'Completed' ? 'selected' : ''}>Completed</option>
+                                    <option value="Canceled" ${originalData.event_status === 'Canceled' ? 'selected' : ''}>Canceled</option>
+                                    <option value="Declined" ${originalData.event_status === 'Declined' ? 'selected' : ''}>Declined</option>
+                                </select>`;
+                        } else if (i < 6) {
+                            const value = td.textContent.trim();
+                            td.innerHTML = `<input type="text" value="${value}" />`;
+                        }
+                    });
+                    toggleActionButtons(row, true);
+                }
+                
+                // Handle save functionality
+                async function handleSave(e) {
+                    const row = e.target.closest('tr');
+                    const id = e.target.dataset.id;
+                    const inputs = row.querySelectorAll('input');
+                    const eventTypeSelect = row.querySelector('.event-type');
+                    const eventStatusSelect = row.querySelector('.event-status');
+                
+                    const updatedEvent = {
+                        event_type: eventTypeSelect ? eventTypeSelect.value : row.children[0].textContent.trim(),
+                        event_location: inputs[0].value,
+                        event_street: inputs[1].value.split(',')[0],
+                        event_city: inputs[1].value.split(',')[1].trim(),
+                        event_state: inputs[1].value.split(',')[2].trim().split(' ')[0],
+                        event_zip_code: inputs[1].value.split(',')[2].trim().split(' ')[1],
+                        event_date: inputs[2].value,
+                        event_start_time: inputs[3].value,
+                        event_end_time: inputs[4].value,
+                        event_status: eventStatusSelect ? eventStatusSelect.value : row.children[6].textContent.trim(),
+                    };
+                
+                    try {
+                        const response = await fetch(`/events/update/${id}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(updatedEvent),
+                        });
+                
+                        if (response.ok) {
+                            // Refetch to reflect changes
+                            fetchNewEvents();
+                            fetchOldEvents();
+                        } else {
+                            console.error('Failed to update event');
+                        }
+                    } catch (error) {
+                        console.error('Error updating event:', error);
+                    }
+                }
+                
+                // Handle cancel functionality
+                function handleCancel(e) {
+                    const row = e.target.closest('tr');
+                    const originalData = JSON.parse(row.dataset.originalRow);
+                
+                    row.querySelectorAll('td').forEach((td, i) => {
+                        if (i === 0) {
+                            td.textContent = originalData.event_type;
+                        } else if (i === 6) {
+                            td.textContent = originalData.event_status;
+                        } else if (i < 6) {
+                            td.textContent = Object.values(originalData)[i];
+                        }
+                    });
+                    toggleActionButtons(row, false);
+                }
+                
+                // Handle delete functionality
+                async function handleDelete(e) {
+                    if (confirm('Are you sure you want to delete this event?')) {
+                        const id = e.target.dataset.id;
+                        try {
+                            const response = await fetch(`/events/delete/${id}`, { 
+                                method: 'DELETE'
+                            });
+                            if (response.ok) {
+                                // Refetch to reflect changes
+                                fetchNewEvents();
+                                fetchOldEvents();
+                            } else {
+                                console.error('Failed to delete event');
+                            }
+                        } catch (error) {
+                            console.error('Error deleting event:', error);
+                        }
+                    }
+                }
+                
+                // Initialize events and search functionality
+                document.addEventListener('DOMContentLoaded', function() {
+                    fetchNewEvents();
+                    fetchOldEvents();
+                
+                    // Search functionality
+                    document.getElementById('search-events-btn').addEventListener('click', () => {
+                        const search = document.getElementById('event-search').value;
+                        fetchOldEvents(1, search);
+                    });
+                
+                    // Load more functionality
+                    const loadMoreBtn = document.getElementById('load-more-events');
+                    if (loadMoreBtn) {
+                        loadMoreBtn.addEventListener('click', () => {
+                            const search = document.getElementById('event-search').value;
+                            const currentPage = parseInt(document.getElementById('old-events-management').dataset.page || 1);
+                            fetchOldEvents(currentPage + 1, search);
+                        });
+                    }
+                });
+                </script>
             
             <section id="Users" class="content-section">
                 <h2>Admin User Management</h2>
             
                 <!-- Search Bar -->
-                <div class="search-container">
+                <div class="admin-search-container">
                     <label for="adminSearch">Search Admins:</label>
-                    <input type="text" id="adminSearch" placeholder="Search by name...">
+                    <input 
+                        type="text" 
+                        id="adminSearch" 
+                        placeholder="Search by name..."
+                        autocomplete="off"
+                    >
                 </div>
             
                 <!-- Admin List -->
@@ -414,17 +561,16 @@
                 </div>
             
                 <!-- Load More Button -->
-                <button id="loadMoreAdmins" class="button">Load More Admins</button>
-                <div class="button-container" style="margin: 20px 0; text-align: center;">
-                    <a href="/createaccount" class="button button-primary" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">
-                        Create New Account
-                    </a>
+                <button id="loadMoreAdmins" class="admin-load-more">Load More Admins</button>
+    
+                <div class="text-center">
+                    <a href="/createaccount" class="create-account-button">Create New Account</a>
                 </div>
             </section>
             
             <style>
                 /* Shared Button Styling */
-                .button {
+                .button-2 {
                     cursor: pointer;
                     background-color: #4CAF50;
                     color: white;
@@ -435,23 +581,22 @@
                     transition: 0.3s;
                 }
             
-                .button:hover {
+                .button-2:hover {
                     background-color: #45a049;
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                     transform: translateY(-2px);
                 }
             
-                .button-outline {
+                .button-outline-2 {
                     background-color: red;
                     color: white;
                 }
             
-                .button-outline:hover {
+                .button-outline-2:hover {
                     background-color: darkred;
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                     transform: translateY(-2px);
                 }
-            
                 /* Editable Fields */
                 [contenteditable="true"] {
                     outline: 2px dashed #808080; /* Gray color for editable field outline */
@@ -467,29 +612,35 @@
             
                 // Function to render a single admin card
                 const renderAdminCard = (admin) => `
-                <div class="admin-card" data-id="${admin.account_id}">
-                    <div class="admin-info">
-                        <h3 contenteditable="false">${admin.account_first_name} ${admin.account_last_name}</h3>
-                        <p>Username: <span contenteditable="false">${admin.account_username}</span></p>
-                        <p>Email: <span contenteditable="false">${admin.account_email}</span></p>
-                        <p>
-                            Role: 
-                            <span contenteditable="false" class="role-display">${admin.role_id === 1 ? "Normal" : admin.role_id === 2 ? "Admin" : "Super User"}</span>
-                            <select class="role-select" style="display:none;">
-                                <option value="1" ${admin.role_id === 1 ? "selected" : ""}>Normal</option>
-                                <option value="2" ${admin.role_id === 2 ? "selected" : ""}>Admin</option>
-                                <option value="3" ${admin.role_id === 3 ? "selected" : ""}>Super User</option>
-                            </select>
-                        </p>
+                    <div class="admin-card" data-id="${admin.account_id}">
+                        <div class="admin-info">
+                            <h3 contenteditable="false">${admin.account_first_name} ${admin.account_last_name}</h3>
+                            <p>
+                                <strong>Username:</strong> 
+                                <span contenteditable="false">${admin.account_username}</span>
+                            </p>
+                            <p>
+                                <strong>Email:</strong> 
+                                <span contenteditable="false">${admin.account_email}</span>
+                            </p>
+                            <p>
+                                <strong>Role:</strong> 
+                                <span contenteditable="false" class="role-display">
+                                    ${admin.role_id === 1 ? "Normal" : admin.role_id === 2 ? "Admin" : "Super User"}
+                                </span>
+                                <select class="role-select" style="display:none;">
+                                    <option value="1" ${admin.role_id === 1 ? "selected" : ""}>Normal</option>
+                                    <option value="2" ${admin.role_id === 2 ? "selected" : ""}>Admin</option>
+                                    <option value="3" ${admin.role_id === 3 ? "selected" : ""}>Super User</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div class="admin-actions">
+                            <button class="admin-button admin-edit-button" onclick="toggleEditAdmin(this, ${admin.account_id})">Edit</button>
+                            <button class="admin-button admin-cancel-button" style="display:none;" onclick="cancelEditAdmin(this, ${admin.account_id})">Cancel</button>
+                            <button class="admin-button admin-delete-button" onclick="deleteAdmin(${admin.account_id})">Delete</button>
+                        </div>
                     </div>
-                    <div class="admin-actions">
-                        <!-- Edit and Cancel Buttons -->
-                        <button class="button edit-button" onclick="toggleEditAdmin(this, ${admin.account_id})">Edit</button>
-                        <button class="button cancel-button" style="display:none;" onclick="cancelEditAdmin(this, ${admin.account_id})">Cancel</button>
-                        <!-- Delete Button -->
-                        <button class="button button-outline" onclick="deleteAdmin(${admin.account_id})">Delete</button>
-                    </div>
-                </div>
                 `;
             
                 // Fetch Admins and Append to the List
@@ -654,7 +805,12 @@
                 <!-- Search Bar -->
                 <div class="search-container">
                     <label for="searchVolunteers">Search Volunteers:</label>
-                    <input type="text" id="searchVolunteers" placeholder="Search by name...">
+                    <input 
+                        type="text" 
+                        id="searchVolunteers" 
+                        placeholder="Search by name"
+                        autocomplete="off"
+                    >
                 </div>
             
                 <!-- Volunteer List -->
@@ -663,47 +819,8 @@
                 </div>
             
                 <!-- Load More Button -->
-                <button id="loadMoreVolunteers" class="button">Load More Volunteers</button>
+                <button id="loadMoreVolunteers" class="volunteer-load-more">Load More Volunteers</button>
             </section>
-            
-            <style>
-                /* General Button Styling */
-                .button {
-                    cursor: pointer;
-                    background-color: #4CAF50;
-                    color: white;
-                    border: none;
-                    padding: 10px 15px;
-                    font-size: 14px;
-                    border-radius: 5px;
-                    transition: 0.3s;
-                }
-            
-                .button:hover {
-                    background-color: #45a049;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                    transform: translateY(-2px);
-                }
-            
-                /* Outline Button Styling */
-                .button-outline {
-                    background-color: red;
-                    color: white;
-                }
-            
-                .button-outline:hover {
-                    background-color: darkred;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                    transform: translateY(-2px);
-                }
-            
-                /* Editable Fields */
-                [contenteditable="true"] {
-                    outline: 2px dashed #808080; /* Gray color for editable field outline */
-                    padding: 2px;
-                    border-radius: 3px;
-                }
-            </style>
             
             <script>
                 let currentPage = 1; // Pagination state
@@ -715,20 +832,27 @@
                     <div class="volunteer-card" data-id="${volunteer.volunteer_id}">
                         <div class="volunteer-info">
                             <h3 contenteditable="false">${volunteer.volunteer_first_name} ${volunteer.volunteer_last_name}</h3>
-                            <p>Email: <span contenteditable="false">${volunteer.volunteer_email}</span></p>
-                            <p>Phone: <span contenteditable="false">${volunteer.volunteer_phone_num}</span></p>
-                            <p>Preferred Contact: <span contenteditable="false">${volunteer.volunteer_preferred_communication}</span></p>
+                            <p>
+                                <strong>Email:</strong> 
+                                <span contenteditable="false">${volunteer.volunteer_email}</span>
+                            </p>
+                            <p>
+                                <strong>Phone:</strong> 
+                                <span contenteditable="false">${volunteer.volunteer_phone_num}</span>
+                            </p>
+                            <p>
+                                <strong>Preferred Contact:</strong> 
+                                <span contenteditable="false">${volunteer.volunteer_preferred_communication}</span>
+                            </p>
                         </div>
                         <div class="volunteer-actions">
-                            <!-- Edit and Cancel Buttons -->
-                            <button class="button edit-button" onclick="toggleEdit(this, ${volunteer.volunteer_id})">Edit</button>
-                            <button class="button cancel-button" style="display:none;" onclick="cancelEdit(this, ${volunteer.volunteer_id})">Cancel</button>
-                            <!-- Delete Button -->
-                            <button class="button button-outline" onclick="deleteVolunteer(${volunteer.volunteer_id})">Delete</button>
+                            <button class="edit-button" onclick="toggleEdit(this, ${volunteer.volunteer_id})">Edit</button>
+                            <button class="cancel-button" style="display:none;" onclick="cancelEdit(this, ${volunteer.volunteer_id})">Cancel</button>
+                            <button class="delete-button" onclick="deleteVolunteer(${volunteer.volunteer_id})">Delete</button>
                         </div>
                     </div>
                 `;
-            
+
                 // Fetch Volunteers and Append to the List
                 const fetchVolunteers = async (page = 1, searchQuery = "") => {
                     try {
@@ -895,6 +1019,7 @@
             });
         });
     </script>
-    
+    <script src="/tableau-dashboard.js"></script>
+
 </body>
 </html>
