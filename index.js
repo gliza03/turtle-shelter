@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const port = process.env.PORT || 5500;
 
+// Database Configuration
 const knex = require("knex")({
     client: "pg",
     connection: {
@@ -17,18 +18,118 @@ const knex = require("knex")({
     }
 });
 
+// App Configuration
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Update your existing static middleware if needed
+// HTTPS Redirect Middleware
+app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https' && process.env.NODE_ENV === 'production') {
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+    next();
+});
+
+// Middleware Setup
 app.use(express.static('public'));
 app.use('/js', express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'public')));
-
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
 
+// Session Configuration
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 5 * 60 * 1000 // 5 minutes
+    }
+}));
+
+// Helper Functions
+function calculateHours(start, end) {
+    const startTime = new Date(`1970-01-01T${start}:00Z`);
+    const endTime = new Date(`1970-01-01T${end}:00Z`);
+    const difference = Math.floor((endTime - startTime) / (1000 * 60 * 60));
+    return difference > 0 ? difference : null;
+}
+
+// Middleware
+const isAuthenticated = (req, res, next) => {
+    if (req.session && req.session.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
+const checkRole = (allowedRoles) => {
+    return (req, res, next) => {
+        if (!req.session || !req.session.user) {
+            return res.redirect('/login');
+        }
+
+        const userRole = req.session.user.role;
+        
+        if (allowedRoles.includes(userRole)) {
+            next();
+        } else {
+            switch (userRole) {
+                case 1:
+                    res.redirect('/regular');
+                    break;
+                case 2:
+                    res.redirect('/admin');
+                    break;
+                case 3:
+                    res.redirect('/super-admin');
+                    break;
+                default:
+                    res.redirect('/regular');
+            }
+        }
+    };
+};
+
+const activityTracker = (req, res, next) => {
+    if (req.session.user) {
+        const now = Date.now();
+        const inactiveTime = now - (req.session.lastActivity || now);
+        
+        if (inactiveTime > 5 * 60 * 1000) {
+            req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
+            console.log('Session extended for user:', req.session.user.username);
+        }
+        
+        req.session.lastActivity = now;
+    }
+    next();
+};
+
+app.use(activityTracker);
+
+// PUBLIC ROUTES
+app.get("/", (req, res) => res.render("index"));
+app.get("/createaccount", (req, res) => res.render("createaccount"));
+
+app.get('/login', (req, res) => {
+    if (req.session && req.session.user) {
+        switch (req.session.user.role) {
+            case 3:
+                res.redirect('/super-admin');
+                break;
+            case 2:
+                res.redirect('/admin');
+                break;
+            default:
+                res.redirect('/regular');
+        }
+    } else {
+        res.render('login');
+    }
+});
 
 // Original routes
 app.get("/", (req, res) => res.render("index"));
@@ -282,12 +383,6 @@ app.post('/submit-event-request', async (req, res) => {
 
 
 
-
-
-
-
-
-
 app.post('/submit-vest-distribution', async (req, res) => {
     const {
         distribution_neighborhood,
@@ -353,6 +448,56 @@ app.post('/submit-vest-distribution', async (req, res) => {
     }
 });
 
+
+
+
+app.post('/admin/login', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const user = await knex('accounts')
+            .select('account_username', 'account_password', 'role_id', 'account_id')
+            .where({ account_username: username })
+            .first();
+
+        if (!user) {
+            return res.status(401).json({ success: false, error: 'user_not_found' });
+        }
+
+        if (!user.account_password) {
+            return res.status(500).json({ success: false, error: 'invalid_password' });
+        }
+
+        const validPassword = await bcrypt.compare(password, user.account_password);
+            
+        if (!validPassword) {
+            return res.status(401).json({ success: false, error: 'invalid_password' });
+        }
+
+        let redirectUrl;
+        switch (user.role_id) {
+            case 3:
+                redirectUrl = '/super-admin';
+                break;
+            case 2:
+                redirectUrl = '/admin';
+                break;
+            default:
+                redirectUrl = '/regular';
+        }
+
+        req.session.user = {
+            id: user.account_id,
+            username: user.account_username,
+            role: user.role_id
+        };
+
+        res.json({ success: true, redirect: redirectUrl });
+
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ success: false, error: 'server_error' });
+    }
+});
 
 app.post('/create-account', async (req, res) => {
     const {
@@ -422,7 +567,7 @@ app.post('/create-account', async (req, res) => {
         res.status(200).send('Account created successfully!');
     } catch (error) {
         console.error('Error creating account:', error);
-        if (error.code === '23505') { // Unique constraint violation
+        if (error.code === '23505') {
             const conflictField = error.detail.includes('account_email') ? 'Email' : 'Username';
             res.status(400).send(`${conflictField} is already in use. Please choose a different one.`);
         } else {
@@ -430,6 +575,86 @@ app.post('/create-account', async (req, res) => {
         }
     }
 });
+
+app.get('/admin', async (req, res) => {
+    try {
+        // Fetch accounts data
+        const accounts = await knex('accounts').select('*');
+        
+        // Fetch initial set of volunteers (e.g., first 30 for pagination)
+        const volunteers = await knex('volunteers').select('*').limit(30);
+
+        // Render the admin view with both accounts and volunteers
+        res.render('admin', { accounts, volunteers });
+    } catch (error) {
+        console.error('Error fetching admin data:', error);
+        res.status(500).send('An error occurred while loading the admin page.');
+    }
+});
+
+
+app.post('/editAccount', async (req, res) => {
+    const {
+      account_id,
+      account_first_name,
+      account_last_name,
+      account_username,
+      account_email,
+      role_id
+    } = req.body;
+  
+    try {
+      // Validate that email and username are unique (if they are changed)
+      const existingAccount = await knex('accounts')
+        .select('account_id')
+        .where((qb) => {
+          qb.where('account_email', account_email)
+            .orWhere('account_username', account_username);
+        })
+        .andWhere('account_id', '!=', account_id);
+  
+      if (existingAccount.length > 0) {
+        return res.status(400).send('Email or username already exists for another account.');
+      }
+  
+      // Update the account in the database
+      await knex('accounts')
+        .where('account_id', account_id)
+        .update({
+          account_first_name,
+          account_last_name,
+          account_username,
+          account_email: account_email.toLowerCase(),
+          role_id: parseInt(role_id), // Ensure role_id is an integer
+        });
+  
+      res.redirect('/admin'); // Redirect back to the admin portal or appropriate page
+    } catch (error) {
+      console.error('Error updating account:', error);
+      res.status(500).send('An error occurred while updating the account.');
+    }
+  });
+  
+
+
+  app.post('/deleteAccount', async (req, res) => {
+    const { account_id } = req.body;
+
+    try {
+        // Delete the account by ID
+        await knex('accounts')
+            .where({ account_id })
+            .del();
+
+        console.log(`Account with ID ${account_id} deleted successfully.`);
+        res.redirect('/admin'); // Redirect back to admin page
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        res.status(500).send('An error occurred while deleting the account.');
+    }
+});
+
+
 // Fetch Admins with Pagination
 app.get('/admins', async (req, res) => {
     const { page = 1, search = "" } = req.query;
@@ -542,6 +767,19 @@ app.delete('/volunteers/:id', async (req, res) => {
     }
 });
 
+// Delete Volunteer
+app.delete('/volunteers/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await knex("volunteers").where({ volunteer_id: id }).del();
+        res.status(200).send("Volunteer deleted successfully");
+    } catch (error) {
+        console.error("Error deleting volunteer:", error);
+        res.status(500).send("Error deleting volunteer");
+    }
+});
+
 
 app.post('/volunteers/:id', async (req, res) => {
     const { id } = req.params;
@@ -571,59 +809,69 @@ app.post('/volunteers/:id', async (req, res) => {
     }
 });
 
+// PROTECTED ROUTES
+app.get("/about", isAuthenticated, (req, res) => res.render("about", { user: req.session.user }));
+app.get("/distribution", isAuthenticated, (req, res) => res.render("distribution", { user: req.session.user }));
+app.get("/donationform", isAuthenticated, (req, res) => res.render("donationform", { user: req.session.user }));
+app.get("/eventrequest", isAuthenticated, (req, res) => res.render("eventrequest", { user: req.session.user }));
+app.get("/volunteer", isAuthenticated, (req, res) => res.render("volunteer", { user: req.session.user }));
+app.get("/donation", isAuthenticated, (req, res) => res.render("donation", { user: req.session.user }));
+app.get("/impact", isAuthenticated, (req, res) => res.render("impact", { user: req.session.user }));
+app.get("/involved", isAuthenticated, (req, res) => res.render("involved", { user: req.session.user }));
+app.get("/jen", isAuthenticated, (req, res) => res.render("jen", { user: req.session.user }));
 
-
-// THIS IS FOR STRIPE TESTING:
-//
-//
-//
-const bodyParser = require('body-parser');
-const stripe = require('stripe')('sk_test_your_secret_key'); // Replace with your secret key
-
-
-// Middleware
-app.use(bodyParser.json());
-
-// Your existing routes
-app.get('/', (req, res) => {
-    res.send('Welcome to Turtle Shelter Project Backend!');
+// Protected form submissions
+app.post('/submit-volunteer', isAuthenticated, async (req, res) => {
+    // Your existing volunteer submission logic
 });
 
-// Add Stripe Payment Intent Route
-app.post('/create-payment-intent', async (req, res) => {
-    const { amount, currency } = req.body;
+app.post('/submit-donation', isAuthenticated, async (req, res) => {
+    // Your existing donation submission logic
+});
 
+app.post('/submit-vest-distribution', isAuthenticated, async (req, res) => {
+    // Your existing vest distribution logic
+});
+
+// DASHBOARD ROUTES
+app.get('/regular', isAuthenticated, checkRole([1, 2, 3]), (req, res) => {
+    res.render('regular', { user: req.session.user });
+});
+
+app.get('/admin', isAuthenticated, checkRole([2, 3]), async (req, res) => {
     try {
-        // Create a PaymentIntent with the specified amount and currency
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount, // Amount in smallest currency unit (e.g., cents for USD)
-            currency,
+        const accounts = await knex('accounts').select('*');
+        const volunteers = await knex('volunteers').select('*').limit(30);
+        res.render('admin', { 
+            user: req.session.user,
+            accounts: accounts,
+            volunteers: volunteers
         });
-
-        // Send the client secret to the frontend
-        res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
-        console.error('Error creating payment intent:', error);
-        res.status(500).json({ error: 'Failed to create payment intent' });
-    }
-});
-//
-//
-//
-// END STRIPE TEST CODE
-
-app.get('/test-db', async (req, res) => {
-    try {
-        // Test query to check database connection
-        const result = await knex.raw('SELECT 1+1 AS result');
-        console.log('Database connected:', result);
-        res.status(200).json({ success: true, message: 'Database connected successfully!', result });
-    } catch (err) {
-        console.error('Database connection error:', err);
-        res.status(500).json({ success: false, message: 'Failed to connect to the database', error: err.message });
+        console.error('Error fetching admin data:', error);
+        res.status(500).send('Error loading admin dashboard');
     }
 });
 
+app.get('/super-admin', isAuthenticated, checkRole([3]), (req, res) => {
+    res.render('admin-super', { user: req.session.user });
+});
+
+// Utility Routes
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Logout error:', err);
+        }
+        res.redirect('/login');
+    });
+});
+
+
+// Session timeout checker
+const sessionTimeoutChecker = setInterval(() => {
+    console.log('Checking for expired sessions...');
+}, 5 * 60 * 1000);
 
 // Add session middleware configuration
 app.use(session({
@@ -707,6 +955,29 @@ app.post('/admin/login', async (req, res) => {
             success: false, 
             error: 'server_error' 
         });
+    }
+});
+
+// Cleanup handler
+process.on('SIGTERM', () => {
+    clearInterval(sessionTimeoutChecker);
+});
+
+// Catch-all route - MUST be last route
+app.get('*', (req, res) => {
+    if (!req.session || !req.session.user) {
+        res.redirect('/login');
+    } else {
+        switch (req.session.user.role) {
+            case 3:
+                res.redirect('/super-admin');
+                break;
+            case 2:
+                res.redirect('/admin');
+                break;
+            default:
+                res.redirect('/regular');
+        }
     }
 });
 
