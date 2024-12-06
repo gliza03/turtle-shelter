@@ -1001,6 +1001,7 @@ app.get('/events/history', async (req, res) => {
 
 // Fetch all distributions with their recipients
 // Fetch distributions with recipients
+// Fetch distributions with recipients
 app.get('/distributions', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = 10;
@@ -1022,8 +1023,14 @@ app.get('/distributions', async (req, res) => {
             .limit(limit)
             .offset(offset);
 
-        // Fetch all recipients and group by `location_id`
+        // Fetch all recipients for the fetched distributions
+        const distributionIds = distributions.map(dist => dist.inventory_id);
         const recipients = await knex('recipients')
+            .whereIn('location_id', function () {
+                this.select('location_id')
+                    .from('vest_inventory')
+                    .whereIn('inventory_id', distributionIds);
+            })
             .select(
                 'recipient_id',
                 'recipient_first_name',
@@ -1032,10 +1039,9 @@ app.get('/distributions', async (req, res) => {
                 'location_id'
             );
 
+        // Group recipients by location_id
         const recipientsGrouped = recipients.reduce((acc, recipient) => {
-            if (!acc[recipient.location_id]) {
-                acc[recipient.location_id] = [];
-            }
+            if (!acc[recipient.location_id]) acc[recipient.location_id] = [];
             acc[recipient.location_id].push(recipient);
             return acc;
         }, {});
@@ -1047,34 +1053,42 @@ app.get('/distributions', async (req, res) => {
     }
 });
 
+
 // Edit Distribution
 app.put('/distributions/:distributionId', async (req, res) => {
     const { distributionId } = req.params;
     const { distribution_neighborhood, distribution_city, distribution_state, vests_brought, vests_left } = req.body;
 
-    try {
-        // Update the distribution location
-        await knex('distribution_location')
-            .where('location_id', function () {
-                this.select('location_id').from('vest_inventory').where('inventory_id', distributionId);
-            })
-            .update({
-                distribution_neighborhood,
-                distribution_city,
-                distribution_state
-            });
+    if (!distribution_neighborhood || !distribution_city || !distribution_state || vests_brought == null || vests_left == null) {
+        return res.status(400).json({ error: 'Missing required fields for distribution update' });
+    }
 
-        // Update the vest inventory
-        await knex('vest_inventory')
-            .where('inventory_id', distributionId)
-            .update({
-                vests_brought,
-                vests_left
-            });
+    try {
+        // Transaction to ensure atomicity
+        await knex.transaction(async (trx) => {
+            // Update distribution location
+            await trx('distribution_location')
+                .where('location_id', function () {
+                    this.select('location_id').from('vest_inventory').where('inventory_id', distributionId);
+                })
+                .update({
+                    distribution_neighborhood,
+                    distribution_city,
+                    distribution_state
+                });
+
+            // Update vest inventory
+            await trx('vest_inventory')
+                .where('inventory_id', distributionId)
+                .update({
+                    vests_brought,
+                    vests_left
+                });
+        });
 
         res.json({ message: 'Distribution updated successfully' });
     } catch (err) {
-        console.error(err);
+        console.error('Error updating distribution:', err.stack);
         res.status(500).json({ error: 'Error updating distribution' });
     }
 });
@@ -1105,22 +1119,29 @@ app.delete('/distributions/:distributionId', async (req, res) => {
     const { distributionId } = req.params;
 
     try {
-        // Delete recipients associated with the distribution first
-        await knex('recipients')
-            .where('location_id', function () {
-                this.select('location_id').from('vest_inventory').where('inventory_id', distributionId);
-            })
-            .del();
+        // Transaction to ensure atomicity
+        await knex.transaction(async (trx) => {
+            // Delete associated recipients first
+            await trx('recipients')
+                .where('location_id', function () {
+                    this.select('location_id').from('vest_inventory').where('inventory_id', distributionId);
+                })
+                .del();
 
-        // Delete the distribution itself
-        await knex('vest_inventory')
-            .where('inventory_id', distributionId)
-            .del();
+            // Delete the distribution itself
+            const deletedRows = await trx('vest_inventory')
+                .where('inventory_id', distributionId)
+                .del();
+
+            if (deletedRows === 0) {
+                throw new Error('No distribution found with the provided ID');
+            }
+        });
 
         res.json({ message: 'Distribution and associated recipients deleted successfully' });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Error deleting distribution' });
+        console.error('Error deleting distribution:', err.stack);
+        res.status(500).json({ error: err.message || 'Error deleting distribution' });
     }
 });
 
